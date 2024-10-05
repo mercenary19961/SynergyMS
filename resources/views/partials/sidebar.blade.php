@@ -1,17 +1,17 @@
 <!-- Sidebar -->
 <div id="sidebar" 
-     :class="open ? 'w-48 min-h-screen overflow-hidden border-r bg-gray-700 lg:shadow-lg transition-all duration-300' : 'w-16 min-h-screen overflow-hidden border-r bg-gray-700 lg:shadow-lg transition-all duration-300'"
+     :class="open ? 'w-48 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-16 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
      class="sidebar transition-all duration-300">
      
     <div class="p-2 flex items-center space-x-2 mb-4">
         <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-6 h-6">
         <!-- Hide the title when sidebar is shrunken -->
-        <h3 x-show="open" class="text-white font-roboto text-sm">Main</h3>
+        <h3 x-show="open" class="text-white font-roboto text-sm">MAIN</h3>
     </div>
     
     <nav class="mt-1 space-y-1">
         <!-- Dashboard -->
-        <a href="{{ route('admin.dashboard') }}" class="relative flex items-center space-x-3 p-2 text-gray-300 bg-gradient-to-r from-gray-700 to-gray-800 hover:bg-gray-800 rounded-md transition-colors duration-200">
+        <a href="{{ route('admin.dashboard') }}" class="relative flex items-center space-x-3 p-2 text-gray-300 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-900 rounded-md transition-colors duration-200">
             <i class="fa-solid fa-gauge fa-lg hover:text-white"></i>
             <!-- Hide the title when sidebar is shrunken -->
             <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
