@@ -19,6 +19,6 @@ class ContactController extends Controller
             'message' => 'required|string|max:1000',
         ]);
 
-        return redirect()->route('contact')->with('status', 'Your message has been sent successfully!');
+        return redirect()->route('pages.contact')->with('status', 'Your message has been sent successfully!');
     }
 }

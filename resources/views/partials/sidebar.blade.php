@@ -5,7 +5,6 @@
      
     <div class="p-2 flex items-center space-x-2 mb-4">
         <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-6 h-6">
-        <!-- Hide the title when sidebar is shrunken -->
         <h3 x-show="open" class="text-white font-roboto text-sm">MAIN</h3>
     </div>
     
@@ -13,7 +12,6 @@
         <!-- Dashboard -->
         <a href="{{ route('admin.dashboard') }}" class="relative flex items-center space-x-3 p-2 text-gray-300 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-900 rounded-md transition-colors duration-200">
             <i class="fa-solid fa-gauge fa-lg hover:text-white"></i>
-            <!-- Hide the title when sidebar is shrunken -->
             <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
         </a>
 
@@ -22,10 +20,8 @@
             <button @click="openDropdown = !openDropdown" class="w-full text-left flex items-center justify-between">
                 <div class="flex items-center">
                     <i class="fa-solid fa-users fa-md mr-2 hover:text-white"></i>
-                    <!-- Hide the title when sidebar is shrunken -->
                     <span x-show="open" class="text-sm hover:text-white">Employees</span>
                 </div>
-                <!-- Hide the chevron icon when sidebar is shrunken -->
                 <i :class="{ 'rotate-180': openDropdown }" x-show="open" class="fa-solid fa-chevron-down text-xs transition-transform duration-200 ease-in-out"></i>
             </button>
             <!-- Dropdown items -->

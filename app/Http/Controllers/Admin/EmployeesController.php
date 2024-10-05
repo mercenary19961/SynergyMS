@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\EmployeeDetail; // Assuming Employee is a model
+use App\Models\EmployeeDetail;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
 {
     public function index()
     {
-        $employees = EmployeeDetail::all(); // Get all employees
+        // Eager load user and department relationships
+        $employees = EmployeeDetail::with('user', 'department')->get();
         return view('admin.employees.index', compact('employees'));
     }
 
@@ -23,8 +24,15 @@ class EmployeesController extends Controller
     {
         // Validate and store new employee
         $request->validate([
-            'name' => 'required',
-            // Other validation rules...
+            'user_id' => 'required|exists:users,id',
+            'position' => 'required|string',
+            'salary' => 'required|numeric',
+            'date_of_joining' => 'required|date',
+            'address' => 'required|string',
+            'nationality' => 'required|string',
+            'age' => 'required|integer',
+            'date_of_birth' => 'required|date',
+            'department_id' => 'required|exists:departments,id',
         ]);
 
         EmployeeDetail::create($request->all());
@@ -32,24 +40,34 @@ class EmployeesController extends Controller
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
 
-    public function edit($id)
+    public function edit(EmployeeDetail $employee)
     {
-        $employee = EmployeeDetail::findOrFail($id);
         return view('admin.employees.edit', compact('employee'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, EmployeeDetail $employee)
     {
         // Validate and update employee
-        $employee = EmployeeDetail::findOrFail($id);
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'position' => 'required|string',
+            'salary' => 'required|numeric',
+            'date_of_joining' => 'required|date',
+            'address' => 'required|string',
+            'nationality' => 'required|string',
+            'age' => 'required|integer',
+            'date_of_birth' => 'required|date',
+            'department_id' => 'required|exists:departments,id',
+        ]);
+
         $employee->update($request->all());
 
         return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(EmployeeDetail $employee)
     {
-        EmployeeDetail::findOrFail($id)->delete();
+        $employee->delete();
         return redirect()->route('admin.employees.index')->with('success', 'Employee deleted successfully.');
     }
 }

@@ -15,6 +15,6 @@ class AdminDashboardController extends Controller
 
         $recentTickets = Ticket::latest()->limit(5)->get(); 
 
-        return view('dashboard.admin.index', compact('totalUsers', 'recentTickets'));
+        return view('admin.index', compact('totalUsers', 'recentTickets'));
     }
 }
