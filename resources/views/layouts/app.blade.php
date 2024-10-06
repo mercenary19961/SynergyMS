@@ -13,9 +13,9 @@
 
     <!-- Livewire Styles -->
     @livewireStyles
-    
+
     <!-- Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
 
     <!-- Meta Tags for SEO -->
     <meta name="description" content="Your site description">
@@ -26,6 +26,20 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- x-cloak Style -->
+    <style>
+        [x-cloak] { display: none !important; }
+        /* Loader Styles */
+        .loader {
+            border-top-color: #3498db;
+            animation: spin 1s ease-in-out infinite;
+        }
+    
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body class="font-montserrat antialiased bg-gray-100">
     <!-- Initialize Alpine.js with shared state -->
@@ -61,7 +75,7 @@
     </div>
 
     <!-- Livewire Scripts -->
-    @livewireScripts
+    {{-- @livewireScripts --}}
 
 </body>
 </html>

@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeesController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\ProjectManagerController;
+use App\Http\Controllers\Admin\ClientsController;
 
 // Redirect to Login
 Route::get('/', function () {
@@ -93,6 +95,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Departments Management Routes (Accessible by Super Admin and HR)
     Route::resource('departments', DepartmentController::class)->middleware('role:Super Admin|HR');
+
+    // Ticket Management Routes (Accessible by Super Admin and Project Manager)
+    Route::resource('tickets', TicketsController::class)->middleware('role:Super Admin|Project Manager');
+
+    // Project Manager Management Routes (Accessible by Super Admin and HR)
+    Route::resource('project-managers', ProjectManagerController::class)->middleware('role:Super Admin|HR');
+
+    // Clients Management Routes
+    Route::resource('clients', ClientsController::class)->middleware('role:Super Admin|Project Manager');
+
 });
 
 // Permission Management (Accessible by Super Admin)
