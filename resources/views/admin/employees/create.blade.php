@@ -1,4 +1,3 @@
-{{-- resources/views/admin/employees/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -57,6 +56,15 @@
                     @enderror
                 </div>
 
+                <!-- Salary -->
+                <div class="mb-4">
+                    <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+                    <input type="number" name="salary" id="salary" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('salary') }}" placeholder="Enter Salary">
+                    @error('salary')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Gender Dropdown -->
                 <div x-data="{ open: false, selected: '{{ old('gender') ?? 'Select Gender' }}' }" class="relative mb-4">
                     <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
@@ -81,29 +89,23 @@
                         role="listbox"
                     >
                         <li 
-                            @click="selected = 'Male'; open = false" 
+                            @click="selected = 'male'; open = false" 
                             class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
                         >
                             Male
                         </li>
                         <li 
-                            @click="selected = 'Female'; open = false" 
+                            @click="selected = 'female'; open = false" 
                             class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
                         >
                             Female
                         </li>
                     </ul>
-                    <input type="hidden" name="gender" :value="selected === 'Select Gender' ? '' : selected">
-                    @error('gender')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
 
-                <!-- Salary -->
-                <div class="mb-4">
-                    <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
-                    <input type="number" name="salary" id="salary" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('salary') }}" placeholder="Enter Salary">
-                    @error('salary')
+                    <!-- Hidden Input to submit selected gender -->
+                    <input type="hidden" name="gender" :value="selected !== 'Select Gender' ? selected : ''">
+                    
+                    @error('gender')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -131,6 +133,15 @@
                     <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                     <input type="text" name="phone" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('phone') }}" placeholder="Enter Phone Number">
                     @error('phone')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Address -->
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter Address" value="{{ old('address') }}">
+                    @error('address')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -169,7 +180,7 @@
                     </ul>
 
                     <!-- Hidden Input to store selected department id -->
-                    <input type="hidden" name="department_id" x-ref="department_id" :value="{{ old('department_id') ?? '' }}">
+                    <input type="hidden" name="department_id" x-ref="department_id" :value="selectedDepartment ? '{{ $departments->first()->id }}' : ''">
                     
                     @error('department_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -208,17 +219,11 @@
                             </li>
                         </template>
                     </ul>
-                    <input type="hidden" name="position" :value="selectedPosition">
-                    @error('position')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
 
-                <!-- Address -->
-                <div class="mb-4">
-                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter Address" value="{{ old('address') }}">
-                    @error('address')
+                    <!-- Hidden Input to store selected position -->
+                    <input type="hidden" name="position" :value="selectedPosition">
+                    
+                    @error('position')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -230,7 +235,27 @@
                     @error('image')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
+                </div>                
+
+                <!-- Date of Birth -->
+                <div class="mb-4">
+                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_birth') }}"
+                    min="1960-01-01" max="2010-01-01">
+                    @error('date_of_birth')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <!-- Date of Joining -->
+                <div class="mb-4">
+                    <label for="date_of_joining" class="block text-sm font-medium text-gray-700">Date of Joining</label>
+                    <input type="date" name="date_of_joining" id="date_of_joining" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_joining') }}">
+                    @error('date_of_joining')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
             </div>
 
             <!-- Submit Button -->
@@ -260,6 +285,14 @@
             }
         }
     }
+
+    // Set the default value of date_of_birth to 1980
+    document.addEventListener('DOMContentLoaded', function() {
+        const dobField = document.getElementById('date_of_birth');
+        if (!dobField.value) {
+            dobField.value = '1990-01-01';
+        }
+    });
 </script>
 
 @endsection

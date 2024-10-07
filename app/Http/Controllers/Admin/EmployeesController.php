@@ -11,25 +11,16 @@ use Illuminate\Support\Facades\Cache;
 
 class EmployeesController extends Controller
 {
-    /**
-     * Display a listing of the employees with search and pagination.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
-        // Validate search inputs (optional but recommended)
         $request->validate([
             'employee_id' => 'nullable|integer',
             'employee_name' => 'nullable|string|max:255',
             'position' => 'nullable|string|max:255',
         ]);
 
-        // Initialize the query with eager loading of 'user' relationship
         $query = EmployeeDetail::with('user');
 
-        // Apply filtering based on the request inputs
         if ($request->filled('employee_id')) {
             $query->where('id', $request->employee_id);
         }
@@ -44,52 +35,35 @@ class EmployeesController extends Controller
             $query->where('position', 'like', '%' . $request->position . '%');
         }
 
-        // Fetch distinct positions for the dropdown with caching
         $positions = Cache::remember('employee_positions', 60, function () {
             return EmployeeDetail::select('position')->distinct()->pluck('position');
         });
 
-        // Paginate the results (12 per page) and preserve query string parameters
         $employees = $query->paginate(12)->appends($request->except('page'));
 
-        // Pass employees and positions to the view
         return view('admin.employees.index', compact('employees', 'positions'));
     }
 
-    /**
-     * Show the form for creating a new employee.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
-        // Fetch users with role_id 5 (Employee role)
         $users = User::whereHas('roles', function ($query) {
-            $query->where('id', 5); // Role id 5 for Employee
+            $query->where('id', 5);
         })->get();
     
-        // Fetch only the first six departments with their related positions
         $departments = Department::with('positions')
-                        ->take(6) // Limit to first six departments
+                        ->take(6)
                         ->get();
     
         return view('admin.employees.create', compact('users', 'departments'));
     }
 
-    /**
-     * Store a newly created employee in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'gender' => 'required|string|in:male,female',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
             'salary' => 'required|numeric',
             'date_of_joining' => 'required|date',
@@ -98,27 +72,25 @@ class EmployeesController extends Controller
             'age' => 'required|integer',
             'date_of_birth' => 'required|date',
             'department_id' => 'required|exists:departments,id',
+            'phone' => 'required|string|regex:/^\+[0-9]+$/',
         ]);
     
-        // Handle image upload
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('employees', 'public'); // Store image in 'public/employees' directory
+            $imagePath = $request->file('image')->store('employee_images', 'public');
         }
     
-        // Create a new User
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => bcrypt('defaultpassword'), // Set a default password or implement password input
+            'password' => bcrypt('defaultpassword'),
             'gender' => $request->input('gender'),
-            'image' => $imagePath, // Store the image path
-            'role_id' => 3, // Set a default role ID, or allow dynamic selection if necessary
         ]);
     
-        // Create a new EmployeeDetail
+        $user->assignRole('Employee');
+    
         EmployeeDetail::create([
-            'user_id' => $user->id, // Link employee detail to the created user
+            'user_id' => $user->id,
             'position' => $request->input('position'),
             'salary' => $request->input('salary'),
             'date_of_joining' => $request->input('date_of_joining'),
@@ -127,39 +99,33 @@ class EmployeesController extends Controller
             'age' => $request->input('age'),
             'date_of_birth' => $request->input('date_of_birth'),
             'department_id' => $request->input('department_id'),
+            'image' => $imagePath,
+            'phone' => $request->input('phone'),
         ]);
     
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
-    
 
-    /**
-     * Show the form for editing the specified employee.
-     *
-     * @param  \App\Models\EmployeeDetail  $employee
-     * @return \Illuminate\View\View
-     */
     public function edit(EmployeeDetail $employee)
     {
-        // Fetch necessary data for the form, e.g., users and departments
-        $users = User::all(); // Adjust as needed
-        $departments = Department::all(); // Adjust as needed
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('id', 5);
+        })->get();
+    
+        $departments = Department::with('positions')
+                        ->take(6)
+                        ->get();
 
         return view('admin.employees.edit', compact('employee', 'users', 'departments'));
     }
-
-    /**
-     * Update the specified employee in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EmployeeDetail  $employee
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(Request $request, EmployeeDetail $employee)
     {
-        // Validate and update employee
+        // Validate input
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $employee->user_id, // Allow existing email for the user being updated
+            'gender' => 'required|string|in:Male,Female',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
             'salary' => 'required|numeric',
             'date_of_joining' => 'required|date',
@@ -168,19 +134,39 @@ class EmployeesController extends Controller
             'age' => 'required|integer',
             'date_of_birth' => 'required|date',
             'department_id' => 'required|exists:departments,id',
+            'phone' => 'required|string|regex:/^\+[0-9]+$/',
+            'gender' => 'required|string|in:Male,Female,male,female',
         ]);
-
-        $employee->update($request->all());
-
-        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
+    
+        // Update the User model
+        $employee->user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'gender' => $request->input('gender'),
+        ]);
+    
+        // Update the EmployeeDetail model
+        $employee->update([
+            'position' => $request->input('position'),
+            'salary' => $request->input('salary'),
+            'date_of_joining' => $request->input('date_of_joining'),
+            'address' => $request->input('address'),
+            'nationality' => $request->input('nationality'),
+            'age' => $request->input('age'),
+            'date_of_birth' => $request->input('date_of_birth'),
+            'department_id' => $request->input('department_id'),
+            'phone' => $request->input('phone'),
+        ]);
+    
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('employee_images', 'public');
+            $employee->update(['image' => $imagePath]);
+        }
+    
+        return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
     }
-
-    /**
-     * Remove the specified employee from storage.
-     *
-     * @param  \App\Models\EmployeeDetail  $employee
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function destroy(EmployeeDetail $employee)
     {
         $employee->delete();

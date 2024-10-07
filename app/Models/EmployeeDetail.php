@@ -13,6 +13,7 @@ class EmployeeDetail extends Model
 
     protected $fillable = [
         'user_id',
+        'department_id',
         'position',
         'salary',
         'date_of_joining',
@@ -20,7 +21,8 @@ class EmployeeDetail extends Model
         'nationality',
         'age',
         'date_of_birth',
-        'department_id',
+        'image',
+        'phone',
     ];
 
     // Cast date_of_joining and date_of_birth as dates
