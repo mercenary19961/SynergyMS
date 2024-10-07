@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->smallInteger('age')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

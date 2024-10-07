@@ -190,17 +190,11 @@ class UserSeeder extends Seeder
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => $userData['password'],
-                'gender' => $userData['gender'],  // Save gender data
+                'gender' => $userData['gender'], 
             ]);
 
             // Assign role to user
             $user->assignRole($userData['role']);
-
-            if ($index >= 4 && $index <= 9) {
-                $imagePath = 'employee_images/employee_' . ($index + 1) . '.jpg';
-                $user->image = $imagePath;
-                $user->save();
-            }
         }
     }
 }

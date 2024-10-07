@@ -11,6 +11,7 @@ class Project extends Model
 
     protected $fillable = [
         'name',
+        'department_id',
         'description',
         'project_manager_id',
         'client_id',
@@ -34,4 +35,8 @@ class Project extends Model
         return $this->belongsTo(Client::class);
     }
     
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

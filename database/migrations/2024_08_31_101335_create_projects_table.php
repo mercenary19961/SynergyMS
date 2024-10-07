@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name'); 
+            $table->foreignId('department_id')->nullable()->constrained('departments');
             $table->text('description')->nullable();
             $table->foreignId('project_manager_id')->constrained('project_managers')->onDelete('cascade'); 
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');

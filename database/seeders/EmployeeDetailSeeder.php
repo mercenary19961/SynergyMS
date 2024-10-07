@@ -20,6 +20,8 @@ class EmployeeDetailSeeder extends Seeder
                 'nationality' => 'Jordan',
                 'age' => 28,
                 'date_of_birth' => '1996-03-15',
+                'phone' => '+962799012345',
+                'image' => 'employee_images/employee_5.jpg',
             ],
             [
                 'user_id' => 6,
@@ -31,6 +33,8 @@ class EmployeeDetailSeeder extends Seeder
                 'nationality' => 'Jordan',
                 'age' => 35,
                 'date_of_birth' => '1989-02-20',
+                'phone' => '+962781472346',
+                'image' => 'employee_images/employee_6.jpg',
             ],
             [
                 'user_id' => 7,
@@ -42,6 +46,8 @@ class EmployeeDetailSeeder extends Seeder
                 'nationality' => 'Egypt',
                 'age' => 30,
                 'date_of_birth' => '1993-07-10',
+                'phone' => '+962788874347',
+                'image' => 'employee_images/employee_7.jpg',
             ],
             [
                 'user_id' => 8,
@@ -52,7 +58,9 @@ class EmployeeDetailSeeder extends Seeder
                 'address' => 'Irbid, Jordan',
                 'nationality' => 'Jordan',
                 'age' => 42,
-                'date_of_birth' => '1991-06-28',
+                'date_of_birth' => '1981-06-28',
+                'phone' => '+962781157348',
+                'image' => 'employee_images/employee_8.jpg',
             ],
             [
                 'user_id' => 9,
@@ -64,6 +72,8 @@ class EmployeeDetailSeeder extends Seeder
                 'nationality' => 'Egypt',
                 'age' => 38,
                 'date_of_birth' => '1985-04-12',
+                'phone' => '+962789012349',
+                'image' => 'employee_images/employee_9.jpg',
             ],
             [
                 'user_id' => 10,
@@ -75,6 +85,8 @@ class EmployeeDetailSeeder extends Seeder
                 'nationality' => 'Jordan',
                 'age' => 32,
                 'date_of_birth' => '1991-04-10',
+                'phone' => '+962789054749',
+                'image' => 'employee_images/employee_10.jpg',
             ],
         ];
 

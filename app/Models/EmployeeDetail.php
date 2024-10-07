@@ -23,6 +23,12 @@ class EmployeeDetail extends Model
         'department_id',
     ];
 
+    // Cast date_of_joining and date_of_birth as dates
+    protected $casts = [
+        'date_of_joining' => 'date',
+        'date_of_birth' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

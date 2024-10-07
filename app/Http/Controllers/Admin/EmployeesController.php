@@ -63,10 +63,16 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        // Fetch necessary data for the form, e.g., users and departments
-        $users = User::all(); // Adjust as needed, consider filtering users who are not already employees
-        $departments = Department::all(); // Adjust as needed
-
+        // Fetch users with role_id 5 (Employee role)
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('id', 5); // Role id 5 for Employee
+        })->get();
+    
+        // Fetch only the first six departments with their related positions
+        $departments = Department::with('positions')
+                        ->take(6) // Limit to first six departments
+                        ->get();
+    
         return view('admin.employees.create', compact('users', 'departments'));
     }
 
@@ -78,9 +84,12 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate and store new employee
+        // Validate input
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'gender' => 'required|string|in:male,female',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
             'position' => 'required|string',
             'salary' => 'required|numeric',
             'date_of_joining' => 'required|date',
@@ -90,11 +99,39 @@ class EmployeesController extends Controller
             'date_of_birth' => 'required|date',
             'department_id' => 'required|exists:departments,id',
         ]);
-
-        EmployeeDetail::create($request->all());
-
-        return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
+    
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('employees', 'public'); // Store image in 'public/employees' directory
+        }
+    
+        // Create a new User
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt('defaultpassword'), // Set a default password or implement password input
+            'gender' => $request->input('gender'),
+            'image' => $imagePath, // Store the image path
+            'role_id' => 3, // Set a default role ID, or allow dynamic selection if necessary
+        ]);
+    
+        // Create a new EmployeeDetail
+        EmployeeDetail::create([
+            'user_id' => $user->id, // Link employee detail to the created user
+            'position' => $request->input('position'),
+            'salary' => $request->input('salary'),
+            'date_of_joining' => $request->input('date_of_joining'),
+            'address' => $request->input('address'),
+            'nationality' => $request->input('nationality'),
+            'age' => $request->input('age'),
+            'date_of_birth' => $request->input('date_of_birth'),
+            'department_id' => $request->input('department_id'),
+        ]);
+    
+        return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
+    
 
     /**
      * Show the form for editing the specified employee.
