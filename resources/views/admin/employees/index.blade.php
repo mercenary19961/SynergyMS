@@ -7,7 +7,11 @@
     @include('partials.sidebar')
 
     <!-- Main Content -->
-    <div class="flex-1 p-6 bg-gray-100 overflow-auto" x-data="{ viewMode: 'grid', isLoading: false }">
+    {{-- Initialize viewMode based on the 'view' query parameter with default 'grid' --}}
+    <div 
+        class="flex-1 p-6 bg-gray-100 overflow-auto" 
+        x-data="employeeView('{{ request('view', 'grid') }}')"
+    >
         <!-- Loading Indicator -->
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
@@ -20,7 +24,7 @@
             <div class="flex space-x-2">
                 <!-- Grid View Button -->
                 <button 
-                    @click="viewMode = 'grid'"
+                    @click="setViewMode('grid')"
                     :class="viewMode === 'grid' 
                         ? 'bg-orange-500 text-white' 
                         : 'bg-white text-gray-700 hover:bg-orange-500 hover:text-white'"
@@ -31,7 +35,7 @@
 
                 <!-- List View Button -->
                 <button 
-                    @click="viewMode = 'list'"
+                    @click="setViewMode('list')"
                     :class="viewMode === 'list' 
                         ? 'bg-orange-500 text-white' 
                         : 'bg-white text-gray-700 hover:bg-orange-500 hover:text-white'"
@@ -61,7 +65,6 @@
                 </div>
                 
                 <div class="flex-1">
-                    <!-- Custom Select Component for Position -->
                     <div x-data="{ open: false, selected: '{{ request('position') ?? 'Select Position' }}' }" class="relative">
                         <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
                         <button 
@@ -85,6 +88,8 @@
                             @click.away="open = false" 
                             class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" 
                             role="listbox"
+                            x-transition
+                            x-cloak
                         >
                             <li 
                                 @click="selected = 'Select Position'; open = false" 
@@ -126,7 +131,6 @@
             <div x-show="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($employees as $employee)
                     <div x-data="{ openDropdown: false }" class="bg-white p-4 rounded-lg shadow flex flex-col items-center relative">
-                        <!-- Three-Dot Dropdown Button Positioned at Top Right -->
                         <div class="absolute top-2 right-2">
                             <button @click="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none" aria-haspopup="true" aria-expanded="openDropdown">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -139,10 +143,10 @@
                                 x-transition
                                 x-cloak
                             >
-                                <a href="{{ route('admin.employees.edit', $employee->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                     <i class="fas fa-pen mr-2"></i> Edit
                                 </a>
-                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                     @csrf
                                     @method('DELETE')
                                     <button 
@@ -156,13 +160,18 @@
                             </div>
                         </div>
 
-                        <img src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
+                        <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
                         <h3 class="mt-4 text-lg font-semibold">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600">{{ $employee->position }}</p>
                     </div>
                 @empty
                     <p class="text-center col-span-full text-gray-500">No employees found.</p>
                 @endforelse
+            </div>
+
+            <!-- Pagination for Grid View -->
+            <div x-show="viewMode === 'grid'" class="mt-4 flex justify-center">
+                {{ $employees->appends(request()->except('page'))->appends(['view' => request('view', 'grid')])->links('pagination::tailwind') }}
             </div>
 
             <!-- List View -->
@@ -184,17 +193,15 @@
                             <tr class="border-t" x-data="{ openDropdown: false }">
                                 <td class="py-2 px-4">
                                     <div class="flex items-center">
-                                        <img src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
+                                        <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
                                         <span>{{ $employee->user->name }}</span>
                                     </div>
                                 </td>
-                                <!-- Center the Employee ID -->
                                 <td class="py-2 px-4 text-center">{{ $employee->id }}</td>
                                 <td class="py-2 px-4">{{ $employee->user->email }}</td>
                                 <td class="py-2 px-4">{{ $employee->phone ?? 'N/A' }}</td>
                                 <td class="py-2 px-4">{{ $employee->date_of_joining->format('d M Y') }}</td>
                                 <td class="py-2 px-4">{{ $employee->position }}</td>
-                                <!-- Center the Action buttons -->
                                 <td class="py-2 px-4 relative text-center">
                                     <button @click.prevent="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <i class="fas fa-ellipsis-v"></i>
@@ -207,10 +214,10 @@
                                         x-transition
                                         x-cloak
                                     >
-                                        <a href="{{ route('admin.employees.edit', $employee->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                        <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                             <i class="fas fa-pen mr-2"></i> Edit
                                         </a>
-                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                             @csrf
                                             @method('DELETE')
                                             <button 
@@ -228,10 +235,11 @@
                     </tbody>
                 </table>
 
-                <!-- Pagination -->
-                <div class="mt-4">
-                    {{ $employees->links() }}
-                </div>
+            <!-- Pagination for List View -->
+            <div x-show="viewMode === 'list'" class="mt-4 flex justify-center">
+                {{ $employees->appends(request()->except('page'))->appends(['view' => request('view', 'list')])->links('pagination::tailwind') }}
+            </div>
+
             </div>
         </div>
     </div>
@@ -248,5 +256,31 @@
             to { transform: rotate(360deg); }
         }
     </style>
-</div>
+
+    <!-- Alpine.js Component Script -->
+    <script>
+        function employeeView(initialView) {
+            return {
+                viewMode: initialView || 'grid', // Default to 'grid' if no view is provided
+                isLoading: false,
+
+                setViewMode(mode) {
+                    if (this.viewMode !== mode) {
+                        this.viewMode = mode;
+                        this.updateURL(mode);
+                    }
+                },
+
+                updateURL(mode) {
+                    // Update the 'view' parameter in the URL
+                    let url = new URL(window.location);
+                    url.searchParams.set('view', mode);
+                    
+                    // Preserve existing query parameters and update the browser's history
+                    window.history.replaceState({}, '', url);
+                }
+            }
+        }
+    </script>
+
 @endsection
