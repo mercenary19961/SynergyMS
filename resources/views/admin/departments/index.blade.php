@@ -5,10 +5,16 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
+        <!-- Success Message with Close Button -->
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success relative bg-green-100 border border-green-400 text-green-700 px-4 py-3 mb-2 rounded" x-data="{ show: true }" x-show="show">
+                {{ session('success') }}
+                <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-700 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         @endif
-        
+
         <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-semibold">Departments</h1>
         
@@ -16,7 +22,6 @@
                 <i class="fas fa-plus-circle mr-2"></i> Add New Department
             </a>
         </div>
-        
 
         <div class="overflow-x-auto mt-4">
             <table class="min-w-full bg-white rounded-lg shadow">
@@ -35,17 +40,17 @@
                             <td class="py-2 px-4 text-sm">{{ $department->name }}</td>
                             <td class="py-2 px-4 text-sm">{{ $department->description }}</td>
                             <td class="py-2 px-4 text-sm flex space-x-4">
-                                <a href="{{ route('admin.departments.show', $department->id) }}" class="text-blue-500 hover:text-blue-600">
+                                <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-lg"></i>
                                 </a>
-                                <a href="{{ route('admin.departments.edit', $department->id) }}" class="text-yellow-500 hover:text-yellow-600">
+                                <a href="{{ route('admin.departments.edit', $department->id) }}" class="transform hover:text-orange-500 hover:scale-110">
                                     <i class="fas fa-pen fa-lg"></i>
                                 </a>
                                 <form action="{{ route('admin.departments.destroy', $department->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600" onclick="return confirm('Are you sure?');">
-                                        <i class="fas fa-trash fa-lg"></i>
+                                    <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -60,4 +65,33 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const form = this.closest('form');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#737373',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 @endsection

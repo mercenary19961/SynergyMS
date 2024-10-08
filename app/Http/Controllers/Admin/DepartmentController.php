@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\ProjectManager; 
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -22,20 +23,31 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        return view('admin.departments.create');
+        $projectManagers = ProjectManager::with('user')->get();
+        return view('admin.departments.create', compact('projectManagers'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name' => 'required|string|max:255|unique:departments,name',
+            'description' => 'required|string|max:500',
+            'positions' => 'required|string|max:255',
+            'project_manager' => 'nullable|exists:project_managers,id',
+        ], [
+            'name.required' => 'The department name is required.',
+            'name.unique' => 'A department with this name already exists.',
+            'description.required' => 'The description is required.',
+            'positions.required' => 'The positions are required.',
+            'project_manager.exists' => 'The selected project manager is invalid.',
         ]);
-
+    
+        // If validation passes, create the department
         Department::create($validated);
-
+    
         return redirect()->route('admin.departments.index')->with('success', 'Department created successfully.');
     }
+    
 
     public function edit($id)
     {

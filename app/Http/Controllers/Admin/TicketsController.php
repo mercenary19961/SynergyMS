@@ -13,7 +13,7 @@ class TicketsController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::with(['employee', 'project', 'projectManager'])->get();
+        $tickets = Ticket::with(['employee', 'project', 'projectManager'])->paginate(10);
         return view('admin.tickets.index', compact('tickets'));
     }
 

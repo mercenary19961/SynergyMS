@@ -39,7 +39,7 @@ class EmployeesController extends Controller
             return EmployeeDetail::select('position')->distinct()->pluck('position');
         });
 
-        $employees = $query->paginate(12)->appends($request->except('page'));
+        $employees = $query->paginate(8)->appends($request->except('page'));
 
         return view('admin.employees.index', compact('employees', 'positions'));
     }
