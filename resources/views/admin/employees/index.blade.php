@@ -143,10 +143,13 @@
                                 x-transition
                                 x-cloak
                             >
+                                <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
+                                    <i class="fas fa-eye mr-2"></i> View
+                                </a>
                                 <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                     <i class="fas fa-pen mr-2"></i> Edit
                                 </a>
-                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
                                     @csrf
                                     @method('DELETE')
                                     <button 
@@ -159,8 +162,10 @@
                                 </form>
                             </div>
                         </div>
-
-                        <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
+        
+                        <a href="{{ route('admin.employees.show', $employee->id) }}">
+                            <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
+                        </a>
                         <h3 class="mt-4 text-lg font-semibold">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600">{{ $employee->position }}</p>
                     </div>
@@ -179,30 +184,30 @@
                 <table class="min-w-full bg-white rounded-lg shadow">
                     <thead class="bg-gray-200">
                         <tr>
-                            <th class="py-2 px-4 text-left">Name</th>
-                            <th class="py-2 px-4 text-left">Employee ID</th>
-                            <th class="py-2 px-4 text-left">Email</th>
-                            <th class="py-2 px-4 text-left">Mobile</th>
-                            <th class="py-2 px-4 text-left">Join Date</th>
-                            <th class="py-2 px-4 text-left">Role</th>
-                            <th class="py-2 px-4 text-left">Action</th>
+                            <th class="py-2 px-3 text-left text-sm">Name</th>
+                            <th class="py-2 px-3 text-left text-sm">Employee ID</th>
+                            <th class="py-2 px-3 text-left text-sm">Email</th>
+                            <th class="py-2 px-3 text-left text-sm">Mobile</th>
+                            <th class="py-2 px-3 text-left text-sm">Join Date</th>
+                            <th class="py-2 px-3 text-left text-sm">Role</th>
+                            <th class="py-2 px-3 text-left text-sm">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($employees as $employee)
-                            <tr class="border-t" x-data="{ openDropdown: false }">
+                        @foreach($employees as $index => $employee)
+                            <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t" x-data="{ openDropdown: false }">
                                 <td class="py-2 px-4">
                                     <div class="flex items-center">
                                         <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
                                         <span>{{ $employee->user->name }}</span>
                                     </div>
                                 </td>
-                                <td class="py-2 px-4 text-center">{{ $employee->id }}</td>
-                                <td class="py-2 px-4">{{ $employee->user->email }}</td>
-                                <td class="py-2 px-4">{{ $employee->phone ?? 'N/A' }}</td>
-                                <td class="py-2 px-4">{{ $employee->date_of_joining->format('d M Y') }}</td>
-                                <td class="py-2 px-4">{{ $employee->position }}</td>
-                                <td class="py-2 px-4 relative text-center">
+                                <td class="py-2 px-2 text-center text-sm">{{ $employee->id }}</td>
+                                <td class="py-2 px-3 text-sm">{{ $employee->user->email }}</td>
+                                <td class="py-2 px-3 text-sm">{{ $employee->phone ?? 'N/A' }}</td>
+                                <td class="py-2 px-3 text-sm">{{ $employee->date_of_joining->format('d M Y') }}</td>
+                                <td class="py-2 px-3 text-sm">{{ $employee->position }}</td>
+                                <td class="py-2 px-3 relative text-center text-sm">
                                     <button @click.prevent="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
@@ -214,10 +219,13 @@
                                         x-transition
                                         x-cloak
                                     >
+                                        <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
+                                            <i class="fas fa-eye mr-2"></i> View
+                                        </a>
                                         <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                             <i class="fas fa-pen mr-2"></i> Edit
                                         </a>
-                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
                                             @csrf
                                             @method('DELETE')
                                             <button 

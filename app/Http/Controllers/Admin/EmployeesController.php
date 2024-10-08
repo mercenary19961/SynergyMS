@@ -44,6 +44,13 @@ class EmployeesController extends Controller
         return view('admin.employees.index', compact('employees', 'positions'));
     }
 
+    public function show(EmployeeDetail $employee)
+    {
+        $employee->load('user', 'department', 'attendances', 'tickets');
+    
+        return view('admin.employees.show', compact('employee'));
+    }
+
     public function create()
     {
         $users = User::whereHas('roles', function ($query) {

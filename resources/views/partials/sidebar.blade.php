@@ -18,7 +18,7 @@
         </a>
 
         <!-- Employees Dropdown -->
-        <div x-data="{ openDropdown: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.departments.*') || request()->routeIs('admin.tickets.*') || request()->routeIs('admin.project-managers.*') ? 'true' : 'false' }} }" 
+        <div x-data="{ openDropdown: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.departments.*') || request()->routeIs('admin.tickets.*') || request()->routeIs('admin.project-managers.*') || request()->routeIs('admin.clients.*') ? 'true' : 'false' }} }" 
              class="p-2 text-gray-300">
             <button @click="openDropdown = !openDropdown" class="w-full text-left flex items-center justify-between">
                 <div class="flex items-center">

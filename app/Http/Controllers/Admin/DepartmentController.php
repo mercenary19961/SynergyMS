@@ -10,8 +10,14 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::paginate(10);
         return view('admin.departments.index', compact('departments'));
+    }
+
+    public function show($id)
+    {
+        $department = Department::with(['positions', 'employees', 'project_managers'])->findOrFail($id);
+        return view('admin.departments.show', compact('department'));
     }
 
     public function create()
