@@ -17,6 +17,12 @@ class TicketsController extends Controller
         return view('admin.tickets.index', compact('tickets'));
     }
 
+    public function show($id)
+    {
+        $ticket = Ticket::with(['employee', 'project', 'projectManager'])->findOrFail($id);
+        return view('admin.tickets.show', compact('ticket'));
+    }
+
     public function create()
     {
         $employees = EmployeeDetail::all();
