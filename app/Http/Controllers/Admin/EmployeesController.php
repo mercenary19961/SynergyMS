@@ -84,7 +84,7 @@ class EmployeesController extends Controller
     
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('employee_images', 'public');
+            $imagePath = $request->file('image')->store('users', 'public');
         }
     
         $user = User::create([
@@ -92,6 +92,7 @@ class EmployeesController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt('defaultpassword'),
             'gender' => $request->input('gender'),
+            'image' => $imagePath, // Save the image path in the users table
         ]);
     
         $user->assignRole('Employee');
@@ -106,12 +107,12 @@ class EmployeesController extends Controller
             'age' => $request->input('age'),
             'date_of_birth' => $request->input('date_of_birth'),
             'department_id' => $request->input('department_id'),
-            'image' => $imagePath,
             'phone' => $request->input('phone'),
         ]);
     
         return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
+    
 
     public function edit(EmployeeDetail $employee)
     {
@@ -127,10 +128,9 @@ class EmployeesController extends Controller
     }
     public function update(Request $request, EmployeeDetail $employee)
     {
-        // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $employee->user_id, // Allow existing email for the user being updated
+            'email' => 'required|email|unique:users,email,' . $employee->user_id,
             'gender' => 'required|string|in:Male,Female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
@@ -142,17 +142,19 @@ class EmployeesController extends Controller
             'date_of_birth' => 'required|date',
             'department_id' => 'required|exists:departments,id',
             'phone' => 'required|string|regex:/^\+[0-9]+$/',
-            'gender' => 'required|string|in:Male,Female,male,female',
         ]);
     
-        // Update the User model
         $employee->user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'gender' => $request->input('gender'),
         ]);
     
-        // Update the EmployeeDetail model
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('users', 'public');
+            $employee->user->update(['image' => $imagePath]);
+        }
+    
         $employee->update([
             'position' => $request->input('position'),
             'salary' => $request->input('salary'),
@@ -165,14 +167,9 @@ class EmployeesController extends Controller
             'phone' => $request->input('phone'),
         ]);
     
-        // Handle image upload if present
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('employee_images', 'public');
-            $employee->update(['image' => $imagePath]);
-        }
-    
         return redirect()->route('admin.employees.index')->with('success', 'Employee updated successfully.');
     }
+    
     
     public function destroy(EmployeeDetail $employee)
     {

@@ -22,7 +22,7 @@
                 $profileImage = $user && $user->image ? asset('storage/' . $user->image) : asset('images/default_user_image.png');
             @endphp
             <!-- Display the user's profile image or a default image -->
-            <img src="{{ $profileImage }}" alt="User Image" class="w-8 h-8 rounded-full">
+            <img src="{{ $profileImage }}" alt="User Image" class="w-10 h-10 rounded-full">
 
             <!-- Online Indicator -->
             <div class="absolute bottom-0 right-0 bg-green-500 border-2 border-white w-3 h-3 rounded-full"></div>

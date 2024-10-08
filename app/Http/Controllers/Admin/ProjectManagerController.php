@@ -13,8 +13,18 @@ class ProjectManagerController extends Controller
     // Show all project managers
     public function index()
     {
-        $projectManagers = ProjectManager::with('user', 'department')->get();
+        // Fetch project managers with pagination (5 per page)
+        $projectManagers = ProjectManager::with('user', 'department')->paginate(10); // Adjust number per page as needed
+    
         return view('admin.project-managers.index', compact('projectManagers'));
+    }
+    
+
+    // Show a specific project manager
+    public function show($id)
+    {
+        $projectManager = ProjectManager::with('user', 'department', 'projects')->findOrFail($id);
+        return view('admin.project-managers.show', compact('projectManager'));
     }
 
     // Show form to create a new project manager

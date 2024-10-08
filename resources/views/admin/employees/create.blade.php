@@ -11,7 +11,7 @@
 
         <!-- Display Validation Errors -->
         @if ($errors->any())
-            <div class="mb-6">
+            <div class="mb-6" x-data="{ show: true }" x-show="show">
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <strong class="font-bold">Whoops!</strong>
                     <span class="block sm:inline">There were some problems with your input.</span>
@@ -20,6 +20,9 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+                    <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-700 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
         @endif
@@ -261,7 +264,7 @@
             <!-- Submit Button -->
             <div class="flex items-center justify-between">
                 <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                    Create Employee
+                    <i class="fas fa-save mr-2"></i>Create Employee
                 </button>
                 <a href="{{ route('admin.employees.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
                     <i class="fas fa-arrow-left mr-2"></i>Cancel
@@ -281,7 +284,7 @@
             positions: [],
             updatePositions(positions) {
                 this.positions = positions;
-                this.selectedPosition = ''; // Reset position selection when department changes
+                this.selectedPosition = '';
             }
         }
     }

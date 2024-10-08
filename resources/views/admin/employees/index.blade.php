@@ -17,6 +17,17 @@
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
 
+        <!-- Success Message -->
+        @if(session('success'))
+            <div x-data="{ show: true }" x-show="show" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer">
+                    <i class="fas fa-times text-green-700"></i>
+                </span>
+            </div>
+        @endif
+
         <!-- Header Row -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <h1 class="text-2xl font-semibold mb-4 md:mb-0">Employees</h1>
@@ -124,7 +135,6 @@
             </div>
         </form>
 
-
         <!-- Employee Display -->
         <div>
             <!-- Grid View -->
@@ -154,8 +164,7 @@
                                     @method('DELETE')
                                     <button 
                                         type="submit" 
-                                        @click.prevent="if (confirm('Are you sure you want to delete this employee?')) $el.closest('form').submit();" 
-                                        class="w-full text-left flex items-center"
+                                        class="w-full text-left flex items-center delete-btn"
                                     >
                                         <i class="fas fa-trash mr-2"></i> Delete
                                     </button>
@@ -164,7 +173,7 @@
                         </div>
         
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
-                            <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
+                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
                         </a>
                         <h3 class="mt-4 text-lg font-semibold">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600">{{ $employee->position }}</p>
@@ -199,7 +208,7 @@
                                 <td class="py-2 px-4">
                                     <div class="flex items-center">
                                         <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
-                                        <span>{{ $employee->user->name }}</span>
+                                        <span class="text-sm">{{ $employee->user->name }}</span>
                                     </div>
                                 </td>
                                 <td class="py-2 px-2 text-center text-sm">{{ $employee->id }}</td>
@@ -230,8 +239,7 @@
                                             @method('DELETE')
                                             <button 
                                                 type="submit" 
-                                                @click.prevent="if (confirm('Are you sure you want to delete this employee?')) $el.closest('form').submit();" 
-                                                class="w-full text-left flex items-center"
+                                                class="w-full text-left flex items-center delete-btn"
                                             >
                                                 <i class="fas fa-trash mr-2"></i> Delete
                                             </button>
@@ -290,5 +298,31 @@
             }
         }
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+    
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const form = this.closest('form');
+                    
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#737373',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection

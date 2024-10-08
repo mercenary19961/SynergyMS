@@ -22,7 +22,7 @@
         <!-- Tickets Table -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-lg shadow">
-                <thead class="bg-gray-200">
+                <thead class="bg-gray-200 font-light text-gray-800">
                     <tr>
                         <th class="py-2 px-4 text-left">#</th>
                         <th class="py-2 px-4 text-left">Title</th>
@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                     @foreach($tickets as $ticket)
-                        <tr class="border-t {{ $loop->odd ? 'bg-gray-100' : 'bg-white' }}">
+                        <tr class="border-t text-sm font-normal {{ $loop->odd ? 'bg-gray-100' : 'bg-white' }}">
                             <td class="py-2 px-4">{{ $ticket->id }}</td>
                             <td class="py-2 px-4">{{ $ticket->title }}</td>
                             <td class="py-2 px-4">{{ $ticket->status }}</td>
@@ -43,17 +43,17 @@
                             <td class="py-2 px-4">{{ $ticket->employee->user->name }}</td>
                             <td class="py-2 px-4">{{ $ticket->project->name }}</td>
                             <td class="py-2 px-4 flex space-x-4">
-                                <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="text-blue-500 hover:text-blue-600">
+                                <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-lg"></i>
                                 </a>
-                                <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="text-yellow-500 hover:text-yellow-600">
+                                <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="transform hover:text-orange-500 hover:scale-110">
                                     <i class="fas fa-pen fa-lg"></i>
                                 </a>
                                 <form action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600" onclick="return confirm('Are you sure?');">
-                                        <i class="fas fa-trash fa-lg"></i>
+                                    <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -64,4 +64,32 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const form = this.closest('form');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#737373',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 @endsection

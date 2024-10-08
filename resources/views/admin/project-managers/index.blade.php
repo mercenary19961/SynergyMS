@@ -1,4 +1,3 @@
-{{-- resources/views/admin/project-managers/index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -8,50 +7,108 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Project Managers</h1>
+        <!-- Flex container for h1 and button -->
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-semibold">Project Managers</h1>
+            <!-- Add New Project Manager Button on the far right -->
+            <a href="{{ route('admin.project-managers.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                <i class="fas fa-plus mr-2"></i>Add New Project Manager
+            </a>
+        </div>
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div x-data="{ show: true }" x-show="show" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer">
+                    <i class="fas fa-times text-green-700"></i>
+                </span>
+            </div>
         @endif
 
-        <!-- Add New Project Manager Button -->
-        <a href="{{ route('admin.project-managers.create') }}" class="btn btn-primary mb-3">Add New Project Manager</a>
-
         <!-- Project Managers Table -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white rounded-lg shadow">
-                <thead class="bg-gray-200">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-200 uppercase text-sm leading-normal">
                     <tr>
-                        <th class="py-2 px-4 text-left">#</th>
-                        <th class="py-2 px-4 text-left">User Name</th>
-                        <th class="py-2 px-4 text-left">Department</th>
-                        <th class="py-2 px-4 text-left">Experience Years</th>
-                        <th class="py-2 px-4 text-left">Contact Number</th>
-                        <th class="py-2 px-4 text-left">Actions</th>
+                        <th class="py-3 px-6 text-left">#</th>
+                        <th class="py-3 px-6 text-left">User Name</th>
+                        <th class="py-3 px-6 text-left">Department</th>
+                        <th class="py-3 px-6 text-left">Experience Years</th>
+                        <th class="py-3 px-6 text-left">Contact Number</th>
+                        <th class="py-3 px-6 text-left">Assigned Projects</th>
+                        <th class="py-3 px-6 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-black text-sm font-normal">
                     @foreach($projectManagers as $projectManager)
-                        <tr class="border-t">
-                            <td class="py-2 px-4">{{ $projectManager->id }}</td>
-                            <td class="py-2 px-4">{{ $projectManager->user->name }}</td>
-                            <td class="py-2 px-4">{{ $projectManager->department->name }}</td>
-                            <td class="py-2 px-4">{{ $projectManager->experience_years }}</td>
-                            <td class="py-2 px-4">{{ $projectManager->contact_number }}</td>
-                            <td class="py-2 px-4">
-                                <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('admin.project-managers.destroy', $projectManager->id) }}" method="POST" style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
-                                </form>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
+                            <td class="py-3 px-6">{{ $projectManager->id }}</td>
+                            <td class="py-3 px-6">{{ $projectManager->user->name }}</td>
+                            <td class="py-3 px-6">{{ $projectManager->department->name }}</td>
+                            <td class="py-3 px-6">{{ $projectManager->experience_years }}</td>
+                            <td class="py-3 px-6">{{ $projectManager->contact_number }}</td>
+                            <td class="py-3 px-6">{{ $projectManager->assigned_projects_count }}</td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex item-center justify-center space-x-4">
+                                    <!-- Show Button -->
+                                    <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-orange-500 hover:scale-110">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('admin.project-managers.destroy', $projectManager->id) }}" method="POST" class="inline delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            {{ $projectManagers->links('pagination::tailwind') }} <!-- Use the Tailwind pagination style -->
+        </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const form = this.closest('form');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#737373',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 @endsection

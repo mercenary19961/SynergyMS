@@ -21,7 +21,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 28,
                 'date_of_birth' => '1996-03-15',
                 'phone' => '+962799012345',
-                'image' => 'employee_images/employee_5.jpg',
             ],
             [
                 'user_id' => 6,
@@ -34,7 +33,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 35,
                 'date_of_birth' => '1989-02-20',
                 'phone' => '+962781472346',
-                'image' => 'employee_images/employee_6.jpg',
             ],
             [
                 'user_id' => 7,
@@ -47,7 +45,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 30,
                 'date_of_birth' => '1993-07-10',
                 'phone' => '+962788874347',
-                'image' => 'employee_images/employee_7.jpg',
             ],
             [
                 'user_id' => 8,
@@ -60,7 +57,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 42,
                 'date_of_birth' => '1981-06-28',
                 'phone' => '+962781157348',
-                'image' => 'employee_images/employee_8.jpg',
             ],
             [
                 'user_id' => 9,
@@ -73,7 +69,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 38,
                 'date_of_birth' => '1985-04-12',
                 'phone' => '+962789012349',
-                'image' => 'employee_images/employee_9.jpg',
             ],
             [
                 'user_id' => 10,
@@ -86,9 +81,7 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 32,
                 'date_of_birth' => '1991-04-10',
                 'phone' => '+962789054749',
-                'image' => 'employee_images/employee_10.jpg',
             ],
-            // Employee details for newly added users
             [
                 'user_id' => 25,
                 'department_id' => 1,
@@ -100,7 +93,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 29,
                 'date_of_birth' => '1995-08-10',
                 'phone' => '+962789123450',
-                'image' => 'employee_images/employee_25.jpg',
             ],
             [
                 'user_id' => 26,
@@ -113,7 +105,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 40,
                 'date_of_birth' => '1983-01-12',
                 'phone' => '+201001234567',
-                'image' => 'employee_images/employee_26.jpg',
             ],
             [
                 'user_id' => 27,
@@ -126,7 +117,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 33,
                 'date_of_birth' => '1990-04-18',
                 'phone' => '+201002345678',
-                'image' => 'employee_images/employee_27.jpg',
             ],
             [
                 'user_id' => 28,
@@ -139,7 +129,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 38,
                 'date_of_birth' => '1985-12-20',
                 'phone' => '+962781234567',
-                'image' => 'employee_images/employee_28.jpg',
             ],
             [
                 'user_id' => 29,
@@ -152,7 +141,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 35,
                 'date_of_birth' => '1989-05-14',
                 'phone' => '+962799876543',
-                'image' => 'employee_images/employee_29.jpg',
             ],
             [
                 'user_id' => 30,
@@ -165,7 +153,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 28,
                 'date_of_birth' => '1996-02-25',
                 'phone' => '+962799567890',
-                'image' => 'employee_images/employee_30.jpg',
             ],
             [
                 'user_id' => 31,
@@ -178,7 +165,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 31,
                 'date_of_birth' => '1992-09-08',
                 'phone' => '+201011234567',
-                'image' => 'employee_images/employee_31.jpg',
             ],
             [
                 'user_id' => 32,
@@ -191,7 +177,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 45,
                 'date_of_birth' => '1978-06-30',
                 'phone' => '+962798765432',
-                'image' => 'employee_images/employee_32.jpg',
             ],
             [
                 'user_id' => 33,
@@ -204,7 +189,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 37,
                 'date_of_birth' => '1986-03-17',
                 'phone' => '+962798765678',
-                'image' => 'employee_images/employee_33.jpg',
             ],
             [
                 'user_id' => 34,
@@ -217,7 +201,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 29,
                 'date_of_birth' => '1994-08-21',
                 'phone' => '+201011234876',
-                'image' => 'employee_images/employee_34.jpg',
             ],
             [
                 'user_id' => 35,
@@ -230,7 +213,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 27,
                 'date_of_birth' => '1996-09-13',
                 'phone' => '+962788765432',
-                'image' => 'employee_images/employee_35.jpg',
             ],
             [
                 'user_id' => 36,
@@ -243,7 +225,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 34,
                 'date_of_birth' => '1989-05-07',
                 'phone' => '+201011234567',
-                'image' => 'employee_images/employee_36.jpg',
             ],
             [
                 'user_id' => 37,
@@ -256,7 +237,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 38,
                 'date_of_birth' => '1985-11-18',
                 'phone' => '+201001122333',
-                'image' => 'employee_images/employee_37.jpg',
             ],
             [
                 'user_id' => 38,
@@ -269,7 +249,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 32,
                 'date_of_birth' => '1991-12-11',
                 'phone' => '+962788765678',
-                'image' => 'employee_images/employee_38.jpg',
             ],
             [
                 'user_id' => 39,
@@ -282,7 +261,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 29,
                 'date_of_birth' => '1994-05-15',
                 'phone' => '+962799012345',
-                'image' => 'employee_images/employee_39.jpg',
             ],
             [
                 'user_id' => 40,
@@ -295,7 +273,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 40,
                 'date_of_birth' => '1983-07-22',
                 'phone' => '+962798765432',
-                'image' => 'employee_images/employee_40.jpg',
             ],
             [
                 'user_id' => 41,
@@ -308,7 +285,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 35,
                 'date_of_birth' => '1988-06-05',
                 'phone' => '+201011234567',
-                'image' => 'employee_images/employee_41.jpg',
             ],
             [
                 'user_id' => 42,
@@ -321,7 +297,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 27,
                 'date_of_birth' => '1995-07-30',
                 'phone' => '+962788765678',
-                'image' => 'employee_images/employee_42.jpg',
             ],
             [
                 'user_id' => 43,
@@ -334,7 +309,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 41,
                 'date_of_birth' => '1982-08-25',
                 'phone' => '+201001122333',
-                'image' => 'employee_images/employee_43.jpg',
             ],
             [
                 'user_id' => 44,
@@ -347,7 +321,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 33,
                 'date_of_birth' => '1990-04-10',
                 'phone' => '+962799123456',
-                'image' => 'employee_images/employee_44.jpg',
             ],
             [
                 'user_id' => 45,
@@ -360,7 +333,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 30,
                 'date_of_birth' => '1993-09-22',
                 'phone' => '+962788765678',
-                'image' => 'employee_images/employee_45.jpg',
             ],
             [
                 'user_id' => 46,
@@ -373,7 +345,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 38,
                 'date_of_birth' => '1985-11-14',
                 'phone' => '+962799012345',
-                'image' => 'employee_images/employee_46.jpg',
             ],
             [
                 'user_id' => 47,
@@ -386,7 +357,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 28,
                 'date_of_birth' => '1995-03-05',
                 'phone' => '+201011234567',
-                'image' => 'employee_images/employee_47.jpg',
             ],
             [
                 'user_id' => 48,
@@ -399,7 +369,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 32,
                 'date_of_birth' => '1991-10-17',
                 'phone' => '+201001122333',
-                'image' => 'employee_images/employee_48.jpg',
             ],
             [
                 'user_id' => 49,
@@ -412,7 +381,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 29,
                 'date_of_birth' => '1994-01-22',
                 'phone' => '+962788765678',
-                'image' => 'employee_images/employee_49.jpg',
             ],
             [
                 'user_id' => 50,
@@ -425,7 +393,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 36,
                 'date_of_birth' => '1987-08-30',
                 'phone' => '+962799123456',
-                'image' => 'employee_images/employee_50.jpg',
             ],
             [
                 'user_id' => 51,
@@ -438,7 +405,6 @@ class EmployeeDetailSeeder extends Seeder
                 'age' => 31,
                 'date_of_birth' => '1992-11-11',
                 'phone' => '+962788765678',
-                'image' => 'employee_images/employee_51.jpg',
             ],
         ];
 

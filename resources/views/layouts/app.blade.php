@@ -41,7 +41,7 @@
         }
     </style>
 </head>
-<body class="font-montserrat antialiased bg-gray-100">
+<body class="font-montserrat antialiased bg-gray-100 font-normal">
     <!-- Initialize Alpine.js with shared state -->
     <div class="min-h-screen flex flex-col" x-data="{ open: window.innerWidth >= 1024 }" @resize.window="open = window.innerWidth >= 1024">
         
