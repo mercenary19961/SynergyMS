@@ -9,27 +9,24 @@ use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
-    /**
-     * Display a listing of the clients.
-     */
     public function index()
     {
-        $clients = Client::with('user')->get();
+        $clients = Client::with('user')->paginate(10);
         return view('admin.clients.index', compact('clients'));
     }
+    
+    public function show($id)
+    {
+        $client = Client::with(['user', 'projects'])->findOrFail($id);
+        return view('admin.clients.show', compact('client'));
+    }
 
-    /**
-     * Show the form for creating a new client.
-     */
     public function create()
     {
-        $users = User::all(); // Get all users for selection
+        $users = User::all();
         return view('admin.clients.create', compact('users'));
     }
 
-    /**
-     * Store a newly created client in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -46,18 +43,12 @@ class ClientsController extends Controller
         return redirect()->route('admin.clients.index')->with('success', 'Client added successfully');
     }
 
-    /**
-     * Show the form for editing the specified client.
-     */
     public function edit(Client $client)
     {
         $users = User::all();
         return view('admin.clients.edit', compact('client', 'users'));
     }
 
-    /**
-     * Update the specified client in storage.
-     */
     public function update(Request $request, Client $client)
     {
         $request->validate([
@@ -74,9 +65,6 @@ class ClientsController extends Controller
         return redirect()->route('admin.clients.index')->with('success', 'Client updated successfully');
     }
 
-    /**
-     * Remove the specified client from storage.
-     */
     public function destroy(Client $client)
     {
         $client->delete();
