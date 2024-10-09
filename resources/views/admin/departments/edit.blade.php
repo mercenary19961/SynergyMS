@@ -15,6 +15,8 @@
             </a>
         </div>
 
+        @include('components.form.errors')
+
         <!-- Edit Form -->
         <form action="{{ route('admin.departments.update', $department->id) }}" method="POST" class="space-y-4">
             @csrf

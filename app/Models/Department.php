@@ -13,9 +13,10 @@ class Department extends Model
 
     protected $fillable = ['name', 'description'];
 
-    public function project_managers()
+
+    public function project_manager()
     {   
-        return $this->hasMany(ProjectManager::class, 'department_id');
+        return $this->hasOne(ProjectManager::class, 'department_id');
     }
 
     public function employees()

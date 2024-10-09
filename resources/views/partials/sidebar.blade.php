@@ -1,14 +1,14 @@
 <!-- Sidebar -->
 <div id="sidebar" 
-     :class="open ? 'w-48 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-16 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
+     :class="open ? 'w-52 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
      class="sidebar transition-all duration-300">
      
-    <div class="p-2 flex items-center space-x-2 mb-4">
-        <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-6 h-6">
+    <div class="p-2 flex items-center space-x-2 mb-4 ">
+        <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-6 h-6 ms-1">
         <h3 x-show="open" class="text-white font-roboto text-sm">MAIN</h3>
     </div>
     
-    <nav class="mt-1 space-y-1">
+    <nav class="mt-1 space-y-1 py-1 ms-1">
         <!-- Dashboard -->
         <a href="{{ route('admin.dashboard') }}" 
            class="relative flex items-center space-x-3 p-2 text-gray-300 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-900 rounded-md transition-colors duration-200 

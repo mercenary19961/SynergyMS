@@ -50,4 +50,10 @@ class EmployeeDetail extends Model
     {
         return $this->hasMany(Ticket::class, 'employee_id');
     }
+
+    public function projectManager()
+    {
+        return $this->hasOneThrough(ProjectManager::class, Department::class, 'id', 'department_id', 'department_id', 'id');
+    }
+
 }

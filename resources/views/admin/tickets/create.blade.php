@@ -11,21 +11,7 @@
         <h1 class="mb-4 text-2xl font-semibold">Add New Ticket</h1>
 
 
-        <!-- Error Message -->
-        @if($errors->any())
-            <div x-data="{ show: true }" x-show="show" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Whoops!</strong>
-                <span class="block sm:inline">There were some problems with your input.</span>
-                <ul class="mt-2 list-disc list-inside text-sm">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-700 focus:outline-none">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <!-- Create Ticket Form -->
         <form action="{{ route('admin.tickets.store') }}" method="POST" x-data="ticketForm()">
@@ -174,9 +160,7 @@
                 <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                     <i class="fas fa-save mr-2"></i>Create Ticket
                 </button>
-                <a href="{{ route('admin.tickets.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
-                    <i class="fas fa-arrow-left mr-2"></i>Back
-                </a>
+                <x-back-button route="admin.tickets.index" />
             </div>
         </form>
     </div>

@@ -6,16 +6,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Success Message -->
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
-                <strong class="font-bold">Success!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
-                <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-700 hover:text-green-500 focus:outline-none" onclick="this.closest('div').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.success')
 
         <!-- Header Row -->
         <div class="flex justify-between items-center mb-4">

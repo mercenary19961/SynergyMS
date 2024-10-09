@@ -41,6 +41,11 @@ class ProjectManager extends Model
         return $this->hasMany(Ticket::class, 'project_manager_id');
     }
 
+    public function employees()
+    {
+        return $this->hasManyThrough(EmployeeDetail::class, Department::class, 'id', 'department_id', 'department_id', 'id');
+    }
+
     public function getAssignedProjectsCountAttribute()
     {
         return $this->projects()->count();

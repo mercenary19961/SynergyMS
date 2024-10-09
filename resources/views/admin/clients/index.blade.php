@@ -5,15 +5,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
-                <strong class="font-bold">Success!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
-                <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-700 hover:text-green-500 focus:outline-none" onclick="this.closest('div').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.success')
 
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold">Clients</h1>
@@ -31,10 +23,10 @@
                         <th class="py-2 px-4 text-left">Company Name</th>
                         <th class="py-2 px-4 text-left">Industry</th>
                         <th class="py-2 px-4 text-left">Contact Number</th>
-                        <th class="py-2 px-4 text-left">Actions</th>
+                        <th class="py-2 px-4 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-black text-sm font-normal">
                     @foreach($clients as $client)
                         <tr class="border-t {{ $loop->odd ? 'bg-gray-100' : 'bg-white' }}">
                             <td class="py-2 px-4">{{ $client->id }}</td>
@@ -43,20 +35,24 @@
                             <td class="py-2 px-4">{{ $client->industry }}</td>
                             <td class="py-2 px-4">{{ $client->contact_number }}</td>
                             <td class="py-2 px-4 flex space-x-4">
-                                <a href="{{ route('admin.clients.show', $client->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                    <i class="fas fa-eye"></i>
+                                <!-- Show Button -->
+                                <a href="{{ route('admin.clients.show', $client->id) }}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
+                                    <i class="fas fa-eye fa-md"></i>
                                 </a>
-                                <a href="{{ route('admin.clients.edit', $client->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
-                                    <i class="fas fa-pen fa-md000"></i>
+                                <!-- Edit Button -->
+                                <a href="{{ route('admin.clients.edit', $client->id) }}" class="w-4 mr-2 transform hover:text-yellow-500 hover:scale-110">
+                                    <i class="fas fa-pen fa-md"></i>
                                 </a>
-                                <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
+                                <!-- Delete Button -->
+                                <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="w-2 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
+                                        <i class="fas fa-trash fa-md"></i>
                                     </button>
                                 </form>
                             </td>
+                            
                         </tr>
                     @endforeach
                 </tbody>

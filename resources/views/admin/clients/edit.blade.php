@@ -8,77 +8,86 @@
     <div class="flex-1 p-6 bg-gray-100">
         <h1 class="mb-4 text-2xl font-semibold">Edit Client</h1>
 
-        @if ($errors->any())
-            <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 relative mb-6" role="alert">
-                <p class="font-bold">There were some errors with your submission:</p>
-                <ul class="mt-2">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-orange-700 hover:text-orange-600" onclick="this.closest('div').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <!-- Form -->
-        <form action="{{ route('admin.clients.update', $client->id) }}" method="POST" class="space-y-4">
+        <form action="{{ route('admin.clients.update', $client->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             @method('PUT')
 
             <!-- Two-column Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <!-- User Dropdown with Alpine.js -->
-                <div x-data="{ open: false, selected: '{{ old('user_id') ?? $client->user->name }}' }" class="relative">
-                    <label for="user_id" class="block text-sm font-medium text-gray-700">User</label>
-                    <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-                        <span x-text="selected"></span>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </span>
-                    </button>
-                    <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none">
-                        @foreach($users as $user)
-                            <li @click="selected = '{{ $user->name }}'; $refs.user_id.value = '{{ $user->id }}'; open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                                <span class="font-normal">{{ $user->name }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <input type="hidden" name="user_id" x-ref="user_id" :value="selected === '{{ $client->user->name }}' ? '{{ $client->user->id }}' : selected">
+                <!-- User Information Section -->
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">User Information</h2>
+
+                    <input type="hidden" name="user_id" value="{{ $client->user->id }}">
+
+                    <!-- User Name -->
+                    <div>
+                        <label for="user_name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" name="user_name" id="user_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_name', $client->user->name) }}" required>
+                    </div>
+
+                    
+                    <!-- User Email -->
+                    <div>
+                        <label for="user_email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="user_email" id="user_email" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_email', $client->user->email) }}" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="user_password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" name="user_password" id="user_password" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter new password">
+                    </div>
+
+                    <!-- Gender Dropdown -->
+                    @include('components.form.gender')
+
+                    <!-- Profile Image -->
+                    <div>
+                        <label for="profile_image" class="block text-sm font-medium text-gray-700">Profile Image</label>
+                        <input type="file" name="profile_image" id="profile_image" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                        @if ($client->user->profile_image)
+                            <img src="{{ asset('storage/' . $client->user->profile_image) }}" alt="Profile Image" class="mt-2 h-20 w-20 object-cover">
+                        @endif
+                    </div>
                 </div>
 
-                <!-- Company Name -->
+                <!-- Client Information Section -->
                 <div>
-                    <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
-                    <input type="text" name="company_name" id="company_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('company_name', $client->company_name) }}" >
-                </div>
+                    <h2 class="text-lg font-semibold mb-2">Client Information</h2>
 
-                <!-- Industry -->
-                <div>
-                    <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
-                    <input type="text" name="industry" id="industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('industry', $client->industry) }}" >
-                </div>
+                    <!-- Company Name -->
+                    <div>
+                        <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
+                        <input type="text" name="company_name" id="company_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('company_name', $client->company_name) }}" required>
+                    </div>
 
-                <!-- Contact Number -->
-                <div>
-                    <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                    <input type="text" name="contact_number" id="contact_number" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('contact_number', $client->contact_number) }}" >
-                </div>
+                    <!-- Industry -->
+                    <div>
+                        <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+                        <input type="text" name="industry" id="industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('industry', $client->industry) }}" required>
+                    </div>
 
-                <!-- Address -->
-                <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('address', $client->address) }}" >
-                </div>
+                    <!-- Contact Number -->
+                    <div>
+                        <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="text" name="contact_number" id="contact_number" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('contact_number', $client->contact_number) }}" required>
+                    </div>
 
-                <!-- Website -->
-                <div>
-                    <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
-                    <input type="url" name="website" id="website" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('website', $client->website) }}" >
+                    <!-- Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('address', $client->address) }}" required>
+                    </div>
+
+                    <!-- Website -->
+                    <div>
+                        <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+                        <input type="url" name="website" id="website" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('website', $client->website) }}">
+                    </div>
                 </div>
             </div>
 

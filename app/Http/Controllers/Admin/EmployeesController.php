@@ -16,33 +16,35 @@ class EmployeesController extends Controller
         $request->validate([
             'employee_id' => 'nullable|integer',
             'employee_name' => 'nullable|string|max:255',
-            'position' => 'nullable|string|max:255',
+            'department' => 'nullable|string|max:255',
         ]);
-
-        $query = EmployeeDetail::with('user');
-
+    
+        $query = EmployeeDetail::with('user', 'department');
+    
         if ($request->filled('employee_id')) {
             $query->where('id', $request->employee_id);
         }
-
+    
         if ($request->filled('employee_name')) {
             $query->whereHas('user', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->employee_name . '%');
             });
         }
-
-        if ($request->filled('position')) {
-            $query->where('position', 'like', '%' . $request->position . '%');
+    
+        if ($request->filled('department')) {
+            $query->whereHas('department', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->department . '%');
+            });
         }
-
-        $positions = Cache::remember('employee_positions', 60, function () {
-            return EmployeeDetail::select('position')->distinct()->pluck('position');
-        });
-
+    
+        // Fetch first 6 departments based on ID
+        $departments = Department::orderBy('id', 'asc')->take(6)->pluck('name', 'id');
+    
         $employees = $query->paginate(8)->appends($request->except('page'));
-
-        return view('admin.employees.index', compact('employees', 'positions'));
+    
+        return view('admin.employees.index', compact('employees', 'departments'));
     }
+    
 
     public function show(EmployeeDetail $employee)
     {
@@ -131,7 +133,7 @@ class EmployeesController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $employee->user_id,
-            'gender' => 'required|string|in:Male,Female',
+            'gender' => 'required|string|in:male,female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
             'salary' => 'required|numeric',

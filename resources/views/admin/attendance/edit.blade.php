@@ -10,6 +10,8 @@
     <div class="flex-1 p-6 bg-gray-100">
         <h1 class="mb-4 text-2xl font-semibold">Edit Attendance Record</h1>
 
+        @include('components.form.errors')
+
         <form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}">
             @csrf
             @method('PUT')

@@ -16,16 +16,7 @@
             </a>
         </div>
 
-        <!-- Success Message -->
-        @if(session('success'))
-            <div x-data="{ show: true }" x-show="show" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Success!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
-                <span @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer">
-                    <i class="fas fa-times text-green-700"></i>
-                </span>
-            </div>
-        @endif
+        @include('components.form.success')
 
         <!-- Project Managers Table -->
         <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
@@ -54,18 +45,18 @@
                                 <div class="flex item-center justify-center space-x-4">
                                     <!-- Show Button -->
                                     <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye fa-md"></i>
                                     </a>
                                     <!-- Edit Button -->
                                     <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-orange-500 hover:scale-110">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit fa-lg"></i>
                                     </a>
                                     <!-- Delete Button -->
                                     <form action="{{ route('admin.project-managers.destroy', $projectManager->id) }}" method="POST" class="inline delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash fa-md"></i>
                                         </button>
                                     </form>
                                 </div>

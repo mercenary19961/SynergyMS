@@ -9,20 +9,7 @@
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <h1 class="mb-4 text-2xl font-semibold">Edit Ticket</h1>
 
-        <!-- Display Validation Errors -->
-        @if ($errors->any())
-            <div class="mb-6">
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">Whoops!</strong>
-                    <span class="block sm:inline">There were some problems with your input.</span>
-                    <ul class="mt-2 list-disc list-inside text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <form action="{{ route('admin.tickets.update', $ticket->id) }}" method="POST" x-data="ticketForm()">
             @csrf

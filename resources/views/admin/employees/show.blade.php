@@ -16,7 +16,7 @@
         <!-- Employee Info Section -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <div class="flex items-center">
-                <img src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="w-24 h-24 rounded-full object-cover mr-4" alt="Employee Image">
+                <img src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="w-24 h-24 rounded-full object-cover mr-4" alt="Employee Image">
                 <div>
                     <h2 class="text-lg font-semibold">{{ $employee->user->name }}</h2>
                     <p class="text-gray-700">{{ $employee->position }} - {{ $employee->department->name }}</p>

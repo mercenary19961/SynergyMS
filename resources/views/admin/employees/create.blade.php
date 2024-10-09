@@ -9,23 +9,7 @@
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <h1 class="mb-4 text-2xl font-semibold">Create New Employee</h1>
 
-        <!-- Display Validation Errors -->
-        @if ($errors->any())
-            <div class="mb-6" x-data="{ show: true }" x-show="show">
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">Whoops!</strong>
-                    <span class="block sm:inline">There were some problems with your input.</span>
-                    <ul class="mt-2 list-disc list-inside text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-700 focus:outline-none">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <form action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data" x-data="employeeForm({{ $departments->toJson() }})">
             @csrf
@@ -69,49 +53,7 @@
                 </div>
 
                 <!-- Gender Dropdown -->
-                <div x-data="{ open: false, selected: '{{ old('gender') ?? 'Select Gender' }}' }" class="relative mb-4">
-                    <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                    <button 
-                        @click="open = !open" 
-                        type="button" 
-                        class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                    >
-                        <span class="block truncate" x-text="selected"></span>
-                        <span class="flex items-center">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </button>
-
-                    <!-- Gender Dropdown Menu -->
-                    <ul 
-                        x-show="open" 
-                        @click.away="open = false" 
-                        class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-                        role="listbox"
-                    >
-                        <li 
-                            @click="selected = 'male'; open = false" 
-                            class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
-                        >
-                            Male
-                        </li>
-                        <li 
-                            @click="selected = 'female'; open = false" 
-                            class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
-                        >
-                            Female
-                        </li>
-                    </ul>
-
-                    <!-- Hidden Input to submit selected gender -->
-                    <input type="hidden" name="gender" :value="selected !== 'Select Gender' ? selected : ''">
-                    
-                    @error('gender')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                @include('components.form.gender')
 
                 <!-- Nationality -->
                 <div class="mb-4">

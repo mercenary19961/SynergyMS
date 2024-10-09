@@ -1,4 +1,3 @@
-{{-- resources/views/admin/employees/index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -7,26 +6,13 @@
     @include('partials.sidebar')
 
     <!-- Main Content -->
-    {{-- Initialize viewMode based on the 'view' query parameter with default 'grid' --}}
-    <div 
-        class="flex-1 p-6 bg-gray-100 overflow-auto" 
-        x-data="employeeView('{{ request('view', 'grid') }}')"
-    >
+    <div class="flex-1 p-6 bg-gray-100 overflow-auto" x-data="employeeView('{{ request('view', 'grid') }}')">
         <!-- Loading Indicator -->
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
 
-        <!-- Success Message -->
-        @if(session('success'))
-            <div x-data="{ show: true }" x-show="show" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Success!</strong>
-                <span class="block sm:inline">{{ session('success') }}</span>
-                <span @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer">
-                    <i class="fas fa-times text-green-700"></i>
-                </span>
-            </div>
-        @endif
+        @include('components.form.success')
 
         <!-- Header Row -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
@@ -74,10 +60,11 @@
                     <label for="employee_name" class="block text-sm font-medium text-gray-700">Employee Name</label>
                     <input type="text" name="employee_name" id="employee_name" value="{{ request('employee_name') }}" placeholder="Employee Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
-                
+
+                <!-- Department Dropdown -->
                 <div class="flex-1">
-                    <div x-data="{ open: false, selected: '{{ request('position') ?? 'Select Position' }}' }" class="relative">
-                        <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+                    <div x-data="{ open: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
+                        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
                         <button 
                             @click="open = !open" 
                             type="button" 
@@ -88,7 +75,7 @@
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </span>
                         </button>
@@ -103,26 +90,40 @@
                             x-cloak
                         >
                             <li 
-                                @click="selected = 'Select Position'; open = false" 
-                                class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
+                                @click="selected = 'Select Department'; open = false" 
+                                class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
                             >
-                                Select Position
+                                <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Department
                             </li>
-                            @foreach($positions as $position)
+                            @foreach($departments as $id => $department)
                                 <li 
-                                    @click="selected = '{{ $position }}'; open = false" 
-                                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white"
+                                    @click="selected = '{{ $department }}'; open = false" 
+                                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
                                 >
-                                    {{ $position }}
+                                    <!-- Add icons based on department dynamically, for example -->
+                                    @if($department == 'Software Development')
+                                        <i class="fas fa-code mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($department == 'Network Engineering')
+                                        <i class="fas fa-network-wired mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($department == 'Data Analysis')
+                                        <i class="fas fa-chart-bar mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($department == 'Technical Support')
+                                        <i class="fas fa-headset mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($department == 'Quality Assurance')
+                                        <i class="fas fa-check-circle mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($department == 'UX/UI')
+                                        <i class="fas fa-paint-brush mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @endif
+                                    {{ $department }}
                                 </li>
                             @endforeach
                         </ul>
 
                         <!-- Hidden Input to Submit the Selected Value -->
-                        <input type="hidden" name="position" :value="selected === 'Select Position' ? '' : selected">
+                        <input type="hidden" name="department" :value="selected === 'Select Department' ? '' : selected">
                     </div>
                 </div>
-                
+
                 <div class="flex-shrink-0 flex space-x-2">
                     <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
                         <i class="fas fa-search mr-2"></i> Search
@@ -207,7 +208,7 @@
                             <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t" x-data="{ openDropdown: false }">
                                 <td class="py-2 px-4">
                                     <div class="flex items-center">
-                                        <img loading="lazy" src="{{ $employee->image ? asset('storage/' . $employee->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
+                                        <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
                                         <span class="text-sm">{{ $employee->user->name }}</span>
                                     </div>
                                 </td>
@@ -229,10 +230,10 @@
                                         x-cloak
                                     >
                                         <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
-                                            <i class="fas fa-eye mr-2"></i> View
+                                            <i class="fas fa-eye mr-2 fa-md"></i> View
                                         </a>
                                         <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
-                                            <i class="fas fa-pen mr-2"></i> Edit
+                                            <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                         </a>
                                         <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
                                             @csrf
@@ -241,7 +242,7 @@
                                                 type="submit" 
                                                 class="w-full text-left flex items-center delete-btn"
                                             >
-                                                <i class="fas fa-trash mr-2"></i> Delete
+                                                <i class="fas fa-trash mr-2 fa-md"></i> Delete
                                             </button>
                                         </form>
                                     </div>

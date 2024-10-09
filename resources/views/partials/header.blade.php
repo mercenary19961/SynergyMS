@@ -7,22 +7,38 @@
         </button>
         
         <!-- Logo and App Name -->
-        <div :class="open ? 'flex items-center space-x-2 ml-4' : 'flex items-center space-x-2 ml-0'" class="transition-all duration-300"> <!-- Adjusted margin based on state -->
+        <div :class="open ? 'flex items-center space-x-2 ml-4' : 'flex items-center space-x-2 ml-0'" class="transition-all duration-300">
             <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8">
-            <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span> <!-- Hidden on smaller screens -->
+            <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span>
         </div>
     </div>
 
     <!-- Right Side: User Profile Dropdown -->
     <div class="relative flex items-center space-x-2" x-data="{ openDropdown: false }">
-        <!-- User Profile Image Container -->
+        <!-- User Profile Image or Lottie Animation -->
         <div class="relative">
             @php
                 $user = Auth::user();
-                $profileImage = $user && $user->image ? asset('storage/' . $user->image) : asset('images/default_user_image.png');
+                $isSuperAdmin = $user && $user->hasRole('Super Admin');
             @endphp
-            <!-- Display the user's profile image or a default image -->
-            <img src="{{ $profileImage }}" alt="User Image" class="w-10 h-10 rounded-full">
+
+            @if($isSuperAdmin)
+                <!-- Lottie Animation for Super Admin -->
+                <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+                <dotlottie-player 
+                    src="https://lottie.host/4c4c8f6b-cd11-4818-8620-bae9aef03b1c/RdIZRfrOvp.json" 
+                    background="transparent" 
+                    speed="1" 
+                    style="width: 40px; height: 40px;" 
+                    loop autoplay>
+                </dotlottie-player>
+            @else
+                <!-- User's Profile Image for other roles -->
+                @php
+                    $profileImage = $user && $user->image ? asset('storage/' . $user->image) : asset('images/default_user_image.png');
+                @endphp
+                <img src="{{ $profileImage }}" alt="User Image" class="w-10 h-10 rounded-full">
+            @endif
 
             <!-- Online Indicator -->
             <div class="absolute bottom-0 right-0 bg-green-500 border-2 border-white w-3 h-3 rounded-full"></div>
@@ -46,16 +62,26 @@
             x-transition:leave-start="opacity-100 transform scale-100"
             x-transition:leave-end="opacity-0 transform scale-90"
             class="absolute right-0 top-10 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
-        <a href="#" class="block px-4 py-2 text-black hover:bg-orange-500 hover:text-white">Profile</a>
-        <a href="#" class="block px-4 py-2 text-black hover:bg-orange-500 hover:text-white">Settings</a>
-        <a href="#" class="block px-4 py-2 text-black hover:bg-orange-500 hover:text-white">Notifications</a>
-        <a href="#" class="block px-4 py-2 text-black hover:bg-orange-500 hover:text-white">Help & Support</a>
-    
-        <!-- Logout Form -->
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="w-full text-left block px-4 py-2 text-black hover:bg-orange-500 hover:text-white">Logout</button>
-        </form>
-    </div>
+            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
+            </a>
+            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                <i class="fas fa-cog mr-2 text-orange-500 group-hover:text-white"></i> Settings
+            </a>
+            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                <i class="fas fa-bell mr-2 text-orange-500 group-hover:text-white"></i> Notifications
+            </a>
+            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                <i class="fas fa-question-circle mr-2 text-orange-500 group-hover:text-white"></i> Help & Support
+            </a>
+
+            <!-- Logout Form -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="group w-full text-left block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2 text-orange-500 group-hover:text-white"></i> Logout
+                </button>
+            </form>
+        </div>
     </div>
 </header>

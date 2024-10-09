@@ -23,6 +23,18 @@ class Attendance extends Model
         'status',
     ];
 
+    protected $workingHours = ['start' => '09:00', 'end' => '17:00'];
+
+    public function isLate()
+    {
+        return strtotime($this->clock_in) > strtotime($this->workingHours['start']);
+    }
+
+    public function leftEarly()
+    {
+        return $this->clock_out && strtotime($this->clock_out) < strtotime($this->workingHours['end']);
+    }
+
     public function employee()
     {
         return $this->belongsTo(EmployeeDetail::class);
@@ -30,6 +42,6 @@ class Attendance extends Model
 
     public function projectManager()
     {
-        return $this->belongsTo(ProjectManager::class, 'project_manager_id');
+        return $this->hasOneThrough(ProjectManager::class, EmployeeDetail::class, 'id', 'employee_id', 'employee_id', 'id');
     }
 }

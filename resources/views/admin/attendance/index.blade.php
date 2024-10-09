@@ -1,4 +1,3 @@
-{{-- resources/views/admin/attendance/index.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -8,47 +7,125 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Attendance Records</h1>
+        <!-- Header Row -->
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-semibold">Attendance Records</h1>
+            <a href="{{ route('admin.attendance.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                <i class="fas fa-plus mr-2"></i>Add New Attendance
+            </a>
+        </div>
 
-        <!-- Success Message -->
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        @include('components.form.success')
 
-        <!-- Add New Attendance Button -->
-        <a href="{{ route('admin.attendance.create') }}" class="btn btn-primary mb-3">Add New Attendance</a>
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('admin.attendance.index') }}" class="mb-6">
+            <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
+                <div class="flex-1">
+                    <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee ID</label>
+                    <input type="number" name="employee_id" id="employee_id" value="{{ request('employee_id') }}" placeholder="Employee ID" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
+
+                <div class="flex-1">
+                    <label for="employee_name" class="block text-sm font-medium text-gray-700">Employee Name</label>
+                    <input type="text" name="employee_name" id="employee_name" value="{{ request('employee_name') }}" placeholder="Employee Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
+
+                <div class="flex-1">
+                    <label for="attendance_date" class="block text-sm font-medium text-gray-700">Attendance Date</label>
+                    <input type="date" name="attendance_date" id="attendance_date" value="{{ request('attendance_date') }}" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
+
+                <!-- Custom Dropdown using Alpine.js -->
+                <div class="flex-1" x-data="{ selected: '{{ request('status', 'Select Status') }}', open: false }">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                    
+                    <button type="button" @click="open = !open" class="mt-1 block w-full max-w-xs bg-white border border-gray-300 focus:ring-orange-500 focus:border-orange-500 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none">
+                        <span x-text="selected"></span>
+                    </button>
+                    
+                    <div x-show="open" @click.away="open = false" class="absolute mt-1 w-half bg-white rounded-md shadow-lg z-10" x-cloak>
+                        <ul class="py-1" role="listbox">
+                            <li @click="selected = 'Select Status'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-clipboard-list mr-2 text-orange-500 group-hover:text-white"></i> Select Status
+                            </li>
+                            <li @click="selected = 'Present'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-user-check mr-2 text-orange-500 group-hover:text-white"></i> Present
+                            </li>
+                            <li @click="selected = 'Absent'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-user-times mr-2 text-orange-500 group-hover:text-white"></i> Absent
+                            </li>
+                            <li @click="selected = 'Sick Leave'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-notes-medical mr-2 text-orange-500 group-hover:text-white"></i> Sick Leave
+                            </li>
+                            <li @click="selected = 'Hourly Leave'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-clock mr-2 text-orange-500 group-hover:text-white"></i> Hourly Leave
+                            </li>
+                            <li @click="selected = 'Annual Leave'; open = false" class="group cursor-pointer hover:bg-orange-500 hover:text-white px-4 py-2">
+                                <i class="fas fa-plane-departure mr-2 text-orange-500 group-hover:text-white"></i> Annual Leave
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Hidden Input for Submitting Selected Value -->
+                    <input type="hidden" name="status" :value="selected === 'Select Status' ? '' : selected">
+                </div>
+
+                <div class="flex-shrink-0 flex space-x-2">
+                    <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
+                        <i class="fas fa-search mr-2"></i> Search
+                    </button>
+
+                    <a href="{{ route('admin.attendance.index') }}" class="w-full md:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
+                        <i class="fas fa-times mr-2"></i> Clear
+                    </a>
+                </div>
+            </div>
+        </form>
 
         <!-- Attendance Table -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white rounded-lg shadow">
-                <thead class="bg-gray-200">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-200 uppercase text-sm leading-normal">
                     <tr>
-                        <th class="py-2 px-4 text-left">#</th>
-                        <th class="py-2 px-4 text-left">Employee</th>
-                        <th class="py-2 px-4 text-left">Project Manager</th>
-                        <th class="py-2 px-4 text-left">Attendance Date</th>
-                        <th class="py-2 px-4 text-left">Clock In</th>
-                        <th class="py-2 px-4 text-left">Clock Out</th>
-                        <th class="py-2 px-4 text-left">Total Hours</th>
-                        <th class="py-2 px-4 text-left">Actions</th>
+                        <th class="py-3 px-6 text-left text-xs">#</th>
+                        <th class="py-3 px-6 text-left text-xs">Employee Name</th>
+                        <th class="py-3 px-6 text-left text-xs">Project Manager</th>
+                        <th class="py-3 px-6 text-left text-xs">Attendance Date</th>
+                        <th class="py-3 px-6 text-left text-xs">Clock In</th>
+                        <th class="py-3 px-6 text-left text-xs">Clock Out</th>
+                        <th class="py-3 px-6 text-left text-xs">Total Hours</th>
+                        <th class="py-3 px-6 text-left text-xs">Status</th>
+                        <th class="py-3 px-6 text-center  text-xs">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-black text-sm font-normal">
                     @foreach($attendances as $attendance)
-                        <tr class="border-t">
-                            <td class="py-2 px-4">{{ $attendance->id }}</td>
-                            <td class="py-2 px-4">{{ $attendance->employee->user->name ?? 'N/A' }}</td>
-                            <td class="py-2 px-4">{{ $attendance->projectManager->user->name ?? 'N/A' }}</td>
-                            <td class="py-2 px-4">{{ $attendance->attendance_date }}</td>
-                            <td class="py-2 px-4">{{ $attendance->clock_in }}</td>
-                            <td class="py-2 px-4">{{ $attendance->clock_out ?? 'N/A' }}</td>
-                            <td class="py-2 px-4">{{ $attendance->total_hours ?? 'N/A' }}</td>
-                            <td class="py-2 px-4">
-                                <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
+                            <td class="py-3 px-6">{{ $attendance->id }}</td>
+                            <td class="py-3 px-6">
+                                {{ $attendance->employee && $attendance->employee->user ? $attendance->employee->user->name : 'N/A' }}
+                            </td>
+                            <td class="py-3 px-6">
+                                {{ $attendance->employee && $attendance->employee->projectManager && $attendance->employee->projectManager->user ? $attendance->employee->projectManager->user->name : 'N/A' }}
+                            </td>
+                            <td class="py-3 px-6">{{ $attendance->attendance_date }}</td>
+                            <td class="py-3 px-6">{{ $attendance->clock_in ?? 'N/A' }} </td>
+                            <td class="py-3 px-6">{{ $attendance->clock_out ?? 'N/A' }}</td>
+                            <td class="py-3 px-6">{{ $attendance->total_hours ?? 'N/A' }}</td>
+                            <td class="py-3 px-6">{{ $attendance->status }}</td>
+                            <td class="py-3 px-6 flex space-x-4">
+                                <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="transform hover:text-blue-500 hover:scale-110">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
+                                    <i class="fas fa-pen"></i>
+                                </a>
                                 <form action="{{ route('admin.attendance.destroy', $attendance->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
+                                    <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -56,6 +133,40 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            {{ $attendances->links('pagination::tailwind') }}
+        </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const form = this.closest('form');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#737373',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 @endsection

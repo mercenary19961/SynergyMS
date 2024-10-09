@@ -5,15 +5,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Success Message with Close Button -->
-        @if(session('success'))
-            <div class="alert alert-success relative bg-green-100 border border-green-400 text-green-700 px-4 py-3 mb-2 rounded" x-data="{ show: true }" x-show="show">
-                {{ session('success') }}
-                <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-green-700 focus:outline-none">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.success')
 
         <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-semibold">Departments</h1>
@@ -41,16 +33,16 @@
                             <td class="py-2 px-4 text-sm">{{ $department->description }}</td>
                             <td class="py-2 px-4 text-sm flex space-x-4">
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                    <i class="fas fa-eye fa-lg"></i>
+                                    <i class="fas fa-eye fa-md"></i>
                                 </a>
                                 <a href="{{ route('admin.departments.edit', $department->id) }}" class="transform hover:text-orange-500 hover:scale-110">
-                                    <i class="fas fa-pen fa-lg"></i>
+                                    <i class="fas fa-pen fa-md"></i>
                                 </a>
                                 <form action="{{ route('admin.departments.destroy', $department->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash fa-md"></i>
                                     </button>
                                 </form>
                             </td>

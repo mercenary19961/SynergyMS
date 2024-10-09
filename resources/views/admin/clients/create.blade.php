@@ -8,49 +8,43 @@
     <div class="flex-1 p-6 bg-gray-100">
         <h1 class="mb-4 text-2xl font-semibold">Add New Client</h1>
 
-        <!-- Error Message -->
-        @if($errors->any())
-            <div x-data="{ show: true }" x-show="show" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <strong class="font-bold">Whoops!</strong>
-                <span class="block sm:inline">There were some problems with your input.</span>
-                <ul class="mt-2 list-disc list-inside text-sm">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button @click="show = false" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-red-700 focus:outline-none">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <!-- Form -->
-        <form action="{{ route('admin.clients.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
-            <!-- Two-column Grid -->
+            <!-- Two-column Grid for User Information -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- User Dropdown with Alpine.js -->
-                <div x-data="{ open: false, selected: '{{ old('user_id') ?? 'Select a User' }}' }" class="relative">
-                    <label for="user_id" class="block text-sm font-medium text-gray-700">User</label>
-                    <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-                        <span x-text="selected"></span>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </span>
-                    </button>
-                    <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none">
-                        @foreach($users as $user)
-                            <li @click="selected = '{{ $user->name }}'; $refs.user_id.value = '{{ $user->id }}'; open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                                <span class="font-normal">{{ $user->name }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <input type="hidden" name="user_id" x-ref="user_id" :value="selected === 'Select a User' ? '' : selected">
+                <!-- User Name -->
+                <div>
+                    <label for="user_name" class="block text-sm font-medium text-gray-700">User Name</label>
+                    <input type="text" name="user_name" id="user_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_name') }}" placeholder="Enter user name" required>
                 </div>
 
+                <!-- User Email -->
+                <div>
+                    <label for="user_email" class="block text-sm font-medium text-gray-700">User Email</label>
+                    <input type="email" name="user_email" id="user_email" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_email') }}" placeholder="Enter user email" required>
+                </div>
+
+                <!-- User Password -->
+                <div>
+                    <label for="user_password" class="block text-sm font-medium text-gray-700">User Password</label>
+                    <input type="password" name="user_password" id="user_password" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter password" required>
+                </div>
+
+                @include('components.form.gender')
+
+                <!-- Profile Image -->
+                <div>
+                    <label for="profile_image" class="block text-sm font-medium text-gray-700">Profile Image</label>
+                    <input type="file" name="profile_image" id="profile_image" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
+            </div>
+
+            <!-- Two-column Grid for Client Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <!-- Company Name -->
                 <div>
                     <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
@@ -78,7 +72,7 @@
                 <!-- Website -->
                 <div>
                     <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
-                    <input type="url" name="website" id="website" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('website') }}" placeholder="Enter website URL" required>
+                    <input type="url" name="website" id="website" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('website') }}" placeholder="Enter website URL">
                 </div>
             </div>
 

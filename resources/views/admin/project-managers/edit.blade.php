@@ -7,15 +7,7 @@
     <div class="flex-1 p-6 bg-gray-100">
         <h1 class="mb-4 text-2xl font-semibold">Edit Project Manager</h1>
 
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('components.form.errors')
 
         <form action="{{ route('admin.project-managers.update', $projectManager->id) }}" method="POST">
             @csrf
