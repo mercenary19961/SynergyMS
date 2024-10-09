@@ -59,9 +59,9 @@
             </table>
         </div>
 
-        <div class="mt-4">
+        <x-pagination>
             {{ $clients->links('pagination::tailwind') }}
-        </div>
+        </x-pagination>
     </div>
 </div>
 

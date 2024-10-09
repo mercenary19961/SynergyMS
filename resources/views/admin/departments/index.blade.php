@@ -52,9 +52,9 @@
             </table>
         </div>
 
-        <div class="mt-4">
+        <x-pagination>
             {{ $departments->links('pagination::tailwind') }}
-        </div>
+        </x-pagination>
     </div>
 </div>
 

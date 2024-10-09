@@ -6,7 +6,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Edit Client</h1>
+        <x-title-with-back title="Edit Client" route="admin.clients.index" />
 
         @include('components.form.errors')
 
@@ -91,15 +91,7 @@
                 </div>
             </div>
 
-            <!-- Submit Button and Back Button on the Same Row -->
-            <div class="mt-6 flex justify-between items-center">
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
-                    <i class="fas fa-save mr-2"></i> Update Client
-                </button>
-                <a href="{{ route('admin.clients.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center">
-                    <i class="fas fa-arrow-left mr-2"></i> Back
-                </a>
-            </div>
+            <x-form.button-submit label="Add Client" />
         </form>
     </div>
 </div>

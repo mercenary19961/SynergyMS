@@ -71,7 +71,7 @@ class EmployeesController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'gender' => 'required|string|in:male,female',
+            'gender' => 'required|string|in:Male,Female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
             'salary' => 'required|numeric',
@@ -133,7 +133,7 @@ class EmployeesController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $employee->user_id,
-            'gender' => 'required|string|in:male,female',
+            'gender' => 'required|string|in:Male,Female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'position' => 'required|string',
             'salary' => 'required|numeric',

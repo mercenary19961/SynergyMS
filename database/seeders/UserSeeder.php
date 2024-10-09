@@ -63,8 +63,8 @@ class UserSeeder extends Seeder
             ],
             // ID: 6
             [
-                'name' => 'Noor Hamdan',
-                'email' => 'noor.hamdan@example.com',
+                'name' => 'Anna Johansson',
+                'email' => 'anna.ohansson@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Female',
@@ -90,8 +90,8 @@ class UserSeeder extends Seeder
             ],
             // ID: 9
             [
-                'name' => 'Sara Nassar',
-                'email' => 'sara.nassar@example.com',
+                'name' => 'Caitlin Johnson',
+                'email' => 'caitlin.johnson@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Female',
@@ -99,8 +99,8 @@ class UserSeeder extends Seeder
             ],
             // ID: 10
             [
-                'name' => 'Mona Hasan',
-                'email' => 'mona.hasan@example.com',
+                'name' => 'Monica Anderson',
+                'email' => 'monica.anderson@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Female',

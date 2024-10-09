@@ -134,10 +134,7 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-4">
-            {{ $attendances->links('pagination::tailwind') }}
-        </div>
+        <x-pagination />
     </div>
 </div>
 

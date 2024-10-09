@@ -7,7 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
-        <h1 class="mb-4 text-2xl font-semibold">Edit Ticket</h1>
+        <x-title-with-back title="Edit Ticket" route="admin.tickets.index" />
 
         @include('components.form.errors')
 
@@ -164,15 +164,7 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex items-center justify-between">
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                    <i class="fas fa-save mr-2"></i>Update Ticket
-                </button>
-                <a href="{{ route('admin.tickets.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
-                    <i class="fas fa-arrow-left mr-2"></i>Back
-                </a>
-            </div>
+            <x-form.button-submit label="Update Ticket" />
         </form>
     </div>
 </div>

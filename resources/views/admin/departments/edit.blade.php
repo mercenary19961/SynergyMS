@@ -7,13 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Header Row -->
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">Edit Department</h1>
-            <a href="{{ route('admin.departments.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Back
-            </a>
-        </div>
+        <x-title-with-back title="Edit Department" route="admin.departments.index" />
 
         @include('components.form.errors')
 
@@ -32,11 +26,7 @@
                 <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">{{ $department->description }}</textarea>
             </div>
 
-            <div>
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
-                    <i class="fas fa-save mr-2"></i> Update Department
-                </button>
-            </div>
+            <x-form.button-submit label="Update Department" />
         </form>
     </div>
 </div>

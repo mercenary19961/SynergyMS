@@ -6,7 +6,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Client Details</h1>
+        <x-title-with-back title="Client's Details" route="admin.clients.index" />
 
         <div class="bg-white p-6 rounded-lg shadow">
             <p><strong>User:</strong> {{ $client->user->name }}</p>
@@ -16,9 +16,6 @@
             <p><strong>Address:</strong> {{ $client->address }}</p>
             <p><strong>Website:</strong> <a href="{{ $client->website }}" class="text-blue-500" target="_blank">{{ $client->website }}</a></p>
 
-            <a href="{{ route('admin.clients.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center mt-4">
-                <i class="fas fa-arrow-left mr-2"></i> Back to Clients
-            </a>
         </div>
     </div>
 </div>

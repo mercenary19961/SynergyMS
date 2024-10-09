@@ -67,10 +67,9 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-4">
-            {{ $projectManagers->links('pagination::tailwind') }} <!-- Use the Tailwind pagination style -->
-        </div>
+        <x-pagination>
+            {{ $projectManagers->links('pagination::tailwind') }} 
+        </x-pagination>
     </div>
 </div>
 

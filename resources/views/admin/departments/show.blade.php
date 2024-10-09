@@ -5,13 +5,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Title and Back Button Row -->
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">{{ $department->name }} Details</h1>
-            <a href="{{ route('admin.departments.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Back
-            </a>
-        </div>
+        <x-title-with-back title="Department Details" route="admin.departments.index" />
 
         <!-- Department Details Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

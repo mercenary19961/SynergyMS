@@ -8,12 +8,7 @@
 
         @include('components.form.errors')
 
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">Add New Department</h1>
-            <a href="{{ route('admin.departments.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Back
-            </a>
-        </div>
+        <x-title-with-back title="Add New Department" route="admin.clients.index" />
 
         <form action="{{ route('admin.departments.store') }}" method="POST" class="space-y-4">
             @csrf
@@ -60,11 +55,7 @@
                 </div>
             </div>
 
-            <div>
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
-                    <i class="fas fa-save mr-2"></i> Create Department
-                </button>
-            </div>
+            <x-form.button-submit label="Create Department" />
         </form>
     </div>
 </div>

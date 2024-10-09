@@ -6,7 +6,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Add New Client</h1>
+        <x-title-with-back title="Add New Client" route="admin.clients.index" />
 
         @include('components.form.errors')
 
@@ -19,19 +19,19 @@
                 <!-- User Name -->
                 <div>
                     <label for="user_name" class="block text-sm font-medium text-gray-700">User Name</label>
-                    <input type="text" name="user_name" id="user_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_name') }}" placeholder="Enter user name" required>
+                    <input type="text" name="user_name" id="user_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_name') }}" placeholder="Enter user name">
                 </div>
 
                 <!-- User Email -->
                 <div>
                     <label for="user_email" class="block text-sm font-medium text-gray-700">User Email</label>
-                    <input type="email" name="user_email" id="user_email" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_email') }}" placeholder="Enter user email" required>
+                    <input type="email" name="user_email" id="user_email" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_email') }}" placeholder="Enter user email">
                 </div>
 
                 <!-- User Password -->
                 <div>
                     <label for="user_password" class="block text-sm font-medium text-gray-700">User Password</label>
-                    <input type="password" name="user_password" id="user_password" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter password" required>
+                    <input type="password" name="user_password" id="user_password" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter password" >
                 </div>
 
                 @include('components.form.gender')
@@ -48,25 +48,25 @@
                 <!-- Company Name -->
                 <div>
                     <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
-                    <input type="text" name="company_name" id="company_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('company_name') }}" placeholder="Enter company name" required>
+                    <input type="text" name="company_name" id="company_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('company_name') }}" placeholder="Enter company name">
                 </div>
 
                 <!-- Industry -->
                 <div>
                     <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
-                    <input type="text" name="industry" id="industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('industry') }}" placeholder="Enter industry" required>
+                    <input type="text" name="industry" id="industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('industry') }}" placeholder="Enter industry">
                 </div>
 
                 <!-- Contact Number -->
                 <div>
                     <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                    <input type="text" name="contact_number" id="contact_number" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('contact_number') }}" placeholder="Enter contact number" required>
+                    <input type="text" name="contact_number" id="contact_number" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('contact_number') }}" placeholder="Enter contact number">
                 </div>
 
                 <!-- Address -->
                 <div>
                     <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('address') }}" placeholder="Enter address" required>
+                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('address') }}" placeholder="Enter address">
                 </div>
 
                 <!-- Website -->
@@ -76,15 +76,8 @@
                 </div>
             </div>
 
-            <!-- Submit Button and Back Button on the Same Row -->
-            <div class="mt-6 flex justify-between items-center">
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
-                    <i class="fas fa-save mr-2"></i> Add Client
-                </button>
-                <a href="{{ route('admin.clients.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition inline-flex items-center">
-                    <i class="fas fa-arrow-left mr-2"></i> Back
-                </a>
-            </div>
+            <x-form.button-submit label="Add Client" />
+
         </form>
     </div>
 </div>

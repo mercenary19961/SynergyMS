@@ -8,7 +8,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Edit Attendance Record</h1>
+        <x-title-with-back title="Edit Attendance Record" route="admin.attendance.index" />
 
         @include('components.form.errors')
 
@@ -70,6 +70,6 @@
 
             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Update Attendance</button>
         </form>
-    </div>
+    
 </div>
 @endsection

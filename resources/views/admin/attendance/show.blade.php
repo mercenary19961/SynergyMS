@@ -5,12 +5,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">Attendance Details</h1>
-            <a href="{{ route('admin.attendance.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
-                <i class="fas fa-arrow-left mr-2"></i> Back
-            </a>
-        </div>
+        <x-title-with-back title="Attendance Details" route="admin.attendance.index" />
 
         <!-- Attendance Details -->
         <div class="bg-white p-6 rounded-lg shadow-lg">

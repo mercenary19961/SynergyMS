@@ -5,7 +5,7 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Create Project Manager</h1>
+        <x-title-with-back title="Add New Project Manager" route="admin.project-managers.index" />
 
         @include('components.form.errors')
 
@@ -81,15 +81,7 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex items-center justify-between mt-4">
-                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                    <i class="fas fa-save mr-2"></i>Create Project Manager
-                </button>
-                <a href="{{ route('admin.project-managers.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
-                    <i class="fas fa-arrow-left mr-2"></i>Cancel
-                </a>
-            </div>
+            <x-form.button-submit label="Add Project Manager" />
         </form>
     </div>
 </div>

@@ -61,9 +61,9 @@
         </div>
 
         <!-- Pagination Links -->
-        <div class="mt-4">
+        <x-pagination>
             {{ $tickets->links('pagination::tailwind') }}
-        </div>
+        </x-pagination>
 
     </div>
 </div>

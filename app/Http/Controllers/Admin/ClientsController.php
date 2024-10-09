@@ -13,7 +13,7 @@ class ClientsController extends Controller
     public function index()
     {
         // Pagination for clients with associated users
-        $clients = Client::with('user')->paginate(10);
+        $clients = Client::with('user')->paginate(8);
         return view('admin.clients.index', compact('clients'));
     }
 
@@ -37,7 +37,7 @@ class ClientsController extends Controller
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|unique:users,email',
             'user_password' => 'required|string|min:6',
-            'user_gender' => 'nullable|string',
+            'gender' => 'nullable|string|Male,Female',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'company_name' => 'required|string|max:255',
             'industry' => 'required|string|max:255',
@@ -57,7 +57,7 @@ class ClientsController extends Controller
             'name' => $request->input('user_name'),
             'email' => $request->input('user_email'),
             'password' => Hash::make($request->input('user_password')),
-            'gender' => $request->input('user_gender'),
+            'gender' => $request->input('gender'),
             'profile_image' => $profileImage,
         ]);
 

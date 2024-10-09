@@ -8,7 +8,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <h1 class="mb-4 text-2xl font-semibold">Project Manager: {{ $projectManager->user->name }}</h1>
+        <x-title-with-back title="Project Manager's Details" route="admin.project-managers.index" />
 
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-lg font-semibold mb-4">Details</h2>
