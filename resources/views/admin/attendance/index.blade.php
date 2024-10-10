@@ -115,16 +115,16 @@
                             <td class="py-3 px-6">{{ $attendance->status }}</td>
                             <td class="py-3 px-6 flex space-x-4">
                                 <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
                                 </a>
                                 <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
-                                    <i class="fas fa-pen"></i>
+                                    <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
                                 </a>
                                 <form action="{{ route('admin.attendance.destroy', $attendance->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash text-orange-500 hover:text-red-500"></i>
                                     </button>
                                 </form>
                             </td>

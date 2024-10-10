@@ -62,16 +62,16 @@
             x-transition:leave-start="opacity-100 transform scale-100"
             x-transition:leave-end="opacity-0 transform scale-90"
             class="absolute right-0 top-10 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
-            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
             </a>
-            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-cog mr-2 text-orange-500 group-hover:text-white"></i> Settings
             </a>
-            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-bell mr-2 text-orange-500 group-hover:text-white"></i> Notifications
             </a>
-            <a href="#" class="group block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-question-circle mr-2 text-orange-500 group-hover:text-white"></i> Help & Support
             </a>
 

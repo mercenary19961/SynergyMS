@@ -242,7 +242,7 @@
                                                 type="submit" 
                                                 class="w-full text-left flex items-center delete-btn"
                                             >
-                                                <i class="fas fa-trash mr-2 fa-md"></i> Delete
+                                                <i class="fas fa-trash mr-2 fa-md "></i> Delete
                                             </button>
                                         </form>
                                     </div>

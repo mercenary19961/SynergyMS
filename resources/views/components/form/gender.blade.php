@@ -1,5 +1,5 @@
 <!-- Gender Dropdown -->
-<div x-data="{ open: false, selected: '{{ old('gender') ?? 'Select Gender' }}' }" class="relative">
+<div x-data="{ open: false, selected: '{{ old('gender') ?? $projectManager->user->gender ?? 'Select Gender' }}' }" class="relative">
     <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
         <span x-text="selected"></span>

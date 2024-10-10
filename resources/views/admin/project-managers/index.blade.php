@@ -2,34 +2,110 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
     @include('partials.sidebar')
 
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Flex container for h1 and button -->
+        @include('components.form.success')
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold">Project Managers</h1>
-            <!-- Add New Project Manager Button on the far right -->
             <a href="{{ route('admin.project-managers.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Project Manager
             </a>
         </div>
 
-        @include('components.form.success')
+        <form method="GET" action="{{ route('admin.project-managers.index') }}" class="mb-6">
+            <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
+                <div class="flex-1">
+                    <label for="name" class="block text-sm font-medium text-gray-700">User Name</label>
+                    <input type="text" name="name" id="name" value="{{ request('name') }}" placeholder="User Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
 
-        <!-- Project Managers Table -->
+                <div class="flex-1">
+                    <div x-data="{ open: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
+                        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+                        <button 
+                            @click="open = !open" 
+                            type="button" 
+                            class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                        >
+                            <span x-text="selected" class="block truncate"></span>
+                            <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
+                                <i class="fas fa-chevron-down text-orange-500 group-hover:text-white"></i>
+                            </span>
+                        </button>
+                
+                        <ul 
+                            x-show="open" 
+                            @click.away="open = false" 
+                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        >
+                            <!-- Default option -->
+                            <li 
+                                @click="selected = 'Select Department'; open = false" 
+                                class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
+                            >
+                                <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Department
+                            </li>
+                
+                            <!-- Dynamic Department options with icons -->
+                            @foreach($departments as $name)
+                                <li 
+                                    @click="selected = '{{ $name }}'; open = false" 
+                                    class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
+                                >
+                                    <!-- Adding icons based on department names -->
+                                    @if($name == 'Software Development')
+                                        <i class="fas fa-code mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($name == 'Network Engineering')
+                                        <i class="fas fa-network-wired mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($name == 'Data Analysis')
+                                        <i class="fas fa-chart-bar mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($name == 'Technical Support')
+                                        <i class="fas fa-headset mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($name == 'Quality Assurance')
+                                        <i class="fas fa-check-circle mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @elseif($name == 'UX/UI')
+                                        <i class="fas fa-paint-brush mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @else
+                                        <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @endif
+                                    {{ $name }}
+                                </li>
+                            @endforeach
+                        </ul>
+                        
+                        <input type="hidden" name="department" x-model="selected">
+                    </div>
+                </div>
+
+                <div class="flex-1">
+                    <label for="experience_years" class="block text-sm font-medium text-gray-700">Experience Years</label>
+                    <input type="number" name="experience_years" id="experience_years" value="{{ request('experience_years') }}" placeholder="Experience Years" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                </div>
+
+                <div class="flex-shrink-0 flex space-x-2">
+                    <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
+                        <i class="fas fa-search mr-2"></i> Search
+                    </button>
+
+                    <a href="{{ route('admin.project-managers.index') }}" class="w-full md:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
+                        <i class="fas fa-times mr-2"></i> Clear
+                    </a>
+                </div>
+            </div>
+        </form>
+
         <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
             <table class="min-w-full bg-white">
-                <thead class="bg-gray-200 uppercase text-sm leading-normal">
+                <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
                     <tr>
-                        <th class="py-3 px-6 text-left">#</th>
-                        <th class="py-3 px-6 text-left">User Name</th>
-                        <th class="py-3 px-6 text-left">Department</th>
-                        <th class="py-3 px-6 text-left">Experience Years</th>
-                        <th class="py-3 px-6 text-left">Contact Number</th>
-                        <th class="py-3 px-6 text-left">Assigned Projects</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-hashtag mr-2"></i></th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-user mr-2"></i>User Name</th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-building mr-2"></i>Department</th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-briefcase mr-2"></i>Experience Years</th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-phone-alt mr-2"></i>Contact Number</th>
+                        <th class="py-3 px-6 text-left"><i class="fas fa-tasks mr-2"></i>Assigned Projects</th>
+                        <th class="py-3 px-6 text-center"><i class="fas fa-cogs mr-2"></i>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="text-black text-sm font-normal">
@@ -38,26 +114,21 @@
                             <td class="py-3 px-6">{{ $projectManager->id }}</td>
                             <td class="py-3 px-6">{{ $projectManager->user->name }}</td>
                             <td class="py-3 px-6">{{ $projectManager->department->name }}</td>
-                            <td class="py-3 px-6">{{ $projectManager->experience_years }}</td>
+                            <td class="py-3 px-6 text-center">{{ $projectManager->experience_years }}</td>
                             <td class="py-3 px-6">{{ $projectManager->contact_number }}</td>
-                            <td class="py-3 px-6">{{ $projectManager->assigned_projects_count }}</td>
+                            <td class="py-3 px-6 text-center">{{ $projectManager->assigned_projects_count }}</td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center space-x-4">
-                                    <!-- Show Button -->
-                                    <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-blue-500 hover:scale-110">
-                                        <i class="fas fa-eye fa-md"></i>
+                                    <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
+                                        <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" class="w-4 mr-2 transform hover:text-orange-500 hover:scale-110">
-                                        <i class="fas fa-edit fa-lg"></i>
+                                    <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
+                                        <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                     </a>
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('admin.project-managers.destroy', $projectManager->id) }}" method="POST" class="inline delete-form">
+                                    <form id="delete-form-{{ $projectManager->id }}" action="{{ route('admin.project-managers.destroy', $projectManager->id) }}" method="POST" class="inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="w-4 ml-2 transform hover:text-red-500 hover:scale-110 delete-btn">
-                                            <i class="fas fa-trash fa-md"></i>
-                                        </button>
+                                        <x-delete-button formId="delete-form-{{ $projectManager->id }}" />
                                     </form>
                                 </div>
                             </td>
@@ -68,37 +139,10 @@
         </div>
 
         <x-pagination>
-            {{ $projectManagers->links('pagination::tailwind') }} 
+            {{ $projectManagers->links('pagination::tailwind') }}
         </x-pagination>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                const form = this.closest('form');
-                
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#737373',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 @endsection

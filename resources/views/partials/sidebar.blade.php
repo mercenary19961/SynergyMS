@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <div id="sidebar" 
-     :class="open ? 'w-52 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
+     :class="open ? 'w-56 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
      class="sidebar transition-all duration-300">
      
     <div class="p-2 flex items-center space-x-2 mb-4 ">

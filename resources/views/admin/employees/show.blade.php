@@ -7,7 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
-        <x-title-with-back title="Employee Details" route="admin.employees.index" />
+        <x-title-with-back title="Employee Details" />
         <!-- Employee Info Section -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <div class="flex items-center">
