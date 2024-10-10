@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Super Admin',
                 'gender' => 'Male',
-                'image' => 'users/Manager Khaled.jpg',
+                'image' => 'project_managers/Manager Khaled.jpg',
             ],
             // ID: 4
             [
@@ -113,7 +113,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Male',
-                'image' => 'users/Ahmad Qasem.jpg',
+                'image' => 'project_managers/Ahmad Qasem.jpg',
             ],
             // ID: 12
             [
@@ -122,7 +122,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Female',
-                'image' => 'users/Sara Ali.jpg',
+                'image' => 'project_managers/Sara Ali.jpg',
             ],
             // ID: 13
             [
@@ -131,7 +131,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Male',
-                'image' => 'users/Khaled Yaseen.jpg',
+                'image' => 'project_managers/Khaled Yaseen.jpg',
             ],
             // ID: 14
             [
@@ -140,7 +140,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Male',
-                'image' => 'users/Omar Farouk.jpg',
+                'image' => 'project_managers/Omar Farouk.jpg',
             ],
             // ID: 15
             [
@@ -149,7 +149,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Female',
-                'image' => 'users/Lina Samara.jpg',
+                'image' => 'project_managers/Lina Samara.jpg',
             ],
             // ID: 16
             [

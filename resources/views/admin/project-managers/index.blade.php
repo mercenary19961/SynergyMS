@@ -7,11 +7,14 @@
     <div class="flex-1 p-6 bg-gray-100">
         @include('components.form.success')
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">Project Managers</h1>
+            <h1 class="text-2xl font-semibold flex items-center ">
+                <i class="fas fa-user-tie mr-2 hover:text-orange-500"></i> Project Managers
+            </h1>
             <a href="{{ route('admin.project-managers.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Project Manager
             </a>
         </div>
+        
 
         <form method="GET" action="{{ route('admin.project-managers.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">

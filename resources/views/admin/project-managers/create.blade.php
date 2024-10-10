@@ -54,9 +54,9 @@
 
                 <!-- Profile Image -->
                 <div class="mb-2">
-                    <label for="profile_image" class="block text-sm font-medium text-gray-700">Profile Image</label>
-                    <input type="file" name="profile_image" id="profile_image" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
-                    @error('profile_image')
+                    <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                    <input type="file" name="image" id="image" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('image')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

@@ -71,7 +71,7 @@ class ProjectManagerController extends Controller
             'user_email' => 'required|string|email|max:255|unique:users,email',
             'user_password' => 'required|string|min:8|confirmed',
             'gender' => 'required|string|in:Male,Female',
-            'profile_image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:2048',
             'department_id' => 'required|exists:departments,id',
             'experience_years' => 'required|integer',
             'contact_number' => 'required|string|max:255',
@@ -79,8 +79,8 @@ class ProjectManagerController extends Controller
 
         // Handle profile image upload if provided
         $profileImagePath = null;
-        if ($request->hasFile('profile_image')) {
-            $profileImagePath = $request->file('profile_image')->store('users', 'public');
+        if ($request->hasFile('image')) {
+            $profileImagePath = $request->file('image')->store('project_managers', 'public');
         }
 
         // Create the User
@@ -137,8 +137,8 @@ class ProjectManagerController extends Controller
             $user->password = bcrypt($request->user_password);
         }
         
-        if ($request->hasFile('profile_image')) {
-            $user->profile_image = $request->file('profile_image')->store('profile_images', 'public');
+        if ($request->hasFile('image')) {
+            $user->image = $request->file('image')->store('project_managers', 'public');
         }
         
         $user->save();

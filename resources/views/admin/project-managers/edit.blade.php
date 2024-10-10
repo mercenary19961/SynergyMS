@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Use flex-col on small screens and flex-row on medium+ screens -->
 <div class="flex h-screen">
     @include('partials.sidebar')
 
-    <div class="flex-1 p-6 bg-gray-100">
+    <!-- Content area with responsive padding and flex-grow to take remaining space -->
+    <div class="flex-grow p-4 md:p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Project Manager" />
 
         @include('components.form.errors')
@@ -14,7 +16,38 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            <!-- Responsive grid for form fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                
+                <!-- Profile Image, spanning two columns on larger screens and one on smaller screens -->
+                <div class="mb-4 col-span-1 md:col-span-2 flex justify-center">
+                    <div class="text-center">
+                        <!-- Hidden file input -->
+                        <input type="file" name="image" id="image" class="hidden">
+                        
+                        <!-- Display current image or default -->
+                        @if($projectManager->user->image)
+                            <img 
+                                src="{{ asset('storage/' . $projectManager->user->image) }}" 
+                                alt="Image" 
+                                class="mt-2 h-32 w-32 rounded-full object-cover cursor-pointer" 
+                                id="image_preview"
+                            >
+                        @else
+                            <img 
+                                src="{{ asset('images/default_user_image.png') }}" 
+                                alt="DefaultImage" 
+                                class="mt-2 h-32 w-32 rounded-full object-cover cursor-pointer" 
+                                id="image_preview"
+                            >
+                        @endif
+                    </div>
+                    <!-- Error message -->
+                    @error('image')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- User Name -->
                 <div class="mb-4">
                     <label for="user_name" class="block text-sm font-medium text-gray-700">User Name</label>
@@ -53,19 +86,6 @@
 
                 @include('components.form.gender')
 
-                <!-- Profile Image -->
-                <div class="mb-4">
-                    <label for="profile_image" class="block text-sm font-medium text-gray-700">Profile Image</label>
-                    <input type="file" name="profile_image" id="profile_image" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
-                    @if($projectManager->user->profile_image)
-                        <img src="{{ asset('storage/' . $projectManager->user->profile_image) }}" alt="Profile Image" class="mt-2 h-16 w-16 rounded-full">
-                    @endif
-                    @error('profile_image')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Department Selection Component -->
                 <x-department-dropdown :selectedDepartment="$projectManager->department" />
 
                 <!-- Experience Years -->
@@ -85,10 +105,27 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
             </div>
 
             <x-form.button-submit label="Update Project Manager" />
         </form>
     </div>
 </div>
+
+<script>
+    // Trigger the file input when the image is clicked
+    document.getElementById('image_preview').addEventListener('click', function() {
+        document.getElementById('image').click();
+    });
+
+    // Display the selected image immediately
+    document.getElementById('image').addEventListener('change', function(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('image_preview').src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
 @endsection

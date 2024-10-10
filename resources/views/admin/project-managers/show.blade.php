@@ -13,28 +13,51 @@
         <!-- Main Container with Two Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Left Column: Project Manager Information -->
-            <div class="bg-white p-6 rounded-lg shadow-lg space-y-6 relative text-sm"> <!-- Add text-sm here -->
-                <!-- General Information -->
-                <div class="border-b pb-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-orange-600">
-                            <i class="fas fa-info-circle mr-2"></i>General Information
-                        </h2>
-                        <!-- Edit Button -->
-                        <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" 
-                           class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                            <i class="fas fa-edit mr-1"></i> Edit
-                        </a>
+            <!-- Left Column: Project Manager Information and Image -->
+            <div class="bg-white p-6 rounded-lg shadow-lg space-y-6 relative text-sm">
+                <!-- Image and General Information -->
+                <div class="border-b pb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Manager Image (1/3 width) -->
+                    <div class="flex justify-center md:justify-start md:col-span-1">
+                        @if($projectManager->user->image)
+                            <img 
+                                src="{{ asset('storage/' . $projectManager->user->image) }}" 
+                                alt="Manager Image" 
+                                class="rounded-full h-32 w-32 object-cover"
+                            >
+                        @else
+                            <img 
+                                src="{{ asset('images/default_user_image.png') }}" 
+                                alt="Default Image" 
+                                class="rounded-full h-32 w-32 object-cover"
+                            >
+                        @endif
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <p><strong><i class="fas fa-user mr-2"></i>User Name:</strong> {{ $projectManager->user->name }}</p>
-                            <p><strong><i class="fas fa-envelope mr-2"></i>Email:</strong> {{ $projectManager->user->email }}</p>
+                    
+                    <!-- General Information (2/3 width) -->
+                    <div class="md:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold text-orange-600">
+                                <i class="fas fa-info-circle mr-2"></i>General Information
+                            </h2>
+                            <a href="{{ route('admin.project-managers.edit', $projectManager->id) }}" 
+                               class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </a>
                         </div>
-                        <div>
-                            <p><strong><i class="fas fa-venus-mars mr-2"></i>Gender:</strong> {{ ucfirst($projectManager->user->gender) }}</p>
-                            <p><strong><i class="fas fa-phone-alt mr-2"></i>Contact Number:</strong> {{ $projectManager->contact_number }}</p>
+                        <div class="grid grid-cols-1 gap-2 text-gray-600">
+                            <div class="">
+                                <p><strong><i class="fas fa-user mr-2 "></i>User Name:</strong> {{ $projectManager->user->name }}</p>
+                            </div>
+                            <div>
+                                <p><strong><i class="fas fa-envelope mr-2"></i>Email:</strong> {{ $projectManager->user->email }}</p>
+                            </div>
+                            <div>
+                                <p><strong><i class="fas fa-venus-mars mr-2"></i>Gender:</strong> {{ ucfirst($projectManager->user->gender) }}</p>
+                            </div>
+                            <div>
+                                <p><strong><i class="fas fa-phone-alt mr-2"></i>Contact Number:</strong> {{ $projectManager->contact_number }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,9 +67,9 @@
                     <h2 class="text-xl font-semibold text-orange-600 mb-4">
                         <i class="fas fa-briefcase mr-2"></i>Professional Information
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 text-gray-600">
                         <div>
-                            <p><strong><i class="fas fa-building mr-3"></i>Department:</strong> {{ $projectManager->department->name }}</p>
+                            <p><strong><i class="fas fa-building mr-3 text-gray-600"></i>Department:</strong> {{ $projectManager->department->name }}</p>
                         </div>
                         <div>
                             <p><strong><i class="fas fa-history mr-2"></i>Experience Years:</strong> {{ $projectManager->experience_years }} years</p>
@@ -58,7 +81,7 @@
 
                     <!-- Display assigned projects -->
                     @if($projectManager->projects->count() > 0)
-                        <h3 class="text-lg font-semibold mt-6 mb-2">
+                        <h3 class="text-lg font-semibold mt-6 mb-2 text-gray-600">
                             <i class="fas fa-project-diagram mr-2"></i>Assigned Projects
                         </h3>
                         <ul class="list-disc pl-6 space-y-1">
