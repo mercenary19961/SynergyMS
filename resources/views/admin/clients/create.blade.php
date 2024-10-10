@@ -1,4 +1,3 @@
-{{-- resources/views/admin/clients/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -6,78 +5,131 @@
     @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
-        <x-title-with-back title="Add New Client" route="admin.clients.index" />
+        <x-title-with-back title="Add New Client" />
 
         @include('components.form.errors')
 
-        <!-- Form -->
-        <form action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <!-- Form for Creating Client and User -->
+        <form action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Two-column Grid for User Information -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                 <!-- User Name -->
-                <div>
-                    <label for="user_name" class="block text-sm font-medium text-gray-700">User Name</label>
-                    <input type="text" name="user_name" id="user_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_name') }}" placeholder="Enter user name">
+                <div class="mb-2">
+                    <label for="user_name" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-user mr-2"></i> User Name
+                    </label>
+                    <input type="text" name="user_name" id="user_name" placeholder="Enter user name" value="{{ old('user_name') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('user_name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- User Email -->
-                <div>
-                    <label for="user_email" class="block text-sm font-medium text-gray-700">User Email</label>
-                    <input type="email" name="user_email" id="user_email" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('user_email') }}" placeholder="Enter user email">
+                <div class="mb-2">
+                    <label for="user_email" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-envelope mr-2"></i> User Email
+                    </label>
+                    <input type="email" name="user_email" id="user_email" placeholder="Enter user email" value="{{ old('user_email') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('user_email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- User Password -->
-                <div>
-                    <label for="user_password" class="block text-sm font-medium text-gray-700">User Password</label>
-                    <input type="password" name="user_password" id="user_password" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter password" >
+                <div class="mb-2">
+                    <label for="user_password" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-lock mr-2"></i> Password
+                    </label>
+                    <input type="password" name="user_password" id="user_password" placeholder="Enter password" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('user_password')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- User Password Confirmation -->
+                <div class="mb-2">
+                    <label for="user_password_confirmation" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-lock mr-2"></i> Confirm Password
+                    </label>
+                    <input type="password" name="user_password_confirmation" id="user_password_confirmation" placeholder="Confirm password" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('user_password_confirmation')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 @include('components.form.gender')
 
                 <!-- Profile Image -->
-                <div>
-                    <label for="profile_image" class="block text-sm font-medium text-gray-700">Profile Image</label>
-                    <input type="file" name="profile_image" id="profile_image" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
+                <div class="mb-2">
+                    <label for="image" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-camera mr-2"></i> Profile Image
+                    </label>
+                    <input type="file" name="image" id="image" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('image')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
-            <!-- Two-column Grid for Client Information -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mt-6">
                 <!-- Company Name -->
-                <div>
-                    <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
-                    <input type="text" name="company_name" id="company_name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('company_name') }}" placeholder="Enter company name">
+                <div class="mb-2">
+                    <label for="company_name" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-building mr-2"></i> Company Name
+                    </label>
+                    <input type="text" name="company_name" id="company_name" placeholder="Enter company name" value="{{ old('company_name') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('company_name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Industry -->
-                <div>
-                    <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
-                    <input type="text" name="industry" id="industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('industry') }}" placeholder="Enter industry">
+                <div class="mb-2">
+                    <label for="industry" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-industry mr-2"></i> Industry
+                    </label>
+                    <input type="text" name="industry" id="industry" placeholder="Enter industry" value="{{ old('industry') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('industry')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Contact Number -->
-                <div>
-                    <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
-                    <input type="text" name="contact_number" id="contact_number" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('contact_number') }}" placeholder="Enter contact number">
+                <div class="mb-2">
+                    <label for="contact_number" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-phone-alt mr-2"></i> Contact Number
+                    </label>
+                    <input type="text" name="contact_number" id="contact_number" placeholder="Enter contact number" value="{{ old('contact_number') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('contact_number')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Address -->
-                <div>
-                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('address') }}" placeholder="Enter address">
+                <div class="mb-2">
+                    <label for="address" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Address
+                    </label>
+                    <input type="text" name="address" id="address" placeholder="Enter address" value="{{ old('address') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('address')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Website -->
-                <div>
-                    <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
-                    <input type="url" name="website" id="website" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" value="{{ old('website') }}" placeholder="Enter website URL">
+                <div class="mb-2">
+                    <label for="website" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-globe mr-2"></i> Website
+                    </label>
+                    <input type="url" name="website" id="website" placeholder="Enter website URL" value="{{ old('website') }}" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none">
+                    @error('website')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
             <x-form.button-submit label="Add Client" />
-
         </form>
     </div>
 </div>

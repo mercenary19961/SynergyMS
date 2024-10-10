@@ -15,9 +15,12 @@ class Project extends Model
         'description',
         'project_manager_id',
         'client_id',
-        'start_date',
-        'end_date',
         'status',
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     public function projectManager()

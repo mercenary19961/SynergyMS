@@ -1,6 +1,8 @@
 <!-- Gender Dropdown -->
-<div x-data="{ open: false, selected: '{{ old('gender') ?? $projectManager->user->gender ?? 'Select Gender' }}' }" class="relative">
-    <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+<div x-data="{ open: false, selected: '{{ old('gender') ?? $user->gender ?? 'Select Gender' }}' }" class="relative">
+    <label for="gender" class="block text-sm font-medium text-gray-700">
+        <i class="fas fa-venus-mars mr-2"></i> Gender
+    </label>
     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
         <span x-text="selected"></span>
         <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">

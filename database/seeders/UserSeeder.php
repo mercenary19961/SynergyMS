@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Female',
-                'image' => 'users/Client Tech.jpg',
+                'image' => 'clients/Client Tech.jpg',
             ],
             // ID: 3
             [

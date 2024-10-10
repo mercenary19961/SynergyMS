@@ -4,7 +4,9 @@
 }" 
 class="relative mb-4"
 >
-    <label for="department_id" class="block text-sm font-medium text-gray-700">Department</label>
+    <label for="department_id" class="block text-sm font-medium text-gray-700">
+        <i class="fas fa-building mr-2"></i> Department
+    </label>
     
     <!-- Button to open the dropdown -->
     <button 
