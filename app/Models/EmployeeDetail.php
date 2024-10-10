@@ -14,7 +14,7 @@ class EmployeeDetail extends Model
     protected $fillable = [
         'user_id',
         'department_id',
-        'position',
+        'position_id',
         'salary',
         'date_of_joining',
         'address',
@@ -44,6 +44,11 @@ class EmployeeDetail extends Model
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 
     public function tickets()

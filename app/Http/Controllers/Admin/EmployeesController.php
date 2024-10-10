@@ -13,36 +13,44 @@ class EmployeesController extends Controller
 {
     public function index(Request $request)
     {
+        // Validate incoming request
         $request->validate([
             'employee_id' => 'nullable|integer',
             'employee_name' => 'nullable|string|max:255',
             'department' => 'nullable|string|max:255',
         ]);
     
-        $query = EmployeeDetail::with('user', 'department');
+        // Query employees with user, department, and position relationships
+        $query = EmployeeDetail::with(['user', 'department', 'position']);
     
+        // Filter by employee ID if provided
         if ($request->filled('employee_id')) {
             $query->where('id', $request->employee_id);
         }
     
+        // Filter by employee name if provided
         if ($request->filled('employee_name')) {
             $query->whereHas('user', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->employee_name . '%');
             });
         }
     
+        // Filter by department if provided
         if ($request->filled('department')) {
             $query->whereHas('department', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->department . '%');
             });
         }
     
-        $departments = Department::where('sector', 'Projects')->get();
+        // Get the list of departments under the 'Projects' sector for the dropdown
+        $departments = Department::where('sector', 'Projects')->get(['name']);
+    
+        // Paginate the results and pass along query params to persist the search
         $employees = $query->paginate(8)->appends($request->except('page'));
     
+        // Return the view with the filtered employee list and departments for the search form
         return view('admin.employees.index', compact('employees', 'departments'));
     }
-    
 
     public function show(EmployeeDetail $employee)
     {

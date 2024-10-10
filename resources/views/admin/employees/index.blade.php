@@ -95,26 +95,27 @@
                             >
                                 <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Department
                             </li>
-                            @foreach($departments as $id => $department)
+                            @foreach($departments as $department)
                                 <li 
-                                    @click="selected = '{{ $department }}'; open = false" 
+                                    @click="selected = '{{ $department->name }}'; open = false" 
                                     class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
                                 >
-                                    <!-- Add icons based on department dynamically, for example -->
-                                    @if($department == 'Software Development')
+                                    @if($department->name == 'Software Development')
                                         <i class="fas fa-code mr-2 text-orange-500 group-hover:text-white"></i>
-                                    @elseif($department == 'Network Engineering')
+                                    @elseif($department->name == 'Network Engineering')
                                         <i class="fas fa-network-wired mr-2 text-orange-500 group-hover:text-white"></i>
-                                    @elseif($department == 'Data Analysis')
+                                    @elseif($department->name == 'Data Analysis')
                                         <i class="fas fa-chart-bar mr-2 text-orange-500 group-hover:text-white"></i>
-                                    @elseif($department == 'Technical Support')
+                                    @elseif($department->name == 'Technical Support')
                                         <i class="fas fa-headset mr-2 text-orange-500 group-hover:text-white"></i>
-                                    @elseif($department == 'Quality Assurance')
+                                    @elseif($department->name == 'Quality Assurance')
                                         <i class="fas fa-check-circle mr-2 text-orange-500 group-hover:text-white"></i>
-                                    @elseif($department == 'UX/UI')
+                                    @elseif($department->name == 'UX/UI')
                                         <i class="fas fa-paint-brush mr-2 text-orange-500 group-hover:text-white"></i>
+                                    @else
+                                        <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i>
                                     @endif
-                                    {{ $department }}
+                                    {{ $department->name }}
                                 </li>
                             @endforeach
                         </ul>
@@ -176,88 +177,108 @@
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
                             <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
                         </a>
-                        <h3 class="mt-4 text-lg font-semibold">{{ $employee->user->name }}</h3>
-                        <p class="text-gray-600">{{ $employee->position }}</p>
+                        <h3 class="mt-4 text-sm font-semibold text-gray-600">{{ $employee->user->name }}</h3>
+                        <p class="text-gray-600 text-sm">{{ $employee->position->name }}</p>
                     </div>
                 @empty
                     <p class="text-center col-span-full text-gray-500">No employees found.</p>
                 @endforelse
             </div>
-
             <!-- Pagination for Grid View -->
             <div x-show="viewMode === 'grid'" class="mt-4 flex justify-center">
                 {{ $employees->appends(request()->except('page'))->appends(['view' => request('view', 'grid')])->links('pagination::tailwind') }}
             </div>
 
-            <!-- List View -->
-            <div x-show="viewMode === 'list'" class="space-y-4">
-                <table class="min-w-full bg-white rounded-lg shadow">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="py-2 px-3 text-left text-sm">Name</th>
-                            <th class="py-2 px-3 text-left text-sm">Employee ID</th>
-                            <th class="py-2 px-3 text-left text-sm">Email</th>
-                            <th class="py-2 px-3 text-left text-sm">Mobile</th>
-                            <th class="py-2 px-3 text-left text-sm">Join Date</th>
-                            <th class="py-2 px-3 text-left text-sm">Role</th>
-                            <th class="py-2 px-3 text-left text-sm">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($employees as $index => $employee)
-                            <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t" x-data="{ openDropdown: false }">
-                                <td class="py-2 px-4">
-                                    <div class="flex items-center">
-                                        <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
-                                        <span class="text-sm">{{ $employee->user->name }}</span>
-                                    </div>
-                                </td>
-                                <td class="py-2 px-2 text-center text-sm">{{ $employee->id }}</td>
-                                <td class="py-2 px-3 text-sm">{{ $employee->user->email }}</td>
-                                <td class="py-2 px-3 text-sm">{{ $employee->phone ?? 'N/A' }}</td>
-                                <td class="py-2 px-3 text-sm">{{ $employee->date_of_joining->format('d M Y') }}</td>
-                                <td class="py-2 px-3 text-sm">{{ $employee->position }}</td>
-                                <td class="py-2 px-3 relative text-center text-sm">
-                                    <button @click.prevent="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div 
-                                        x-show="openDropdown" 
-                                        class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
-                                        @click.away="openDropdown = false" 
-                                        @keydown.escape="openDropdown = false"
-                                        x-transition
-                                        x-cloak
-                                    >
-                                        <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
-                                            <i class="fas fa-eye mr-2 fa-md"></i> View
-                                        </a>
-                                        <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
-                                            <i class="fas fa-pen mr-2 fa-md"></i> Edit
-                                        </a>
-                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button 
-                                                type="submit" 
-                                                class="w-full text-left flex items-center delete-btn"
-                                            >
-                                                <i class="fas fa-trash mr-2 fa-md "></i> Delete
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
 
-            <!-- Pagination for List View -->
-            <div x-show="viewMode === 'list'" class="mt-4 flex justify-center">
-                {{ $employees->appends(request()->except('page'))->appends(['view' => request('view', 'list')])->links('pagination::tailwind') }}
-            </div>
+<!-- List View -->
+<div x-show="viewMode === 'list'" class="space-y-4">
+    <table class="min-w-full bg-white rounded-lg shadow">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-user"></i> Name
+                </th>
+                <th class="py-2 px-3 text-center text-sm text-gray-600">
+                    <i class="fas fa-id-card"></i>
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-envelope"></i> Email
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-phone"></i> Mobile
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-calendar-alt"></i> Join Date
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-building"></i> Department
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-briefcase"></i> Position
+                </th>
+                <th class="py-2 px-3 text-left text-sm text-gray-600">
+                    <i class="fas fa-cog"></i> Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($employees as $index => $employee)
+                <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t" x-data="{ openDropdown: false }">
+                    <td class="py-2 px-4">
+                        <div class="flex items-center">
+                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
+                            <span class="text-sm">{{ $employee->user->name }}</span>
+                        </div>
+                    </td>
+                    <td class="py-2 px-2 text-center text-sm">
+                        <i class="fas fa-id-badge"></i> {{ $employee->id }}
+                    </td>
+                    <td class="py-2 px-3 text-sm">{{ $employee->user->email }}</td>
+                    <td class="py-2 px-3 text-sm">{{ $employee->phone ?? 'N/A' }}</td>
+                    <td class="py-2 px-3 text-sm">{{ $employee->date_of_joining->format('d M Y') }}</td>
+                    <td class="py-2 px-3 text-sm">{{ $employee->department->name ?? 'N/A' }}</td>
+                    <td class="py-2 px-3 text-sm">{{ $employee->position->name }}</td>
+                    <td class="py-2 px-3 relative text-center text-sm">
+                        <button @click.prevent="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div 
+                            x-show="openDropdown" 
+                            class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
+                            @click.away="openDropdown = false" 
+                            @keydown.escape="openDropdown = false"
+                            x-transition
+                            x-cloak
+                        >
+                            <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
+                                <i class="fas fa-eye mr-2 fa-md"></i> View
+                            </a>
+                            <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                <i class="fas fa-pen mr-2 fa-md"></i> Edit
+                            </a>
+                            <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
+                                @csrf
+                                @method('DELETE')
+                                <button 
+                                    type="submit" 
+                                    class="w-full text-left flex items-center delete-btn"
+                                >
+                                    <i class="fas fa-trash mr-2 fa-md "></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-            </div>
+    <!-- Pagination for List View -->
+    <div x-show="viewMode === 'list'" class="mt-4 flex justify-center">
+        {{ $employees->appends(request()->except('page'))->appends(['view' => request('view', 'list')])->links('pagination::tailwind') }}
+    </div>
+</div>
+
         </div>
     </div>
 

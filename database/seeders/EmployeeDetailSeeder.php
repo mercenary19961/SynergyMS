@@ -4,16 +4,20 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\EmployeeDetail;
+use App\Models\Position;
 
 class EmployeeDetailSeeder extends Seeder
 {
     public function run(): void
     {
+        // Fetch positions from the positions table
+        $positions = Position::pluck('id', 'name'); // ['Software Developer' => 1, 'Network Engineer' => 2, ...]
+
         $employees = [
             [
                 'user_id' => 5,
                 'department_id' => 1,
-                'position' => 'Software Developer',
+                'position_id' => $positions['Software Developer'], // Using position_id from the positions table
                 'salary' => 1000.00,
                 'date_of_joining' => '2021-05-12',
                 'address' => 'Amman, Jordan',
@@ -25,7 +29,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 6,
                 'department_id' => 2,
-                'position' => 'Network Engineer',
+                'position_id' => $positions['Network Engineer'],
                 'salary' => 1200.00,
                 'date_of_joining' => '2022-08-01',
                 'address' => 'Stockholm, Sweden',
@@ -37,7 +41,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 7,
                 'department_id' => 3,
-                'position' => 'Data Analyst',
+                'position_id' => $positions['Data Analyst'],
                 'salary' => 800.00,
                 'date_of_joining' => '2022-01-20',
                 'address' => 'Cairo, Egypt',
@@ -49,7 +53,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 8,
                 'department_id' => 4,
-                'position' => 'Support Technician',
+                'position_id' => $positions['Support Technician'],
                 'salary' => 600.00,
                 'date_of_joining' => '2020-03-15',
                 'address' => 'Irbid, Jordan',
@@ -61,7 +65,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 9,
                 'department_id' => 5,
-                'position' => 'Quality Assurance Tester',
+                'position_id' => $positions['QA Tester'],
                 'salary' => 1000.00,
                 'date_of_joining' => '2018-11-05',
                 'address' => 'California, USA',
@@ -73,7 +77,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 10,
                 'department_id' => 6,
-                'position' => 'UX/UI Designer',
+                'position_id' => $positions['UI Designer'],
                 'salary' => 1500.00,
                 'date_of_joining' => '2023-04-10',
                 'address' => 'Rome, Italy',
@@ -85,7 +89,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 25,
                 'department_id' => 1,
-                'position' => 'Frontend Developer',
+                'position_id' => $positions['Frontend Developer'],
                 'salary' => 1100.00,
                 'date_of_joining' => '2020-06-15',
                 'address' => 'Amman, Jordan',
@@ -97,7 +101,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 26,
                 'department_id' => 2,
-                'position' => 'Network Administrator',
+                'position_id' => $positions['Network Administrator'],
                 'salary' => 1300.00,
                 'date_of_joining' => '2017-09-23',
                 'address' => 'Cairo, Egypt',
@@ -109,7 +113,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 27,
                 'department_id' => 3,
-                'position' => 'Business Intelligence Analyst',
+                'position_id' => $positions['Business Intelligence Analyst'],
                 'salary' => 1250.00,
                 'date_of_joining' => '2018-03-01',
                 'address' => 'Alexandria, Egypt',
@@ -121,7 +125,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 28,
                 'department_id' => 4,
-                'position' => 'IT Support Specialist',
+                'position_id' => $positions['IT Support Specialist'],
                 'salary' => 900.00,
                 'date_of_joining' => '2019-07-10',
                 'address' => 'Zarqa, Jordan',
@@ -133,7 +137,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 29,
                 'department_id' => 5,
-                'position' => 'QA Engineer',
+                'position_id' => $positions['QA Engineer'],
                 'salary' => 950.00,
                 'date_of_joining' => '2021-10-05',
                 'address' => 'Irbid, Jordan',
@@ -145,7 +149,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 30,
                 'department_id' => 6,
-                'position' => 'Product Designer',
+                'position_id' => $positions['Product Designer'],
                 'salary' => 1400.00,
                 'date_of_joining' => '2020-08-01',
                 'address' => 'Amman, Jordan',
@@ -157,7 +161,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 31,
                 'department_id' => 1,
-                'position' => 'DevOps Engineer',
+                'position_id' => $positions['DevOps Engineer'],
                 'salary' => 1500.00,
                 'date_of_joining' => '2021-12-11',
                 'address' => 'Cairo, Egypt',
@@ -169,7 +173,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 32,
                 'department_id' => 2,
-                'position' => 'Network Security Specialist',
+                'position_id' => $positions['Network Security Specialist'],
                 'salary' => 1400.00,
                 'date_of_joining' => '2016-05-15',
                 'address' => 'Irbid, Jordan',
@@ -181,7 +185,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 33,
                 'department_id' => 3,
-                'position' => 'Data Engineer',
+                'position_id' => $positions['Data Engineer'],
                 'salary' => 1250.00,
                 'date_of_joining' => '2019-02-12',
                 'address' => 'Zarqa, Jordan',
@@ -193,7 +197,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 34,
                 'department_id' => 4,
-                'position' => 'Help Desk Technician',
+                'position_id' => $positions['Help Desk Technician'],
                 'salary' => 950.00,
                 'date_of_joining' => '2020-11-03',
                 'address' => 'Alexandria, Egypt',
@@ -205,7 +209,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 35,
                 'department_id' => 5,
-                'position' => 'Quality Assurance Analyst',
+                'position_id' => $positions['Quality Assurance Analyst'],
                 'salary' => 1100.00,
                 'date_of_joining' => '2021-01-08',
                 'address' => 'Amman, Jordan',
@@ -217,7 +221,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 36,
                 'department_id' => 1,
-                'position' => 'Backend Developer',
+                'position_id' => $positions['Backend Developer'],
                 'salary' => 1300.00,
                 'date_of_joining' => '2019-03-15',
                 'address' => 'Cairo, Egypt',
@@ -229,7 +233,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 37,
                 'department_id' => 2,
-                'position' => 'Wireless Network Engineer',
+                'position_id' => $positions['Wireless Network Engineer'],
                 'salary' => 1250.00,
                 'date_of_joining' => '2018-06-22',
                 'address' => 'Alexandria, Egypt',
@@ -241,7 +245,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 38,
                 'department_id' => 3,
-                'position' => 'Data Visualization Specialist',
+                'position_id' => $positions['Data Visualization Specialist'],
                 'salary' => 1100.00,
                 'date_of_joining' => '2020-10-20',
                 'address' => 'Zarqa, Jordan',
@@ -253,7 +257,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 39,
                 'department_id' => 6,
-                'position' => 'Interaction Designer',
+                'position_id' => $positions['Interaction Designer'],
                 'salary' => 1500.00,
                 'date_of_joining' => '2019-08-04',
                 'address' => 'Amman, Jordan',
@@ -265,7 +269,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 40,
                 'department_id' => 4,
-                'position' => 'Customer Support Specialist',
+                'position_id' => $positions['Customer Support Specialist'],
                 'salary' => 1000.00,
                 'date_of_joining' => '2021-04-10',
                 'address' => 'Irbid, Jordan',
@@ -277,7 +281,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 41,
                 'department_id' => 5,
-                'position' => 'Test Automation Engineer',
+                'position_id' => $positions['Test Automation Engineer'],
                 'salary' => 1350.00,
                 'date_of_joining' => '2017-02-18',
                 'address' => 'Cairo, Egypt',
@@ -289,7 +293,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 42,
                 'department_id' => 1,
-                'position' => 'Full Stack Developer',
+                'position_id' => $positions['Full Stack Developer'],
                 'salary' => 1450.00,
                 'date_of_joining' => '2022-03-12',
                 'address' => 'Amman, Jordan',
@@ -301,7 +305,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 43,
                 'department_id' => 2,
-                'position' => 'Network Architect',
+                'position_id' => $positions['Network Architect'],
                 'salary' => 1600.00,
                 'date_of_joining' => '2020-05-05',
                 'address' => 'Alexandria, Egypt',
@@ -313,7 +317,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 44,
                 'department_id' => 3,
-                'position' => 'Data Scientist',
+                'position_id' => $positions['Data Scientist'],
                 'salary' => 1700.00,
                 'date_of_joining' => '2021-11-01',
                 'address' => 'Zarqa, Jordan',
@@ -325,7 +329,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 45,
                 'department_id' => 6,
-                'position' => 'UX Designer',
+                'position_id' => $positions['UX Designer'],
                 'salary' => 1400.00,
                 'date_of_joining' => '2020-12-15',
                 'address' => 'Irbid, Jordan',
@@ -337,7 +341,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 46,
                 'department_id' => 5,
-                'position' => 'QA Manager',
+                'position_id' => $positions['QA Manager'],
                 'salary' => 1600.00,
                 'date_of_joining' => '2018-04-18',
                 'address' => 'Amman, Jordan',
@@ -349,7 +353,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 47,
                 'department_id' => 4,
-                'position' => 'Technical Support Engineer',
+                'position_id' => $positions['Technical Support Engineer'],
                 'salary' => 1200.00,
                 'date_of_joining' => '2022-06-10',
                 'address' => 'Cairo, Egypt',
@@ -361,7 +365,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 48,
                 'department_id' => 6,
-                'position' => 'UI Designer',
+                'position_id' => $positions['UI Designer'],
                 'salary' => 1350.00,
                 'date_of_joining' => '2019-08-25',
                 'address' => 'Alexandria, Egypt',
@@ -373,7 +377,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 49,
                 'department_id' => 1,
-                'position' => 'Software Developer',
+                'position_id' => $positions['Software Developer'],
                 'salary' => 1100.00,
                 'date_of_joining' => '2020-09-09',
                 'address' => 'Amman, Jordan',
@@ -385,7 +389,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 50,
                 'department_id' => 2,
-                'position' => 'Network Security Specialist',
+                'position_id' => $positions['Network Security Specialist'],
                 'salary' => 1300.00,
                 'date_of_joining' => '2021-05-18',
                 'address' => 'Irbid, Jordan',
@@ -397,7 +401,7 @@ class EmployeeDetailSeeder extends Seeder
             [
                 'user_id' => 51,
                 'department_id' => 3,
-                'position' => 'Data Engineer',
+                'position_id' => $positions['Data Engineer'],
                 'salary' => 1200.00,
                 'date_of_joining' => '2022-01-15',
                 'address' => 'Amman, Jordan',
@@ -413,3 +417,4 @@ class EmployeeDetailSeeder extends Seeder
         }
     }
 }
+

@@ -4,56 +4,70 @@
 <div class="flex h-screen">
     @include('partials.sidebar')
 
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-6 bg-gray-100 text-gray-700 text-sm">
         <x-title-with-back title="Department Details" route="admin.departments.index" />
 
         <!-- Department Details Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Department Description Section -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-lg font-semibold mb-4">Department Description</h2>
-                <p>{{ $department->description }}</p>
+            <!-- Left Div: Department Name, Description, and Project Manager -->
+            <div>
+                <!-- Department Name -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                    <h2 class="text-sm font-semibold mb-4 text-orange-500">
+                        <i class="fas fa-building mr-2"></i> Department Name
+                    </h2>
+                    <p class="text-gray-700 text-sm"> {{ $department->name }} </p>
+                </div>
+
+                <!-- Department Description Section -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                    <h2 class="text-sm font-semibold mb-4 text-orange-500">
+                        <i class="fas fa-building mr-2"></i>Department Description
+                    </h2>
+                    <p class="text-gray-700 text-sm">{{ $department->description }}</p>
+                </div>
+
+                <!-- Project Manager Section -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-sm font-semibold mb-4 text-orange-500">
+                        <i class="fas fa-user-tie mr-2"></i>Project Manager
+                    </h2>
+                    @if($department->project_manager)
+                        <p>{{ $department->project_manager->user->name }}</p>
+                    @else
+                        <p>No project manager assigned to this department.</p>
+                    @endif
+                </div>
             </div>
 
-            <!-- Positions Section -->
+            <!-- Right Div: Positions and Employees Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-lg font-semibold mb-4">Positions</h2>
-                @if($department->positions->isEmpty())
+                <h2 class="text-sm font-semibold mb-4 text-orange-500">
+                    <i class="fas fa-users mr-2"></i>Positions and Employees
+                </h2>
+                @if($department->positions && $department->positions->isEmpty())
                     <p>No positions found in this department.</p>
                 @else
-                    <ul class="list-disc pl-5">
-                        @foreach($department->positions as $position)
-                            <li>{{ $position->name }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
-
-            <!-- Employees Section -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-lg font-semibold mb-4">Employees</h2>
-                @if($department->employees->isEmpty())
-                    <p>No employees found in this department.</p>
-                @else
-                    <ul class="list-disc pl-5">
-                        @foreach($department->employees as $employee)
-                            <li>{{ $employee->user->name }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
-
-            <!-- Project Managers Section -->
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-lg font-semibold mb-4">Project Managers</h2>
-                @if($department->project_managers->isEmpty())
-                    <p>No project managers found in this department.</p>
-                @else
-                    <ul class="list-disc pl-5">
-                        @foreach($department->project_managers as $manager)
-                            <li>{{ $manager->user->name }}</li>
-                        @endforeach
-                    </ul>
+                    @foreach($department->positions as $position)
+                        <div class="mb-6">
+                            <h3 class="text-md font-semibold">{{ $position->name }}</h3>
+                            <ul class="list-disc pl-5">
+                                @php
+                                    $employeesInPosition = $department->employees->filter(function ($employee) use ($position) {
+                                        return $employee->position_id === $position->id;
+                                    });
+                                @endphp
+                                
+                                @if($employeesInPosition && $employeesInPosition->isEmpty())
+                                    <li>No employees assigned to this position.</li>
+                                @else
+                                    @foreach($employeesInPosition as $employee)
+                                        <li>{{ $employee->user->name }}</li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+                    @endforeach
                 @endif
             </div>
         </div>

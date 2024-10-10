@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
-            $table->string('position')->nullable();
+            $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->decimal('salary', 10, 2)->nullable();
             $table->date('date_of_joining')->nullable();
             $table->string('address')->nullable();

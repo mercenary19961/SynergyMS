@@ -31,32 +31,37 @@
                         <button 
                             @click="open = !open" 
                             type="button" 
-                            class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                            aria-haspopup="listbox" 
+                            :aria-expanded="open" 
+                            class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
                         >
-                            <span x-text="selected" class="block truncate"></span>
-                            <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                                <i class="fas fa-chevron-down text-orange-500 group-hover:text-white"></i>
+                            <span class="block truncate" x-text="selected"></span>
+                            <span class="flex items-center">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </span>
                         </button>
-                    
+
+                        <!-- Dropdown Menu -->
                         <ul 
                             x-show="open" 
                             @click.away="open = false" 
-                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" 
+                            role="listbox"
+                            x-transition
+                            x-cloak
                         >
-                            <!-- Default option -->
                             <li 
-                                @click="selected = 'Select Department'; $refs.department.value = ''; open = false" 
-                                class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
+                                @click="selected = 'Select Department'; open = false" 
+                                class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
                             >
                                 <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Department
                             </li>
-                    
-                            <!-- Dynamic Department options -->
                             @foreach($departments as $department)
                                 <li 
-                                    @click="selected = '{{ $department->name }}'; $refs.department.value = '{{ $department->name }}'; open = false" 
-                                    class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
+                                    @click="selected = '{{ $department->name }}'; open = false" 
+                                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
                                 >
                                     @if($department->name == 'Software Development')
                                         <i class="fas fa-code mr-2 text-orange-500 group-hover:text-white"></i>
@@ -77,10 +82,10 @@
                                 </li>
                             @endforeach
                         </ul>
-                    
-                        <input type="hidden" name="department" x-ref="department" value="{{ request('department') }}">
+
+                        <!-- Hidden Input to Submit the Selected Value -->
+                        <input type="hidden" name="department" :value="selected === 'Select Department' ? '' : selected">
                     </div>
-                    
                 </div>
 
                 <!-- Experience Years Field -->
