@@ -34,12 +34,12 @@ class ProjectManagerController extends Controller
         }
     
         if ($request->filled('experience_years')) {
-            $query->where('experience_years', $request->experience_years);
+            $query->where('experience_years', '>=', $request->input('experience_years'));
         }
     
         // Apply sorting and pagination
         $projectManagers = $query->orderBy($sort, $direction)->paginate(10);
-        $departments = Department::whereBetween('id', [1, 6])->pluck('name', 'id');
+        $departments = Department::where('sector', 'Projects')->get();
     
         return view('admin.project-managers.index', compact('projectManagers', 'departments'));
     }

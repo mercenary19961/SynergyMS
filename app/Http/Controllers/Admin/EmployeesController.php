@@ -37,9 +37,7 @@ class EmployeesController extends Controller
             });
         }
     
-        // Fetch first 6 departments based on ID
-        $departments = Department::orderBy('id', 'asc')->take(6)->pluck('name', 'id');
-    
+        $departments = Department::where('sector', 'Projects')->get();
         $employees = $query->paginate(8)->appends($request->except('page'));
     
         return view('admin.employees.index', compact('employees', 'departments'));

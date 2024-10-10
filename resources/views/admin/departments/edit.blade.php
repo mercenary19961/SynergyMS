@@ -7,7 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <x-title-with-back title="Edit Department" route="admin.departments.index" />
+        <x-title-with-back title="Edit Department" />
 
         @include('components.form.errors')
 
