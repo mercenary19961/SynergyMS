@@ -15,10 +15,9 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('status', ['Open', 'In Progress', 'Closed'])->default('Open');
+            $table->enum('status', ['Open', 'In Progress', 'Closed', 'Confirmed'])->default('Open');
             $table->enum('priority', ['Low', 'Medium', 'High'])->default('Medium');
-            $table->foreignId('employee_id')->constrained('employee_details')->onDelete('cascade');
-            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('set null');
+            $table->foreignId('employee_id')->nullable()->constrained('employee_details')->onDelete('cascade');
             $table->foreignId('project_manager_id')->constrained('project_managers')->onDelete('cascade');
             $table->timestamps();
         });

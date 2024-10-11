@@ -15,18 +15,12 @@ class Ticket extends Model
         'status',
         'priority',
         'employee_id',
-        'project_id',
         'project_manager_id',
     ];
 
     public function employee()
     {
         return $this->belongsTo(EmployeeDetail::class, 'employee_id');
-    }
-
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function projectManager()

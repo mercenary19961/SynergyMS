@@ -10,7 +10,7 @@
         <!-- Header with Title and Add Button -->
         <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-semibold">
-                <i class="fas fa-building mr-2 text-orange-500"></i> Departments
+                <i class="fas fa-building mr-2 text-gray-600"></i> Departments
             </h1>
         
             <a href="{{ route('admin.departments.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">

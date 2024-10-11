@@ -9,7 +9,7 @@
 
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold flex items-center">
-                <i class="fas fa-users mr-2"></i> Clients
+                <i class="fas fa-users mr-2 text-gray-600"></i> Clients
             </h1>
             <a href="{{ route('admin.clients.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i> Add New Client

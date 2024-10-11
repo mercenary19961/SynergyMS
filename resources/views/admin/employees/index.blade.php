@@ -16,7 +16,9 @@
 
         <!-- Header Row -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <h1 class="text-2xl font-semibold mb-4 md:mb-0">Employees</h1>
+            <h1 class="text-2xl font-semibold mb-4 md:mb-0 flex items-center">
+                <i class="fas fa-users mr-2 text-gray-600"></i> Employees
+            </h1>
             
             <div class="flex space-x-2">
                 <!-- Grid View Button -->

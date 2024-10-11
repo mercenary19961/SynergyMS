@@ -8,7 +8,7 @@
         @include('components.form.success')
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold flex items-center">
-                <i class="fas fa-user-tie mr-2 hover:text-orange-500"></i> Project Managers
+                <i class="fas fa-user-tie mr-2 text-gray-600"></i> Project Managers
             </h1>
             <a href="{{ route('admin.project-managers.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Project Manager

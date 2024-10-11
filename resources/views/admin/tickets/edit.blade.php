@@ -7,7 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
-        <x-title-with-back title="Edit Ticket" route="admin.tickets.index" />
+        <x-title-with-back title="Edit Ticket" />
 
         @include('components.form.errors')
 
@@ -19,7 +19,9 @@
 
                 <!-- Title -->
                 <div class="mb-4">
-                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <label for="title" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-file-alt mr-1"></i> Title
+                    </label>
                     <input type="text" name="title" id="title" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('title', $ticket->title) }}" placeholder="Enter Ticket Title">
                     @error('title')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -28,61 +30,37 @@
 
                 <!-- Description -->
                 <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <label for="description" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-align-left mr-1"></i> Description
+                    </label>
                     <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none">{{ old('description', $ticket->description) }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Status Dropdown -->
-                <div class="relative mb-4">
-                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                    <button type="button" @click="openStatus = !openStatus" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-                        <span class="block truncate" x-text="selectedStatus || 'Select Status'"></span>
-                        <span class="flex items-center">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </button>
-                    <ul x-show="openStatus" @click.away="openStatus = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
-                        <li @click="selectedStatus = 'Open'; $refs.status.value = 'Open'; openStatus = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            Open
-                        </li>
-                        <li @click="selectedStatus = 'In Progress'; $refs.status.value = 'In Progress'; openStatus = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            In Progress
-                        </li>
-                        <li @click="selectedStatus = 'Closed'; $refs.status.value = 'Closed'; openStatus = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            Closed
-                        </li>
-                    </ul>
-                    <input type="hidden" name="status" x-ref="status" value="{{ old('status', $ticket->status) }}">
-                    @error('status')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <!-- Priority Dropdown -->
                 <div class="relative mb-4">
-                    <label for="priority" class="block text-sm font-medium text-gray-700">Priority</label>
+                    <label for="priority" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-exclamation-triangle mr-1"></i> Priority
+                    </label>
                     <button type="button" @click="openPriority = !openPriority" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span class="block truncate" x-text="selectedPriority || 'Select Priority'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </span>
                     </button>
                     <ul x-show="openPriority" @click.away="openPriority = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
                         <li @click="selectedPriority = 'High'; $refs.priority.value = 'High'; openPriority = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            High
+                            <i class="fas fa-exclamation-triangle text-orange-500 group-hover:text-white"></i> High
                         </li>
                         <li @click="selectedPriority = 'Medium'; $refs.priority.value = 'Medium'; openPriority = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            Medium
+                            <i class="fas fa-minus text-orange-500 group-hover:text-white"></i> Medium
                         </li>
                         <li @click="selectedPriority = 'Low'; $refs.priority.value = 'Low'; openPriority = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                            Low
+                            <i class="fas fa-exclamation-circle text-orange-500 group-hover:text-white"></i> Low
                         </li>
                     </ul>
                     <input type="hidden" name="priority" x-ref="priority" value="{{ old('priority', $ticket->priority) }}">
@@ -91,74 +69,40 @@
                     @enderror
                 </div>
 
-                <!-- Assigned Employee Dropdown -->
-                <div class="relative mb-4">
-                    <label for="employee_id" class="block text-sm font-medium text-gray-700">Assigned Employee</label>
-                    <button type="button" @click="openEmployee = !openEmployee" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-                        <span class="block truncate" x-text="selectedEmployee || 'Select Employee'"></span>
-                        <span class="flex items-center">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </button>
-                    <ul x-show="openEmployee" @click.away="openEmployee = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
-                        @foreach($employees as $employee)
-                            <li @click="selectedEmployee = '{{ $employee->user->name }}'; $refs.employee_id.value = '{{ $employee->id }}'; openEmployee = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                                {{ $employee->user->name }}
-                            </li>
-                        @endforeach
-                    </ul>
-                    <input type="hidden" name="employee_id" x-ref="employee_id" value="{{ old('employee_id', $ticket->employee_id) }}">
-                    @error('employee_id')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Project Dropdown -->
-                <div class="relative mb-4">
-                    <label for="project_id" class="block text-sm font-medium text-gray-700">Project</label>
-                    <button type="button" @click="openProject = !openProject" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-                        <span class="block truncate" x-text="selectedProject || 'Select Project'"></span>
-                        <span class="flex items-center">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                    </button>
-                    <ul x-show="openProject" @click.away="openProject = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
-                        @foreach($projects as $project)
-                            <li @click="selectedProject = '{{ $project->name }}'; $refs.project_id.value = '{{ $project->id }}'; openProject = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
-                                {{ $project->name }}
-                            </li>
-                        @endforeach
-                    </ul>
-                    <input type="hidden" name="project_id" x-ref="project_id" value="{{ old('project_id', $ticket->project_id) }}">
-                    @error('project_id')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <!-- Project Manager Dropdown -->
                 <div class="relative mb-4">
-                    <label for="project_manager_id" class="block text-sm font-medium text-gray-700">Project Manager</label>
+                    <label for="project_manager_id" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-user-tie mr-1"></i> Project Manager
+                    </label>
                     <button type="button" @click="openProjectManager = !openProjectManager" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span class="block truncate" x-text="selectedProjectManager || 'Select Project Manager'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </span>
                     </button>
                     <ul x-show="openProjectManager" @click.away="openProjectManager = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
                         @foreach($projectManagers as $manager)
-                            <li @click="selectedProjectManager = '{{ $manager->user->name }}'; $refs.project_manager_id.value = '{{ $manager->id }}'; openProjectManager = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
+                            <li @click="selectedProjectManager = '{{ $manager->user->name }}'; $refs.project_manager_id.value = '{{ $manager->id }}'; selectedEmployee = ''; openProjectManager = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white">
                                 {{ $manager->user->name }}
                             </li>
                         @endforeach
                     </ul>
                     <input type="hidden" name="project_manager_id" x-ref="project_manager_id" value="{{ old('project_manager_id', $ticket->project_manager_id) }}">
                     @error('project_manager_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Assigned Employee (Optional, but cleared if Project Manager changes) -->
+                <div class="relative mb-4">
+                    <label for="employee_id" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-user mr-1"></i> Assigned Employee
+                    </label>
+                    <input type="text" disabled x-bind:value="selectedEmployee" class="block w-full border-gray-300 rounded-md p-2" placeholder="Employee will be cleared if Manager changes">
+                    <input type="hidden" name="employee_id" x-ref="employee_id" value="{{ old('employee_id', $ticket->employee_id) }}">
+                    @error('employee_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -173,15 +117,11 @@
     function ticketForm() {
         return {
             openEmployee: false,
-            openProject: false,
             openProjectManager: false,
-            openStatus: false,
             openPriority: false,
-            selectedEmployee: '{{ old('employee_id', $ticket->employee->user->name) }}',
-            selectedProject: '{{ old('project_id', $ticket->project->name) }}',
+            selectedEmployee: '{{ old('employee_id', $ticket->employee ? $ticket->employee->user->name : '') }}',
             selectedProjectManager: '{{ old('project_manager_id', $ticket->projectManager->user->name) }}',
-            selectedStatus: '{{ old('status', $ticket->status) }}',
-            selectedPriority: '{{ old('priority', $ticket->priority)}}',
+            selectedPriority: '{{ old('priority', $ticket->priority) }}',
         }
     }
 </script>
