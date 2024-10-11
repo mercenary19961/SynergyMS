@@ -43,19 +43,31 @@
 </head>
 <body class="font-montserrat antialiased bg-gray-100 font-normal">
     <!-- Global Alpine.js state -->
-    <div class="min-h-screen flex flex-col" x-data="{ 
-        open: localStorage.getItem('sidebarOpen') === 'true', 
-        hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
-        toggleSidebar() {
-            if (window.innerWidth >= 1024) {
-                this.open = !this.open;
-                localStorage.setItem('sidebarOpen', this.open);
-                this.hoverEnabled = !this.open;
-            } else {
-                this.open = !this.open; // For small screens, just toggle open.
+    <div class="min-h-screen flex flex-col" 
+         x-data="{ 
+            open: localStorage.getItem('sidebarOpen') === 'true', 
+            hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
+            toggleSidebar() {
+                if (window.innerWidth >= 1024) {
+                    // Toggle open state for large screens
+                    this.open = !this.open;
+                    localStorage.setItem('sidebarOpen', this.open);
+                    this.hoverEnabled = !this.open;
+                } else {
+                    // For small screens, just toggle open without hover
+                    this.open = !this.open; 
+                }
             }
-        }
-    }" @resize.window="if (window.innerWidth >= 1024) { open = localStorage.getItem('sidebarOpen') === 'true'; hoverEnabled = !open; }">
+         }"
+
+         // Ensure that when resizing from small to large, the sidebar opens
+         @resize.window="if (window.innerWidth >= 1024) { 
+            open = true;  // Automatically open on large screens
+            localStorage.setItem('sidebarOpen', true);
+            hoverEnabled = false;
+         } else {
+            open = false; // Automatically close on small screens
+         }">
         
         <!-- Navigation -->
         @if (!isset($hideHeader) || !$hideHeader)
@@ -94,4 +106,5 @@
 
     </div>
 </body>
+
 </html>
