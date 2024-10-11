@@ -1,9 +1,17 @@
 <!-- Sidebar -->
-<div id="sidebar" 
-     :class="open ? 'w-56 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300' : 'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300'"
+<div id="sidebar"
+     x-data="{ isHovering: false }"
+     @mouseover="if (!open && hoverEnabled && window.innerWidth >= 1024) { open = true; isHovering = true; }" 
+     @mouseleave="if (hoverEnabled && window.innerWidth >= 1024) { open = false; isHovering = false; }"
+     :class="{
+         'w-56 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': open || window.innerWidth >= 1024 && isHovering, 
+         'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': !open && !isHovering && window.innerWidth >= 1024,
+         'hidden lg:block lg:w-12': !open && window.innerWidth < 1024
+     }"
      class="sidebar transition-all duration-300">
-     
-    <div class="p-2 flex items-center space-x-2 mb-4 ">
+
+    <!-- Sidebar content -->
+    <div class="p-2 flex items-center space-x-2 mb-4">
         <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-6 h-6 ms-1">
         <h3 x-show="open" class="text-white font-roboto text-sm">MAIN</h3>
     </div>
@@ -67,8 +75,18 @@
                     {{ request()->routeIs('admin.clients.*') ? 'text-orange-500' : '' }}">
                     Manage Clients
                 </a>
-
+                <a href="{{ route('admin.projects.index') }}" 
+                    class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 
+                    {{ request()->routeIs('admin.projects.*') ? 'text-orange-500' : '' }}">
+                    Manage Projects
+                </a>
             </div>
         </div>
     </nav>
+</div>
+
+<!-- Overlay for small screens -->
+<div x-show="open && window.innerWidth < 1024" 
+     class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+     @click="open = false; localStorage.setItem('sidebarOpen', false);">
 </div>

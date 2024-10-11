@@ -1,9 +1,8 @@
 <header class="bg-gradient-to-r from-pink-600 to-orange-500 p-4 flex justify-between items-center shadow-md">
-    <!-- Left Side: Logo and App Name -->
     <div class="flex items-center space-x-4">
         <!-- Sidebar Toggle Button -->
-        <button @click="open = !open" class="text-white focus:outline-none transition-transform duration-300">
-            <i :class="open ? 'fa-solid fa-list fa-lg transition-transform duration-200 hover:scale-110 ' : 'fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110'"></i>
+        <button @click="toggleSidebar()" class="text-white focus:outline-none transition-transform duration-300">
+            <i :class="open ? 'fa-solid fa-list fa-lg transition-transform duration-200 hover:scale-110' : 'fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110'"></i>
         </button>
         
         <!-- Logo and App Name -->
@@ -78,7 +77,7 @@
             <!-- Logout Form -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="group w-full text-left block px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+                <button type="submit" class="group w-full text-left px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                     <i class="fas fa-sign-out-alt mr-2 text-orange-500 group-hover:text-white"></i> Logout
                 </button>
             </form>

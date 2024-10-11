@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
 
     <div class="flex-1 p-6 bg-gray-100">
         @include('components.form.success')

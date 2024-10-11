@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\ProjectManagerController;
 use App\Http\Controllers\Admin\ClientsController;
+use App\Http\Controllers\Admin\ProjectController;
 
 // Redirect to Login
 Route::get('/', function () {
@@ -104,6 +105,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Clients Management Routes
     Route::resource('clients', ClientsController::class)->middleware('role:Super Admin|Project Manager');
+
+    // Projects Management Routes
+    Route::resource('projects', ProjectController::class)->middleware('role:Super Admin|Project Manager');
+
 
 });
 

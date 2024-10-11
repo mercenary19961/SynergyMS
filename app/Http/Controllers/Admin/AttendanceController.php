@@ -19,7 +19,9 @@ class AttendanceController extends Controller
         
         // Search by employee ID
         if ($request->has('employee_id') && $request->employee_id != '') {
-            $query->where('employee_id', $request->employee_id);
+            $query->whereHas('employee', function ($q) use ($request) {
+                $q->where('id', $request->employee_id);
+            });
         }
     
         // Search by employee name
@@ -166,4 +168,12 @@ class AttendanceController extends Controller
         return redirect()->route('admin.attendance.index')->with('success', 'Attendance updated successfully.');
     }
     
+
+    public function destroy($id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->delete();
+    
+        return redirect()->route('admin.attendance.index')->with('success', 'Attendance deleted successfully.');
+    }
 }

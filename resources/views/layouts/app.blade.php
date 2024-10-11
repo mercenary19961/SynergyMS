@@ -8,15 +8,14 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
 
     <!-- Livewire Styles -->
     @livewireStyles
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Alpine.js -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <!-- Meta Tags for SEO -->
     <meta name="description" content="Your site description">
@@ -43,8 +42,20 @@
     </style>
 </head>
 <body class="font-montserrat antialiased bg-gray-100 font-normal">
-    <!-- Initialize Alpine.js with shared state -->
-    <div class="min-h-screen flex flex-col" x-data="{ open: window.innerWidth >= 1024 }" @resize.window="open = window.innerWidth >= 1024">
+    <!-- Global Alpine.js state -->
+    <div class="min-h-screen flex flex-col" x-data="{ 
+        open: localStorage.getItem('sidebarOpen') === 'true', 
+        hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
+        toggleSidebar() {
+            if (window.innerWidth >= 1024) {
+                this.open = !this.open;
+                localStorage.setItem('sidebarOpen', this.open);
+                this.hoverEnabled = !this.open;
+            } else {
+                this.open = !this.open; // For small screens, just toggle open.
+            }
+        }
+    }" @resize.window="if (window.innerWidth >= 1024) { open = localStorage.getItem('sidebarOpen') === 'true'; hoverEnabled = !open; }">
         
         <!-- Navigation -->
         @if (!isset($hideHeader) || !$hideHeader)
@@ -52,8 +63,11 @@
         @endif
 
         <div class="flex">
+            <!-- Sidebar -->
+            @include('partials.sidebar')
+
             <!-- Main Content Area -->
-            <div class="flex-1">
+            <div class="flex-1 relative">
                 <!-- Flash Messages -->
                 @if (session('status'))
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -67,6 +81,11 @@
                 <main class="flex-1">
                     @yield('content')
                 </main>
+
+                <!-- Overlay for small screens when sidebar is open -->
+                <div x-show="open && window.innerWidth < 1024" 
+                     class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+                     @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
             </div>
         </div>
 
@@ -74,9 +93,5 @@
         @include('partials.footer')
 
     </div>
-
-    <!-- Livewire Scripts -->
-    {{-- @livewireScripts --}}
-
 </body>
 </html>

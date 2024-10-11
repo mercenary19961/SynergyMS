@@ -16,6 +16,8 @@ class Project extends Model
         'project_manager_id',
         'client_id',
         'status',
+        'start_date',
+        'end_date'
     ];
 
     protected $casts = [
@@ -25,7 +27,7 @@ class Project extends Model
 
     public function projectManager()
     {
-        return $this->belongsTo(ProjectManager::class);
+        return $this->belongsTo(ProjectManager::class, 'project_manager_id');
     }
 
     public function tickets()
@@ -35,11 +37,11 @@ class Project extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'client_id');
     }
     
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'department_id');
     }
 }
