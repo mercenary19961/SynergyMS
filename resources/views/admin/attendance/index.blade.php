@@ -7,6 +7,7 @@
 
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
+        @include('components.form.success')
         <!-- Header Row -->
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold">Attendance Records</h1>
@@ -15,7 +16,6 @@
             </a>
         </div>
 
-        @include('components.form.success')
 
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.attendance.index') }}" class="mb-6">
@@ -134,7 +134,10 @@
             </table>
         </div>
 
-        <x-pagination />
+        <x-pagination>
+            {{ $attendances->appends(request()->query())->links('pagination::tailwind') }}
+        </x-pagination>
+        
     </div>
 </div>
 

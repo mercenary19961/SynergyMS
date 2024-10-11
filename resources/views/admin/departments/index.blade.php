@@ -185,7 +185,7 @@
 
         <!-- Pagination -->
         <x-pagination>
-            {{ $departments->links('pagination::tailwind') }}
+            {{ $departments->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>
     </div>
 </div>

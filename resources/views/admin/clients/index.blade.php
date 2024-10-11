@@ -88,7 +88,7 @@
         </div>
 
         <x-pagination>
-            {{ $clients->links('pagination::tailwind') }}
+            {{ $clients->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>
     </div>
 </div>

@@ -152,7 +152,7 @@
         </div>
 
         <x-pagination>
-            {{ $projectManagers->links('pagination::tailwind') }}
+            {{ $projectManagers->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>
     </div>
 </div>

@@ -199,7 +199,7 @@
 
         <!-- Pagination Links -->
         <x-pagination>
-            {{ $tickets->links('pagination::tailwind') }}
+            {{ $tickets->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>
 
     </div>
