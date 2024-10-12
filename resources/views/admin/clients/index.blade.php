@@ -13,7 +13,6 @@
                 <i class="fas fa-plus mr-2"></i> Add New Client
             </a>
         </div>
-        
 
         <form method="GET" action="{{ route('admin.clients.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
