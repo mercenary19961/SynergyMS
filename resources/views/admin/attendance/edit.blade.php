@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
     <div class="flex-1 p-6 bg-gray-100">
         <!-- Error Handling -->
         @include('components.form.errors')

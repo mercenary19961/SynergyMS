@@ -2,16 +2,11 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Employee" route="admin.employees.index" />
 
         @include('components.form.errors')
 
-        <!-- Display Current Employee Image -->
         @if ($employee->image)
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700">Current Image</label>
@@ -25,7 +20,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <!-- Name -->
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                     <input type="text" name="name" id="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('name', $employee->user->name) }}" placeholder="Enter Employee Name">
@@ -34,7 +28,6 @@
                     @enderror
                 </div>
 
-                <!-- Email -->
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('email', $employee->user->email) }}" placeholder="Enter Email">
@@ -43,7 +36,6 @@
                     @enderror
                 </div>
 
-                <!-- Password -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" name="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter New Password (leave blank if no change)">
@@ -52,10 +44,8 @@
                     @enderror
                 </div>
 
-                <!-- Gender Dropdown -->
                 @include('components.form.gender')
 
-                <!-- Salary -->
                 <div class="mb-4">
                     <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
                     <input type="number" name="salary" id="salary" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('salary', $employee->salary) }}" placeholder="Enter Salary">
@@ -64,7 +54,6 @@
                     @enderror
                 </div>
 
-                <!-- Nationality -->
                 <div class="mb-4">
                     <label for="nationality" class="block text-sm font-medium text-gray-700">Nationality</label>
                     <input type="text" name="nationality" id="nationality" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('nationality', $employee->nationality) }}" placeholder="Enter Nationality">
@@ -73,7 +62,6 @@
                     @enderror
                 </div>
 
-                <!-- Age -->
                 <div class="mb-4">
                     <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
                     <input type="number" name="age" id="age" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('age', $employee->age) }}" placeholder="Enter Age">
@@ -82,7 +70,6 @@
                     @enderror
                 </div>
 
-                <!-- Phone -->
                 <div class="mb-4">
                     <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                     <input type="text" name="phone" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('phone', $employee->phone) }}" placeholder="Enter Phone Number">
@@ -91,7 +78,6 @@
                     @enderror
                 </div>
 
-                <!-- Address -->
                 <div class="mb-4">
                     <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                     <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter Address" value="{{ old('address', $employee->address) }}">
@@ -100,7 +86,6 @@
                     @enderror
                 </div>
 
-                <!-- Department Dropdown -->
                 <div class="relative mb-4">
                     <label for="department_id" class="block text-sm font-medium text-gray-700">Department</label>
                     <button 
@@ -116,7 +101,6 @@
                         </span>
                     </button>
 
-                    <!-- Department Dropdown Menu -->
                     <ul 
                         x-show="open" 
                         @click.away="open = false" 
@@ -133,14 +117,12 @@
                         @endforeach
                     </ul>
 
-                    <!-- Hidden Input to store selected department id -->
                     <input type="hidden" name="department_id" x-ref="department_id" :value="{{ old('department_id', $employee->department_id) }}">
                     @error('department_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Position Dropdown -->
                 <div class="relative mb-4">
                     <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
                     <button 
@@ -156,7 +138,6 @@
                         </span>
                     </button>
 
-                    <!-- Position Dropdown Menu -->
                     <ul 
                         x-show="openPosition" 
                         @click.away="openPosition = false" 
@@ -178,7 +159,6 @@
                     @enderror
                 </div>
 
-                <!-- Employee Image Upload -->
                 <div class="mb-4">
                     <label for="image" class="block text-sm font-medium text-gray-700">Employee Image</label>
                     <input type="file" name="image" id="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none">
@@ -187,7 +167,6 @@
                     @enderror
                 </div>
                 
-                <!-- Date of Birth -->
                 <div class="mb-4">
                     <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
                     <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_birth', $employee->date_of_birth->format('Y-m-d')) }}" min="1960-01-01" max="2010-01-01">
@@ -196,7 +175,6 @@
                     @enderror
                 </div>
 
-                <!-- Date of Joining -->
                 <div class="mb-4">
                     <label for="date_of_joining" class="block text-sm font-medium text-gray-700">Date of Joining</label>
                     <input type="date" name="date_of_joining" id="date_of_joining" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_joining', $employee->date_of_joining->format('Y-m-d')) }}">
@@ -222,7 +200,7 @@
             positions: positions || [],
             updatePositions(positions) {
                 this.positions = positions;
-                this.selectedPosition = ''; // Reset position selection when department changes
+                this.selectedPosition = '';
             }
         }
     }

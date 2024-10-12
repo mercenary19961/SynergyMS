@@ -1,32 +1,21 @@
-{{-- resources/views/admin/clients/edit.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-<!-- Use flex-col on small screens and flex-row on medium+ screens -->
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
-    <!-- Content area with responsive padding and flex-grow to take remaining space -->
     <div class="flex-grow p-4 md:p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Client" />
 
         @include('components.form.errors')
 
-        <!-- Form for Editing Client and User -->
         <form action="{{ route('admin.clients.update', $client->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
-            <!-- Responsive grid for form fields -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-                
-                <!-- Profile Image, spanning two columns on larger screens and one on smaller screens -->
                 <div class="mb-4 col-span-1 md:col-span-2 flex justify-center">
                     <div class="text-center">
-                        <!-- Hidden file input -->
                         <input type="file" name="image" id="image" class="hidden">
                         
-                        <!-- Display current image or default -->
                         @if($client->user->image)
                             <img 
                                 src="{{ asset('storage/' . $client->user->image) }}" 
@@ -43,13 +32,11 @@
                             >
                         @endif
                     </div>
-                    <!-- Error message -->
                     @error('image')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- User Name -->
                 <div class="mb-4">
                     <label for="user_name" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-user mr-2"></i> User Name
@@ -60,7 +47,6 @@
                     @enderror
                 </div>
 
-                <!-- User Email -->
                 <div class="mb-4">
                     <label for="user_email" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-envelope mr-2"></i> User Email
@@ -71,7 +57,6 @@
                     @enderror
                 </div>
 
-                <!-- User Password (optional) -->
                 <div class="mb-4">
                     <label for="user_password" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-lock mr-2"></i> Password (Leave blank to keep current)
@@ -82,7 +67,6 @@
                     @enderror
                 </div>
 
-                <!-- User Password Confirmation -->
                 <div class="mb-4">
                     <label for="user_password_confirmation" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-lock mr-2"></i> Confirm Password
@@ -93,10 +77,8 @@
                     @enderror
                 </div>
 
-                <!-- Gender Dropdown -->
                 @include('components.form.gender', ['user' => $client->user])
 
-                <!-- Company Name -->
                 <div class="mb-4">
                     <label for="company_name" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-building mr-2"></i> Company Name
@@ -107,7 +89,6 @@
                     @enderror
                 </div>
 
-                <!-- Industry -->
                 <div class="mb-4">
                     <label for="industry" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-industry mr-2"></i> Industry
@@ -118,7 +99,6 @@
                     @enderror
                 </div>
 
-                <!-- Contact Number -->
                 <div class="mb-4">
                     <label for="contact_number" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-phone-alt mr-2"></i> Contact Number
@@ -129,7 +109,6 @@
                     @enderror
                 </div>
 
-                <!-- Address -->
                 <div class="mb-4">
                     <label for="address" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-map-marker-alt mr-2"></i> Address
@@ -140,7 +119,6 @@
                     @enderror
                 </div>
 
-                <!-- Website -->
                 <div class="mb-4">
                     <label for="website" class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-globe mr-2"></i> Website

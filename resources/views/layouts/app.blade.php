@@ -69,37 +69,45 @@
             open = false; // Automatically close on small screens
          }">
         
-        <!-- Navigation -->
-        @if (!isset($hideHeader) || !$hideHeader)
-            @include('partials.header')
-        @endif
+        <!-- Only show header and sidebar if NOT on login or register page -->
+        @if (!request()->routeIs('login'))
+            <!-- Navigation -->
+            @if (!isset($hideHeader) || !$hideHeader)
+                @include('partials.header')
+            @endif
 
-        <div class="flex">
-            <!-- Sidebar -->
-            @include('partials.sidebar')
+            <div class="flex">
+                <!-- Sidebar -->
+                @include('partials.sidebar')
 
-            <!-- Main Content Area -->
-            <div class="flex-1 relative">
-                <!-- Flash Messages -->
-                @if (session('status'))
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
-                            <span class="block sm:inline">{{ session('status') }}</span>
+                <!-- Main Content Area -->
+                <div class="flex-1 relative">
+                    <!-- Flash Messages -->
+                    @if (session('status'))
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
+                                <span class="block sm:inline">{{ session('status') }}</span>
+                            </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
 
-                <!-- Main Content -->
-                <main class="flex-1">
-                    @yield('content')
-                </main>
+                    <!-- Main Content -->
+                    <main class="flex-1">
+                        @yield('content')
+                    </main>
 
-                <!-- Overlay for small screens when sidebar is open -->
-                <div x-show="open && window.innerWidth < 1024" 
-                     class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
-                     @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
+                    <!-- Overlay for small screens when sidebar is open -->
+                    <div x-show="open && window.innerWidth < 1024" 
+                        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+                        @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
+                </div>
             </div>
-        </div>
+
+        @else
+            <main class="flex-1">
+                @yield('content')
+            </main>
+        @endif
 
         <!-- Footer -->
         @include('partials.footer')

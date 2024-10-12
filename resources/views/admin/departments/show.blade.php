@@ -2,16 +2,11 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
     <div class="flex-1 p-6 bg-gray-100 text-gray-700 text-sm">
         <x-title-with-back title="Department Details" route="admin.departments.index" />
 
-        <!-- Department Details Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Left Div: Department Name, Description, and Project Manager -->
             <div>
-                <!-- Department Name -->
                 <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
                     <h2 class="text-sm font-semibold mb-4 text-orange-500">
                         <i class="fas fa-building mr-2"></i> Department Name
@@ -19,7 +14,6 @@
                     <p class="text-gray-700 text-sm"> {{ $department->name }} </p>
                 </div>
 
-                <!-- Department Description Section -->
                 <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
                     <h2 class="text-sm font-semibold mb-4 text-orange-500">
                         <i class="fas fa-building mr-2"></i>Department Description
@@ -27,7 +21,6 @@
                     <p class="text-gray-700 text-sm">{{ $department->description }}</p>
                 </div>
 
-                <!-- Project Manager Section -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <h2 class="text-sm font-semibold mb-4 text-orange-500">
                         <i class="fas fa-user-tie mr-2"></i>Project Manager
@@ -40,7 +33,6 @@
                 </div>
             </div>
 
-            <!-- Right Div: Positions and Employees Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-sm font-semibold mb-4 text-orange-500">
                     <i class="fas fa-users mr-2"></i>Positions and Employees

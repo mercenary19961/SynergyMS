@@ -6,7 +6,6 @@
     <div class="flex-1 p-6 bg-gray-100">
         @include('components.form.success')
 
-        <!-- Header with Title and Add Button -->
         <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-building mr-2 text-gray-600"></i> Departments
@@ -19,13 +18,11 @@
 
         <form method="GET" action="{{ route('admin.departments.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
-                <!-- Filter by Department Name -->
                 <div class="flex-1">
                     <label for="department_name" class="block text-sm font-medium text-gray-700">Department Name</label>
                     <input type="text" name="department_name" id="department_name" value="{{ request('department_name') }}" placeholder="Enter Department Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
         
-                <!-- Filter by Sector with Same Styling as Project Manager Dropdown -->
                 <div class="flex-1 relative" x-data="{ open: false, selected: '{{ request('sector') ? ucfirst(request('sector')) : 'Select Sector' }}' }">
                     <label for="sector" class="block text-sm font-medium text-gray-700">Sector</label>
                     <button 
@@ -44,7 +41,6 @@
                         @click.away="open = false" 
                         class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                     >
-                        <!-- Default option -->
                         <li 
                             @click="selected = 'Select Sector'; open = false; $refs.sector.value = ''" 
                             class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
@@ -52,7 +48,6 @@
                             <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Sector
                         </li>
         
-                        <!-- Dynamic Sector options -->
                         @foreach($sectors as $sector)
                             <li 
                                 @click="selected = '{{ ucfirst($sector) }}'; open = false; $refs.sector.value = '{{ $sector }}'" 
@@ -64,11 +59,9 @@
                         @endforeach
                     </ul>
         
-                    <!-- Hidden input to store selected sector's value -->
                     <input type="hidden" name="sector" x-ref="sector" value="{{ request('sector') }}">
                 </div>
         
-                <!-- Filter by Project Manager -->
                 <div class="flex-1 relative" x-data="{ open: false, selected: '{{ request('project_manager') ? $projectManagers->firstWhere('id', request('project_manager'))->user->name ?? 'Select Manager' : 'Select Manager' }}' }">
                     <label for="project_manager" class="block text-sm font-medium text-gray-700">Project Manager</label>
                     <button 
@@ -87,7 +80,6 @@
                         @click.away="open = false" 
                         class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                     >
-                        <!-- Default option -->
                         <li 
                             @click="selected = 'Select Manager'; open = false; $refs.project_manager.value = ''" 
                             class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center"
@@ -95,7 +87,6 @@
                             <i class="fas fa-user-tie mr-2 text-orange-500 group-hover:text-white"></i> Select Manager
                         </li>
         
-                        <!-- Dynamic Project Manager options -->
                         @foreach($projectManagers as $manager)
                             <li 
                                 @click="selected = '{{ $manager->user->name }}'; open = false; $refs.project_manager.value = '{{ $manager->id }}'" 
@@ -107,11 +98,9 @@
                         @endforeach
                     </ul>
         
-                    <!-- Hidden input to store selected project manager's ID -->
                     <input type="hidden" name="project_manager" x-ref="project_manager" value="{{ request('project_manager') }}">
                 </div>
         
-                <!-- Search and Reset Buttons -->
                 <div class="flex-shrink-0 flex space-x-2">
                     <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
                         <i class="fas fa-search mr-2"></i> Search
@@ -126,7 +115,6 @@
         
         
 
-        <!-- Table with Departments -->
         <div class="overflow-x-auto mt-4">
             <table class="min-w-full bg-white rounded-lg shadow">
                 <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
@@ -146,7 +134,6 @@
                             <td class="py-3 px-4">{{ $department->name }}</td>
                             <td class="py-3 px-4">{{ ucfirst($department->sector) }}</td>
 
-                            <!-- Associated Project Managers Column -->
                             <td class="py-3 px-4">
                                 @if($department->project_manager)
                                     {{ $department->project_manager->user->name }}
@@ -155,14 +142,12 @@
                                 @endif
                             </td>
 
-                            <!-- Description Column with Truncated Text -->
                             <td class="py-3 px-4">
                                 <div class="truncate w-48" title="{{ $department->description }}">
                                     {{ $department->description }}
                                 </div>
                             </td>
 
-                            <!-- Actions Column -->
                             <td class="py-3 px-4 flex space-x-4">
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
@@ -182,7 +167,6 @@
             </table>
         </div>
 
-        <!-- Pagination -->
         <x-pagination>
             {{ $departments->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>

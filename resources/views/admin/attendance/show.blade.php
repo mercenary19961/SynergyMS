@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
     <div class="flex-1 p-6 bg-gray-100">
         <!-- Back button and title -->
         <x-title-with-back title="Attendance Details" route="admin.attendance.index" />

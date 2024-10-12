@@ -2,38 +2,28 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
         <x-title-with-back title="Edit Department" />
 
         @include('components.form.errors')
 
-        <!-- Edit Form -->
         <form action="{{ route('admin.departments.update', $department->id) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
             
-            <!-- Department Name, Description, and Sector -->
             <div class="flex flex-col md:flex-row md:space-x-4">
-                <!-- Department Name -->
                 <div class="md:w-1/2">
                     <label for="name" class="block text-sm font-medium text-gray-700">Department Name</label>
                     <input type="text" name="name" id="name" value="{{ $department->name }}" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
-                <!-- Department Description -->
                 <div class="md:w-1/2">
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">{{ $department->description }}</textarea>
                 </div>
             </div>
 
-            <!-- Sector and Project Manager -->
             <div class="flex flex-col md:flex-row md:space-x-4">
-                <!-- Sector Dropdown -->
                 <div class="md:w-1/2 relative" x-data="{ open: false, selected: '{{ $department->sector ?? 'Select Sector' }}' }">
                     <label for="sector" class="block text-sm font-medium text-gray-700">Sector</label>
                     <button type="button" @click="open = !open" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
@@ -57,7 +47,6 @@
                     <input type="hidden" name="sector" :value="selected === 'Select Sector' ? '' : selected">
                 </div>
 
-                <!-- Project Manager Dropdown -->
                 <div class="md:w-1/2 relative" x-data="{ open: false, selected: '{{ $department->project_manager->user->name ?? 'Select a Project Manager' }}' }">
                     <label for="project_manager" class="block text-sm font-medium text-gray-700">Assign Project Manager</label>
                     <button type="button" @click="open = !open" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
@@ -79,7 +68,6 @@
                 </div>
             </div>
 
-            <!-- Positions Field (Last, as it can extend) -->
             <div class="md:w-1/2">
                 <label for="positions" class="block text-sm font-medium text-gray-700">Positions</label>
                 <div x-data="{ positions: {{ json_encode($department->positions->pluck('name')->toArray()) }} }">
@@ -97,7 +85,6 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
             <x-form.button-submit label="Update Department" />
         </form>
     </div>

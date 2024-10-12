@@ -2,22 +2,13 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Title with Back Button -->
         <x-title-with-back title="Client Details" />
 
-        <!-- Main Container with Two Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Left Column: Client Information and Image -->
             <div class="bg-white p-6 rounded-lg shadow-lg space-y-6 relative text-sm">
-                <!-- Image and General Information -->
                 <div class="border-b pb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Client Image (1/3 width) -->
                     <div class="flex justify-center md:justify-start md:col-span-1">
                         @if($client->user->image)
                             <img 
@@ -34,8 +25,6 @@
                         @endif
                     </div>
                     
-                    
-                    <!-- General Information (2/3 width) -->
                     <div class="md:col-span-2">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-semibold text-orange-600">
@@ -63,7 +52,6 @@
                     </div>
                 </div>
 
-                <!-- Professional Information -->
                 <div class="border-b pb-4">
                     <h2 class="text-xl font-semibold text-orange-600 mb-4">
                         <i class="fas fa-briefcase mr-2"></i>Professional Information
@@ -80,7 +68,6 @@
                         </div>
                     </div>
 
-                    <!-- Display assigned projects -->
                     @if($client->projects->count() > 0)
                         <h3 class="text-lg font-semibold mt-6 mb-2 text-gray-600">
                             <i class="fas fa-project-diagram mr-2"></i>Assigned Projects
@@ -96,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- Right Column: Additional Information -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-xl font-semibold text-orange-600 mb-4">
                     <i class="fas fa-users mr-2"></i>Client Projects ({{ $client->projects->count() }})
