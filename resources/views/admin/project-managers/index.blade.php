@@ -2,15 +2,13 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
     <div class="flex-1 p-6 bg-gray-100">
         @include('components.form.success')
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold flex items-center">
+            <h1 class="md:text-lg lg:text-2xl font-semibold flex items-center">
                 <i class="fas fa-user-tie mr-2 text-gray-600"></i> Project Managers
             </h1>
-            <a href="{{ route('admin.project-managers.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+            <a href="{{ route('admin.project-managers.create') }}" class="text-xs md:text-sm bg-orange-500 text-white px-4 py-2  rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Project Manager
             </a>
         </div>
@@ -29,10 +27,10 @@
                     <div x-data="{ open: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
                         <button 
-                            @click="open = !open" 
+                            @click="open = !open; $event.stopPropagation()" 
                             type="button" 
                             aria-haspopup="listbox" 
-                            :aria-expanded="open" 
+                            :aria-expanded="open.toString()" 
                             class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
                         >
                             <span class="block truncate" x-text="selected"></span>
@@ -50,7 +48,6 @@
                             class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" 
                             role="listbox"
                             x-transition
-                            x-cloak
                         >
                             <li 
                                 @click="selected = 'Select Department'; open = false" 
@@ -96,11 +93,11 @@
 
                 <!-- Search and Clear Buttons -->
                 <div class="flex-shrink-0 flex space-x-2">
-                    <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
+                    <button type="submit" class="w-full md:w-auto text-xs md:text-sm bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center justify-center">
                         <i class="fas fa-search mr-2"></i> Search
                     </button>
 
-                    <a href="{{ route('admin.project-managers.index') }}" class="w-full md:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
+                    <a href="{{ route('admin.project-managers.index') }}" class="w-full md:w-auto text-xs md:text-sm bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
                         <i class="fas fa-times mr-2"></i> Clear
                     </a>
                 </div>
@@ -115,21 +112,21 @@
                         <th class="py-3 px-6 text-left"><i class="fas fa-hashtag mr-2"></i></th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-user mr-2"></i>User Name</th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-building mr-2"></i>Department</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-briefcase mr-2"></i>Experience Years</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-phone-alt mr-2"></i>Contact Number</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-tasks mr-2"></i>Assigned Projects</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-briefcase mr-2"></i>Experience Years</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-phone-alt mr-2"></i>Contact Number</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-tasks mr-2"></i>Assigned Projects</th>
                         <th class="py-3 px-6 text-center"><i class="fas fa-cogs mr-2"></i>Actions</th>
                     </tr>
                 </thead>
-                <tbody class="text-black text-sm font-normal">
+                <tbody class="text-black text-xs md:text-sm font-normal">
                     @foreach($projectManagers as $projectManager)
                         <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
                             <td class="py-3 px-6">{{ $projectManager->id }}</td>
                             <td class="py-3 px-6">{{ $projectManager->user->name }}</td>
                             <td class="py-3 px-6">{{ $projectManager->department->name }}</td>
-                            <td class="py-3 px-6 text-center">{{ $projectManager->experience_years }}</td>
-                            <td class="py-3 px-6">{{ $projectManager->contact_number }}</td>
-                            <td class="py-3 px-6 text-center">{{ $projectManager->assigned_projects_count }}</td>
+                            <td class="py-3 px-6 text-center hidden lg:table-cell">{{ $projectManager->experience_years }}</td>
+                            <td class="py-3 px-6 hidden lg:table-cell">{{ $projectManager->contact_number }}</td>
+                            <td class="py-3 px-6 text-center hidden lg:table-cell">{{ $projectManager->assigned_projects_count }}</td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center space-x-4">
                                     <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">

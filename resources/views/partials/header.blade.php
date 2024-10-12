@@ -1,3 +1,19 @@
+@php
+    $searchPages = [
+        ['name' => 'Employees', 'route' => route('admin.employees.index')],
+        ['name' => 'Attendance', 'route' => route('admin.attendance.index')],
+        ['name' => 'Departments', 'route' => route('admin.departments.index')],
+        ['name' => 'Tickets', 'route' => route('admin.tickets.index')],
+        ['name' => 'Project Managers', 'route' => route('admin.project-managers.index')],
+        ['name' => 'Clients', 'route' => route('admin.clients.index')],
+        ['name' => 'Projects', 'route' => route('admin.projects.index')],
+    ];
+@endphp
+
+<script>
+    window.searchPages = @json($searchPages);
+</script>
+
 <header class="bg-gradient-to-r from-pink-600 to-orange-500 p-4 flex justify-between items-center shadow-md">
     <div class="flex items-center space-x-4">
         <!-- Sidebar Toggle Button -->
@@ -10,6 +26,39 @@
             <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8">
             <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span>
         </div>
+    </div>
+
+    <!-- Middle Section: Search Field -->
+    <div x-data="searchComponent()" class="flex-1 mx-4 relative max-w-lg"> <!-- Set max-w-lg for controlling input field width -->
+        <input
+            type="text"
+            placeholder="Search..."
+            x-model="query"
+            @input="filterSuggestions"
+            @keydown.arrow-down.prevent="highlightNext"
+            @keydown.arrow-up.prevent="highlightPrevious"
+            @keydown.enter.prevent="navigateToHighlighted"
+            class="w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+        >
+        
+        <!-- Suggestions Dropdown -->
+        <ul
+            x-show="showSuggestions && filteredPages.length > 0"
+            x-transition
+            class="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto z-20 w-full"
+        >
+            <template x-for="(page, index) in filteredPages" :key="index">
+                <li
+                    :class="{'bg-orange-500 text-white': index === highlightedIndex, 'text-gray-700': index !== highlightedIndex}"
+                    @click="navigate(page.route)"
+                    @mouseenter="highlightedIndex = index"
+                    @mouseleave="highlightedIndex = -1"
+                    class="px-4 py-2 cursor-pointer"
+                >
+                    <span x-text="page.name"></span>
+                </li>
+            </template>
+        </ul>
     </div>
 
     <!-- Right Side: User Profile Dropdown -->
@@ -84,3 +133,58 @@
         </div>
     </div>
 </header>
+
+<!-- Alpine.js Component Script -->
+<script>
+    function searchComponent() {
+        return {
+            query: '',
+            filteredPages: [],
+            showSuggestions: false,
+            highlightedIndex: -1,
+
+            filterSuggestions() {
+                if (this.query.length === 0) {
+                    this.filteredPages = [];
+                    this.showSuggestions = false;
+                    this.highlightedIndex = -1;
+                    return;
+                }
+
+                // Filter the pages based on the query
+                const queryLower = this.query.toLowerCase();
+                this.filteredPages = window.searchPages.filter(page => 
+                    page.name.toLowerCase().includes(queryLower)
+                );
+
+                this.showSuggestions = this.filteredPages.length > 0;
+                this.highlightedIndex = -1;
+            },
+
+            highlightNext() {
+                if (this.filteredPages.length === 0) return;
+                if (this.highlightedIndex < this.filteredPages.length - 1) {
+                    this.highlightedIndex++;
+                }
+            },
+
+            highlightPrevious() {
+                if (this.filteredPages.length === 0) return;
+                if (this.highlightedIndex > 0) {
+                    this.highlightedIndex--;
+                }
+            },
+
+            navigateToHighlighted() {
+                if (this.highlightedIndex >= 0 && this.highlightedIndex < this.filteredPages.length) {
+                    const selectedPage = this.filteredPages[this.highlightedIndex];
+                    window.location.href = selectedPage.route;
+                }
+            },
+
+            navigate(route) {
+                window.location.href = route;
+            }
+        }
+    }
+</script>

@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Use flex-col on small screens and flex-row on medium+ screens -->
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
-    <!-- Content area with responsive padding and flex-grow to take remaining space -->
     <div class="flex-grow p-4 md:p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Project Manager" />
 
@@ -16,16 +12,12 @@
             @csrf
             @method('PUT')
 
-            <!-- Responsive grid for form fields -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                 
-                <!-- Profile Image, spanning two columns on larger screens and one on smaller screens -->
                 <div class="mb-4 col-span-1 md:col-span-2 flex justify-center">
                     <div class="text-center">
-                        <!-- Hidden file input -->
                         <input type="file" name="image" id="image" class="hidden">
                         
-                        <!-- Display current image or default -->
                         @if($projectManager->user->image)
                             <img 
                                 src="{{ asset('storage/' . $projectManager->user->image) }}" 
@@ -92,10 +84,8 @@
                     @enderror
                 </div>
 
-                <!-- Gender Dropdown -->
                 @include('components.form.gender', ['user' => $projectManager->user])
 
-                <!-- Department Dropdown -->
                 <x-department-dropdown :selectedDepartment="$projectManager->department" />
 
                 <!-- Experience Years -->

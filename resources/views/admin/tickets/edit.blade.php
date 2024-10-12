@@ -2,10 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Ticket" />
 
@@ -17,7 +13,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <!-- Title -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-file-alt mr-1"></i> Title
@@ -28,7 +23,6 @@
                     @enderror
                 </div>
 
-                <!-- Description -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-align-left mr-1"></i> Description
@@ -39,7 +33,6 @@
                     @enderror
                 </div>
 
-                <!-- Priority Dropdown -->
                 <div class="relative mb-4">
                     <label for="priority" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-exclamation-triangle mr-1"></i> Priority
@@ -69,7 +62,6 @@
                     @enderror
                 </div>
 
-                <!-- Project Manager Dropdown -->
                 <div class="relative mb-4">
                     <label for="project_manager_id" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-user-tie mr-1"></i> Project Manager

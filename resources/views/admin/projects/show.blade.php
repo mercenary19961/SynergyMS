@@ -2,10 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
         <x-title-with-back title="Project Details" />
 

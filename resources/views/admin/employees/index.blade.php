@@ -126,27 +126,25 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <div 
-                                x-show="openDropdown" 
-                                @click.away="openDropdown = false" 
-                                @keydown.escape="openDropdown = false"
-                                class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
-                                x-transition
-                                x-cloak
-                            >
-                                <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
-                                    <i class="fas fa-eye mr-2"></i> View
-                                </a>
-                                <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-sm text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
-                                    <i class="fas fa-pen mr-2"></i> Edit
-                                </a>
-                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="w-full text-left flex items-center delete-btn">
-                                        <i class="fas fa-trash mr-2"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
+                            x-show="openDropdown" 
+                            class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
+                            @click.away="openDropdown = false" 
+                            @keydown.escape="openDropdown = false" 
+                        >
+                            <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
+                                <i class="fas fa-eye mr-2 fa-md"></i> View
+                            </a>
+                            <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                <i class="fas fa-pen mr-2 fa-md"></i> Edit
+                            </a>
+                            <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-xs text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-full text-left flex items-center delete-btn">
+                                    <i class="fas fa-trash mr-2 fa-md"></i> Delete
+                                </button>
+                            </form>
+                        </div>
                         </div>
         
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
@@ -161,7 +159,7 @@
             </div>
             
             <!-- Pagination for Grid View -->
-            <div x-show="viewMode === 'grid'" class="mt-4 flex justify-center">
+            <div x-show="viewMode === 'grid'" class="mt-4 flex justify-end items-center">
                 {{ $employees->appends(request()->except('page'))->appends(['view' => 'grid'])->links('pagination::tailwind') }}
             </div>
         
@@ -186,10 +184,10 @@
                                 <th class="py-2 px-3 text-left text-xs text-gray-600">
                                     <i class="fas fa-calendar-alt text-xs"></i> Join Date
                                 </th>
-                                <th class="py-2 px-3 text-left text-xs text-gray-600 hidden md:table-cell">
+                                <th class="py-2 px-3 text-left text-xs text-gray-600 ">
                                     <i class="fas fa-building text-xs"></i> Department
                                 </th>
-                                <th class="py-2 px-3 text-left text-xs text-gray-600">
+                                <th class="py-2 px-3 text-left text-xs text-gray-600 hidden md:table-cell">
                                     <i class="fas fa-briefcase text-xs"></i> Position
                                 </th>
                                 <th class="py-2 px-3 text-left text-xs text-gray-600">
@@ -218,17 +216,22 @@
                                     <td class="py-2 px-3 text-xs">
                                         {{ $employee->date_of_joining->format('d M Y') }}
                                     </td>
-                                    <td class="py-2 px-3 text-xs hidden md:table-cell">
+                                    <td class="py-2 px-3 text-xs">
                                         {{ $employee->department->name ?? 'N/A' }}
                                     </td>
-                                    <td class="py-2 px-3 text-xs">
+                                    <td class="py-2 px-3 text-xs hidden md:table-cell">
                                         {{ $employee->position->name }}
                                     </td>
-                                    <td class="py-2 px-3 relative text-center text-xs">
+                                    <td class="py-2 px-3 relative text-center text-xs" x-data="{ openDropdown: false }">
                                         <button @click.prevent="openDropdown = !openDropdown" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                                             <i class="fas fa-ellipsis-v text-xs"></i>
                                         </button>
-                                        <div x-show="openDropdown" class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200" @click.away="openDropdown = false" @keydown.escape="openDropdown = false" x-transition x-cloak>
+                                        <div 
+                                            x-show="openDropdown" 
+                                            class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
+                                            @click.away="openDropdown = false" 
+                                            @keydown.escape="openDropdown = false" 
+                                        >
                                             <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                                 <i class="fas fa-eye mr-2 fa-md"></i> View
                                             </a>
@@ -251,7 +254,7 @@
                 </div>
         
                 <!-- Pagination for List View -->
-                <div class="mt-4 flex justify-center">
+                <div class="mt-4 flex justify-between">
                     {{ $employees->appends(request()->except('page'))->appends(['view' => 'list'])->links('pagination::tailwind') }}
                 </div>
             </div>

@@ -113,27 +113,25 @@
             </div>
         </form>
         
-        
-
         <div class="overflow-x-auto mt-4">
             <table class="min-w-full bg-white rounded-lg shadow">
-                <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
+                <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs  leading-normal">
                     <tr>
                         <th class="py-2 px-4"><i class="fas fa-hashtag"></i></th>
                         <th class="py-2 px-4"><i class="fas fa-building"></i> Department Name</th>
                         <th class="py-2 px-4"><i class="fas fa-sitemap"></i> Sector</th>
                         <th class="py-2 px-4"><i class="fas fa-users"></i> Project Managers</th>
-                        <th class="py-2 px-4"><i class="fas fa-info-circle"></i> Description</th>
+                        <th class="py-2 px-4 hidden lg:table-cell"><i class="fas fa-info-circle "></i> Description</th>
                         <th class="py-2 px-4"><i class="fas fa-tools"></i> Actions</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-700 text-sm">
+                <tbody class="text-gray-700 text-xs sm:text-sm">
                     @foreach($departments as $index => $department)
                         <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t">
                             <td class="py-3 px-4">{{ $department->id }}</td>
                             <td class="py-3 px-4">{{ $department->name }}</td>
                             <td class="py-3 px-4">{{ ucfirst($department->sector) }}</td>
-
+        
                             <td class="py-3 px-4">
                                 @if($department->project_manager)
                                     {{ $department->project_manager->user->name }}
@@ -141,13 +139,13 @@
                                     <p class="text-gray-500">No manager assigned</p>
                                 @endif
                             </td>
-
-                            <td class="py-3 px-4">
+        
+                            <td class="py-3 px-4 hidden lg:table-cell">
                                 <div class="truncate w-48" title="{{ $department->description }}">
                                     {{ $department->description }}
                                 </div>
                             </td>
-
+        
                             <td class="py-3 px-4 flex space-x-4">
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
@@ -166,6 +164,7 @@
                 </tbody>
             </table>
         </div>
+        
 
         <x-pagination>
             {{ $departments->appends(request()->query())->links('pagination::tailwind') }}

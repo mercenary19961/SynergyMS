@@ -2,10 +2,6 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
         <x-title-with-back title="Edit Project" />
 
@@ -14,7 +10,7 @@
         <!-- Form -->
         <form method="POST" action="{{ route('admin.projects.update', $project->id) }}">
             @csrf
-            @method('PUT') <!-- Use PUT method for updating the record -->
+            @method('PUT') 
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 
                 <!-- Project Name -->

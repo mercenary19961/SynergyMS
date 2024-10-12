@@ -17,8 +17,10 @@ class ProjectController extends Controller
         $query = Project::query();
     
         // Filtering by Project Name
-        if ($request->has('name') && $request->name != '') {
-            $query->where('name', 'like', '%' . $request->name . '%');
+        if ($request->filled('project_manager')) {
+            $query->whereHas('projectManager.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('project_manager') . '%');
+            });
         }
     
         // Filtering by Department

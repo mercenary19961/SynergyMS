@@ -2,13 +2,9 @@
 
 @section('content')
 <div class="flex h-screen">
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
         @include('components.form.success')
 
-        <!-- Header Row -->
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-ticket-alt mr-2 text-gray-600"></i> Tickets
@@ -18,7 +14,6 @@
             </a>
         </div>
 
-        <!-- Search Form -->
         <form method="GET" action="{{ route('admin.tickets.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
                 <!-- Title Field -->
@@ -41,7 +36,7 @@
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox" x-transition x-cloak>
+                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                             <li @click="selected = 'Select Status'; open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
                                 <i class="fas fa-circle-notch mr-2 text-orange-500 group-hover:text-white"></i> Select Status
                             </li>
@@ -64,6 +59,7 @@
                     </div>
                 </div>
 
+
                 <!-- Priority Dropdown -->
                 <div class="flex-1">
                     <div x-data="{ open: false, selected: '{{ request('priority') ?? 'Select Priority' }}' }" class="relative">
@@ -78,7 +74,7 @@
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox" x-transition x-cloak>
+                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox">
                             <li @click="selected = 'Select Priority'; open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
                                 <i class="fas fa-exclamation-triangle mr-2 text-orange-500 group-hover:text-white"></i> Select Priority
                             </li>
@@ -106,13 +102,13 @@
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a 1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </span>
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox" x-transition x-cloak>
+                        <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox">
                             <li @click="selected = 'Select Employee'; open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
                                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Select Employee
                             </li>
@@ -141,7 +137,6 @@
             </div>
         </form>
 
-        <!-- Tickets Table -->
         <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
@@ -197,7 +192,6 @@
             </table>
         </div>
 
-        <!-- Pagination Links -->
         <x-pagination>
             {{ $tickets->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>

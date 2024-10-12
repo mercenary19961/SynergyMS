@@ -8,7 +8,9 @@
 
         <!-- Header Row -->
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-semibold">Attendance Records</h1>
+            <h1 class="text-2xl font-semibold">
+                <i class="fas fa-calendar-check mr-2 text-gray-600"></i> Attendance Records
+            </h1>
             <a href="{{ route('admin.attendance.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Attendance
             </a>

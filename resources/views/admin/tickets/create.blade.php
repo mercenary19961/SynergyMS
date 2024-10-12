@@ -1,24 +1,18 @@
-{{-- resources/views/admin/tickets/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
 
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Add New Ticket" />
 
         @include('components.form.errors')
 
-        <!-- Create Ticket Form -->
         <form action="{{ route('admin.tickets.store') }}" method="POST" x-data="ticketForm()">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <!-- Title with icon -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-file-alt mr-2 text-orange-500"></i> Title
@@ -29,7 +23,6 @@
                     @enderror
                 </div>
 
-                <!-- Description with icon -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-align-left mr-2 text-orange-500"></i> Description
@@ -40,7 +33,6 @@
                     @enderror
                 </div>
 
-                <!-- Status Dropdown with icon -->
                 <div class="relative mb-4">
                     <label for="status" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-tasks mr-2 text-orange-500"></i> Status
@@ -51,7 +43,6 @@
                     <input type="hidden" name="status" value="Open">
                 </div>
 
-                <!-- Priority Dropdown with icon -->
                 <div class="relative mb-4">
                     <label for="priority" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-exclamation-triangle mr-2 text-orange-500"></i> Priority
@@ -81,7 +72,6 @@
                     @enderror
                 </div>
 
-                <!-- Project Manager Dropdown with icon -->
                 <div class="relative mb-4">
                     <label for="project_manager_id" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-user-tie mr-2 text-orange-500"></i> Project Manager

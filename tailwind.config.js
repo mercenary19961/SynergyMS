@@ -16,6 +16,9 @@ export default {
         'xs': '480px',
         'xxs': '320px',
       },
+      fontSize: {
+        'xxs': ['0.625rem', '0.875rem'],
+      },
     },
   },
   plugins: [],

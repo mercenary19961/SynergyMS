@@ -2,22 +2,13 @@
 
 @section('content')
 <div class="flex h-screen">
-    <!-- Sidebar -->
-    @include('partials.sidebar')
-
-    <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
-        <!-- Title with Back Button -->
         <x-title-with-back title="Project Manager Details" />
 
-        <!-- Main Container with Two Columns -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <!-- Left Column: Project Manager Information and Image -->
             <div class="bg-white p-6 rounded-lg shadow-lg space-y-6 relative text-sm">
-                <!-- Image and General Information -->
                 <div class="border-b pb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Manager Image (1/3 width) -->
                     <div class="flex justify-center md:justify-start md:col-span-1">
                         @if($projectManager->user->image)
                             <img 
@@ -117,7 +108,6 @@
                                         onclick="window.location='{{ route('admin.employees.show', $employee->id) }}'">
                                         <td class="py-3 px-4">{{ $index + 1 }}</td>
                                         <td class="py-3 px-4 flex items-center">
-                                            <!-- Display Employee Image -->
                                             @if($employee->user && $employee->user->image)
                                                 <img loading="lazy" src="{{ asset('storage/' . $employee->user->image) }}" alt="{{ $employee->user->name }}" class="rounded-full w-10 h-10 object-cover mr-2">
                                             @else

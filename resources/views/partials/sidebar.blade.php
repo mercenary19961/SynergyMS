@@ -5,7 +5,7 @@
      @mouseleave="if (hoverEnabled && window.innerWidth >= 1024) { open = false; isHovering = false; }"
      :class="{
          'w-56 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': open || window.innerWidth >= 1024 && isHovering, 
-         'w-12 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': !open && !isHovering && window.innerWidth >= 1024,
+         'w-12 min-h-screen overflow-hidden border-r bg-gradient-to-b from-pink-600 to-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': !open && !isHovering && window.innerWidth >= 1024,
          'hidden lg:block lg:w-12': !open && window.innerWidth < 1024
      }"
      class="sidebar transition-all duration-300">
@@ -17,13 +17,23 @@
     </div>
     
     <nav class="mt-1 space-y-1 py-1 ms-1">
-        <!-- Dashboard -->
-        <a href="{{ route('admin.dashboard') }}" 
-           class="relative flex items-center space-x-3 p-2 text-gray-300 bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-900 rounded-md transition-colors duration-200 
-           {{ request()->routeIs('admin.dashboard') ? 'text-orange-500' : '' }}">
-            <i class="fa-solid fa-gauge fa-lg hover:text-white"></i>
-            <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
-        </a>
+<!-- Dashboard -->
+<a href="{{ route('admin.dashboard') }}" 
+   class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+   :class="{
+       'bg-gradient-to-r from-zinc-800 to-zinc-900': open,
+       '': !open
+   }">
+    <i class="fa-solid fa-gauge fa-lg"
+       :class="{
+           'text-zinc-800': !open && '{{ request()->routeIs('admin.dashboard') }}', 
+           'text-gray-300': open || !'{{ request()->routeIs('admin.dashboard') }}'
+       }"></i>
+    <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
+</a>
+
+
+
 
         <!-- Employees Dropdown -->
         <div x-data="{ openDropdown: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.departments.*') || request()->routeIs('admin.tickets.*') || request()->routeIs('admin.project-managers.*') || request()->routeIs('admin.clients.*') ? 'true' : 'false' }} }" 
@@ -31,7 +41,7 @@
             <button @click="openDropdown = !openDropdown" class="w-full text-left flex items-center justify-between">
                 <div class="flex items-center">
                     <i class="fa-solid fa-users fa-md mr-2 hover:text-white"></i>
-                    <span x-show="open" class="text-sm hover:text-white">Roles & Sectors</span>
+                    <span x-show="open" class="text-sm hover:text-white">Managing CRUDs</span>
                 </div>
                 <i :class="{ 'rotate-180': openDropdown }" x-show="open" class="fa-solid fa-chevron-down text-xs transition-transform duration-200 ease-in-out"></i>
             </button>

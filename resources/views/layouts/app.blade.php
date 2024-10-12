@@ -8,18 +8,12 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
 
     <!-- Livewire Styles -->
     @livewireStyles
 
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-    <!-- Meta Tags for SEO -->
-    <meta name="description" content="Your site description">
-    <meta name="keywords" content="Laravel, Blade, TailwindCSS">
 
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -32,8 +26,13 @@
         [x-cloak] { display: none !important; }
         /* Loader Styles */
         .loader {
-            border-top-color: #3498db;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: #f97316;
+            width: 40px;
+            height: 40px;
             animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
         }
     
         @keyframes spin {
@@ -41,48 +40,48 @@
         }
     </style>
 </head>
-<body class="font-montserrat antialiased bg-gray-100 font-normal">
+<body class="font-montserrat antialiased bg-gray-100 font-normal"
+      x-data="{ isLoading: true }"
+      @load.window="isLoading = false">
+    
+    <!-- Loading Spinner -->
+    <div x-show="isLoading" class="fixed inset-0 bg-gray-100 flex items-center justify-center z-50">
+        <div class="loader"></div>
+    </div>
+
     <!-- Global Alpine.js state -->
     <div class="min-h-screen flex flex-col" 
+         x-cloak
          x-data="{ 
             open: localStorage.getItem('sidebarOpen') === 'true', 
             hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
             toggleSidebar() {
                 if (window.innerWidth >= 1024) {
-                    // Toggle open state for large screens
                     this.open = !this.open;
                     localStorage.setItem('sidebarOpen', this.open);
                     this.hoverEnabled = !this.open;
                 } else {
-                    // For small screens, just toggle open without hover
-                    this.open = !this.open; 
+                    this.open = !this.open;
                 }
             }
          }"
-
-         // Ensure that when resizing from small to large, the sidebar opens
          @resize.window="if (window.innerWidth >= 1024) { 
-            open = true;  // Automatically open on large screens
+            open = true;  
             localStorage.setItem('sidebarOpen', true);
             hoverEnabled = false;
          } else {
-            open = false; // Automatically close on small screens
+            open = false;
          }">
-        
-        <!-- Only show header and sidebar if NOT on login or register page -->
+
         @if (!request()->routeIs('login'))
-            <!-- Navigation -->
             @if (!isset($hideHeader) || !$hideHeader)
                 @include('partials.header')
             @endif
 
             <div class="flex">
-                <!-- Sidebar -->
                 @include('partials.sidebar')
 
-                <!-- Main Content Area -->
                 <div class="flex-1 relative">
-                    <!-- Flash Messages -->
                     @if (session('status'))
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
@@ -109,10 +108,9 @@
             </main>
         @endif
 
-        <!-- Footer -->
         @include('partials.footer')
 
     </div>
-</body>
 
+</body>
 </html>
