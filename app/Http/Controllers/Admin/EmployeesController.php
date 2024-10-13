@@ -66,8 +66,8 @@ class EmployeesController extends Controller
         })->get();
     
         $departments = Department::with('positions')
-                        ->take(6)
-                        ->get();
+        ->where('sector', 'projects') 
+        ->get();
     
         return view('admin.employees.create', compact('users', 'departments'));
     }

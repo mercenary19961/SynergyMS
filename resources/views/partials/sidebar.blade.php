@@ -17,23 +17,20 @@
     </div>
     
     <nav class="mt-1 space-y-1 py-1 ms-1">
-<!-- Dashboard -->
-<a href="{{ route('admin.dashboard') }}" 
-   class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
-   :class="{
-       'bg-gradient-to-r from-zinc-800 to-zinc-900': open,
-       '': !open
-   }">
-    <i class="fa-solid fa-gauge fa-lg"
-       :class="{
-           'text-zinc-800': !open && '{{ request()->routeIs('admin.dashboard') }}', 
-           'text-gray-300': open || !'{{ request()->routeIs('admin.dashboard') }}'
-       }"></i>
-    <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
-</a>
-
-
-
+        <!-- Dashboard -->
+        <a href="{{ route('admin.dashboard') }}" 
+        class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+        :class="{
+            'bg-gradient-to-r from-zinc-800 to-zinc-900': open,
+            '': !open
+        }">
+            <i class="fa-solid fa-gauge fa-lg"
+            :class="{
+                'text-zinc-800': !open && '{{ request()->routeIs('admin.dashboard') }}', 
+                'text-gray-300': open || !'{{ request()->routeIs('admin.dashboard') }}'
+            }"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Dashboard</span>
+        </a>
 
         <!-- Employees Dropdown -->
         <div x-data="{ openDropdown: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.departments.*') || request()->routeIs('admin.tickets.*') || request()->routeIs('admin.project-managers.*') || request()->routeIs('admin.clients.*') ? 'true' : 'false' }} }" 
@@ -90,6 +87,11 @@
                     {{ request()->routeIs('admin.projects.*') ? 'text-orange-500' : '' }}">
                     Manage Projects
                 </a>
+                <a href="{{ route('admin.human-resources.index') }}" 
+                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 
+                {{ request()->routeIs('admin.human-resources.*') ? 'text-orange-500' : '' }}">
+                Manage Human Resources
+            </a>
             </div>
         </div>
     </nav>

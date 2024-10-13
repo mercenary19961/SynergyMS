@@ -38,24 +38,26 @@
                 <a href="{{ route('admin.employees.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
                     <i class="fas fa-plus-circle mr-2"></i> Add Employee
                 </a>
+
             </div>
         </div>
 
         <form method="GET" action="{{ route('admin.employees.index') }}" class="mb-6" @submit="isLoading = true">
             <input type="hidden" name="view" :value="viewMode">
         
-            <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
-                <div class="w-full sm:w-1/2 md:flex-1">
+            <!-- Flex behavior changes based on screen width -->
+            <div class="flex flex-col lg:flex-row lg:items-end lg:space-x-4 space-y-4 lg:space-y-0">
+                <div class="w-full sm:w-full lg:flex-1">
                     <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee ID</label>
                     <input type="number" name="employee_id" id="employee_id" value="{{ request('employee_id') }}" placeholder="Employee ID" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
                 
-                <div class="w-full sm:w-1/2 md:flex-1">
+                <div class="w-full sm:w-full lg:flex-1">
                     <label for="employee_name" class="block text-sm font-medium text-gray-700">Employee Name</label>
                     <input type="text" name="employee_name" id="employee_name" value="{{ request('employee_name') }}" placeholder="Employee Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
         
-                <div class="w-full sm:w-1/2 md:flex-1">
+                <div class="w-full sm:w-full lg:flex-1">
                     <div x-data="{ departmentOpen: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
                         <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
                         
@@ -73,7 +75,7 @@
                                 </svg>
                             </span>
                         </button>
-                
+        
                         <!-- Dropdown Menu -->
                         <ul 
                             x-show="departmentOpen" 
@@ -97,18 +99,17 @@
                                 </li>
                             @endforeach
                         </ul>
-                
+        
                         <input type="hidden" name="department" :value="selected === 'Select Department' ? '' : selected">
                     </div>
                 </div>
-                      
-        
+                
                 <div class="flex-shrink-0 flex space-x-2">
-                    <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
+                    <button type="submit" class="w-full lg:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
                         <i class="fas fa-search mr-2"></i> Search
                     </button>
                     
-                    <a href="{{ route('admin.employees.index') }}" class="w-full md:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
+                    <a href="{{ route('admin.employees.index') }}" class="w-full lg:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
                         <i class="fas fa-times mr-2"></i> Clear
                     </a>
                 </div>
@@ -159,9 +160,9 @@
             </div>
             
             <!-- Pagination for Grid View -->
-            <div x-show="viewMode === 'grid'" class="mt-4 flex justify-end items-center">
+            <x-pagination viewMode="grid">
                 {{ $employees->appends(request()->except('page'))->appends(['view' => 'grid'])->links('pagination::tailwind') }}
-            </div>
+            </x-pagination>
         
             <!-- List View -->
             <div x-show="viewMode === 'list'" class="space-y-4">
@@ -254,9 +255,9 @@
                 </div>
         
                 <!-- Pagination for List View -->
-                <div class="mt-4 flex justify-between">
+                <x-pagination viewMode="list">
                     {{ $employees->appends(request()->except('page'))->appends(['view' => 'list'])->links('pagination::tailwind') }}
-                </div>
+                </x-pagination>
             </div>
         </div>
         

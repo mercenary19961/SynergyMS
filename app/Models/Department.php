@@ -33,4 +33,9 @@ class Department extends Model
     {
         return $this->hasMany(Project::class, 'department_id');
     }
+
+    public function human_resources()
+    {
+        return $this->hasMany(HumanResources::class, 'department_id');
+    }   
 }

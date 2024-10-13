@@ -13,7 +13,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700"><i class="fas fa-user text-gray-600 mr-1"></i> Name</label>
                     <input type="text" name="name" id="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('name') }}" placeholder="Enter Employee Name">
                     @error('name')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700"><i class="fas fa-envelope text-gray-600 mr-1"></i> Email</label>
                     <input type="email" name="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('email') }}" placeholder="Enter Email">
                     @error('email')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700"><i class="fas fa-lock text-gray-600 mr-1"></i> Password</label>
                     <input type="password" name="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter Password">
                     @error('password')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+                    <label for="salary" class="block text-sm font-medium text-gray-700"><i class="fas fa-money-bill-wave text-gray-600 mr-1"></i> Salary</label>
                     <input type="number" name="salary" id="salary" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('salary') }}" placeholder="Enter Salary">
                     @error('salary')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -47,7 +47,7 @@
                 @include('components.form.gender')
 
                 <div class="mb-4">
-                    <label for="nationality" class="block text-sm font-medium text-gray-700">Nationality</label>
+                    <label for="nationality" class="block text-sm font-medium text-gray-700"><i class="fas fa-flag text-gray-600 mr-1"></i> Nationality</label>
                     <input type="text" name="nationality" id="nationality" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('nationality') }}" placeholder="Enter Nationality">
                     @error('nationality')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                    <label for="age" class="block text-sm font-medium text-gray-700"><i class="fas fa-calendar-alt text-gray-600 mr-1"></i> Age</label>
                     <input type="number" name="age" id="age" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('age') }}" placeholder="Enter Age">
                     @error('age')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                    <label for="phone" class="block text-sm font-medium text-gray-700"><i class="fas fa-phone text-gray-600 mr-1"></i> Phone</label>
                     <input type="text" name="phone" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('phone') }}" placeholder="Enter Phone Number">
                     @error('phone')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <label for="address" class="block text-sm font-medium text-gray-700"><i class="fas fa-map-marker-alt text-gray-600 mr-1"></i> Address</label>
                     <input type="text" name="address" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" placeholder="Enter Address" value="{{ old('address') }}">
                     @error('address')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="relative mb-4">
-                    <label for="department_id" class="block text-sm font-medium text-gray-700">Department</label>
+                    <label for="department_id" class="block text-sm font-medium text-gray-700"><i class="fas fa-building text-gray-600 mr-1"></i> Department</label>
                     <button 
                         @click="open = !open" 
                         type="button" 
@@ -88,7 +88,7 @@
                         <span class="block truncate" x-text="selectedDepartment || 'Select Department'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </span>
                     </button>
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="relative mb-4">
-                    <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+                    <label for="position" class="block text-sm font-medium text-gray-700"><i class="fas fa-briefcase text-gray-600 mr-1"></i> Position</label>
                     <button 
                         @click="openPosition = !openPosition" 
                         type="button" 
@@ -126,7 +126,7 @@
                         <span class="block truncate" x-text="selectedPosition || 'Select Position'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </span>
                     </button>
@@ -155,7 +155,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="image" class="block text-sm font-medium text-gray-700">Employee Image</label>
+                    <label for="image" class="block text-sm font-medium text-gray-700"><i class="fas fa-camera text-gray-600 mr-1"></i> Employee Image</label>
                     <input type="file" name="image" id="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none">
                     @error('image')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -163,7 +163,7 @@
                 </div>                
 
                 <div class="mb-4">
-                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700"><i class="fas fa-birthday-cake text-gray-600 mr-1"></i> Date of Birth</label>
                     <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_birth') }}"
                     min="1960-01-01" max="2010-01-01">
                     @error('date_of_birth')
@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="date_of_joining" class="block text-sm font-medium text-gray-700">Date of Joining</label>
+                    <label for="date_of_joining" class="block text-sm font-medium text-gray-700"><i class="fas fa-calendar-check text-gray-600 mr-1"></i> Date of Joining</label>
                     <input type="date" name="date_of_joining" id="date_of_joining" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('date_of_joining') }}">
                     @error('date_of_joining')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

@@ -11,8 +11,8 @@ class CreateHumanResourcesTable extends Migration
         Schema::create('human_resources', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('department');
-            $table->string('position'); 
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->string('contact_number');
             $table->string('company_email');
             $table->timestamps();

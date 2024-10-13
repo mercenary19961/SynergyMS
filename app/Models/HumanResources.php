@@ -13,8 +13,8 @@ class HumanResources extends Model
 
     protected $fillable = [
         'user_id',
-        'department',
-        'position',
+        'department_id',
+        'position_id',
         'contact_number',
         'company_email',
     ];
@@ -23,4 +23,14 @@ class HumanResources extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function position()
+{
+    return $this->belongsTo(Position::class);
+}
 }
