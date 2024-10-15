@@ -19,6 +19,9 @@ export default {
       fontSize: {
         'xxs': ['0.625rem', '0.875rem'],
       },
+      animation: {
+        'spin-slow': 'spin 5s linear infinite',
+      },
     },
   },
   plugins: [],

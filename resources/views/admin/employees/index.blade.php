@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100 overflow-auto" x-data="employeeView('{{ request('view', 'grid') }}')">
+    <div class="flex-1 p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
@@ -48,18 +48,18 @@
             <!-- Flex behavior changes based on screen width -->
             <div class="flex flex-col lg:flex-row lg:items-end lg:space-x-4 space-y-4 lg:space-y-0">
                 <div class="w-full sm:w-full lg:flex-1">
-                    <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee ID</label>
+                    <label for="employee_id" class="block text-sm font-medium text-gray-700"> <i class="fas fa-id-badge"></i> Employee ID</label>
                     <input type="number" name="employee_id" id="employee_id" value="{{ request('employee_id') }}" placeholder="Employee ID" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
                 
                 <div class="w-full sm:w-full lg:flex-1">
-                    <label for="employee_name" class="block text-sm font-medium text-gray-700">Employee Name</label>
+                    <label for="employee_name" class="block text-sm font-medium text-gray-700"> <i class="fas fa-user"></i> Employee Name</label>
                     <input type="text" name="employee_name" id="employee_name" value="{{ request('employee_name') }}" placeholder="Employee Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
         
                 <div class="w-full sm:w-full lg:flex-1">
                     <div x-data="{ departmentOpen: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
-                        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+                        <label for="department" class="block text-sm font-medium text-gray-700"> <i class="fas fa-building"></i> Department</label>
                         
                         <button 
                             @click="departmentOpen = !departmentOpen" 
@@ -147,34 +147,34 @@
                             </form>
                         </div>
                         </div>
-        
+
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
-                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-24 h-24 object-cover">
+                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover">
                         </a>
                         <h3 class="mt-4 text-sm font-semibold text-gray-600">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600 text-sm">{{ $employee->position->name }}</p>
                     </div>
-                    @empty
+                @empty
                     <p class="text-center col-span-full text-gray-500">No employees found.</p>
                 @endforelse
             </div>
-            
-            <!-- Pagination for Grid View -->
-            <x-pagination viewMode="grid">
+
+            <!-- Pagination for Grid View (only show when in grid view mode) -->
+            <div x-show="viewMode === 'grid'" class="mt-6">
                 {{ $employees->appends(request()->except('page'))->appends(['view' => 'grid'])->links('pagination::tailwind') }}
-            </x-pagination>
-        
+            </div>
+
             <!-- List View -->
             <div x-show="viewMode === 'list'" class="space-y-4">
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white shadow table-auto">
                         <thead class="bg-gray-200">
                             <tr>
-                                <th class="py-2 px-3 text-left text-xs text-gray-600">
-                                    <i class="fas fa-user text-xs"></i> Name
-                                </th>
                                 <th class="py-2 px-3 text-center text-xs text-gray-600">
                                     <i class="fas fa-id-card text-xs"></i> ID
+                                </th>
+                                <th class="py-2 px-3 text-left text-xs text-gray-600">
+                                    <i class="fas fa-user text-xs"></i> Name
                                 </th>
                                 <th class="py-2 px-3 text-left text-xs text-gray-600 hidden lg:table-cell">
                                     <i class="fas fa-envelope text-xs"></i> Email
@@ -185,7 +185,7 @@
                                 <th class="py-2 px-3 text-left text-xs text-gray-600">
                                     <i class="fas fa-calendar-alt text-xs"></i> Join Date
                                 </th>
-                                <th class="py-2 px-3 text-left text-xs text-gray-600 ">
+                                <th class="py-2 px-3 text-left text-xs text-gray-600">
                                     <i class="fas fa-building text-xs"></i> Department
                                 </th>
                                 <th class="py-2 px-3 text-left text-xs text-gray-600 hidden md:table-cell">
@@ -199,14 +199,14 @@
                         <tbody>
                             @foreach($employees as $index => $employee)
                                 <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t" x-data="{ openDropdown: false }">
+                                    <td class="py-2 px-2 text-center text-xs">
+                                        <i class="fas fa-id-badge text-xs"></i> {{ $employee->id }}
+                                    </td>
                                     <td class="py-2 px-4 text-xs">
                                         <div class="flex items-center">
                                             <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="rounded-full w-8 h-8 object-cover mr-2">
                                             <span class="text-xs">{{ $employee->user->name }}</span>
                                         </div>
-                                    </td>
-                                    <td class="py-2 px-2 text-center text-xs">
-                                        <i class="fas fa-id-badge text-xs"></i> {{ $employee->id }}
                                     </td>
                                     <td class="py-2 px-3 text-xs hidden lg:table-cell">
                                         {{ $employee->user->email }}
@@ -253,14 +253,13 @@
                         </tbody>
                     </table>
                 </div>
-        
+
                 <!-- Pagination for List View -->
-                <x-pagination viewMode="list">
+                <div class="mt-6">
                     {{ $employees->appends(request()->except('page'))->appends(['view' => 'list'])->links('pagination::tailwind') }}
-                </x-pagination>
+                </div>
             </div>
         </div>
-        
     </div>
 
     <!-- Tailwind CSS Loader Styles -->

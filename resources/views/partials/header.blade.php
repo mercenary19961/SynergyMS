@@ -1,5 +1,6 @@
 @php
     $searchPages = [
+        ['name' => 'Admin Dashboard', 'route' => route('admin.dashboard')],
         ['name' => 'Employees', 'route' => route('admin.employees.index')],
         ['name' => 'Attendance', 'route' => route('admin.attendance.index')],
         ['name' => 'Departments', 'route' => route('admin.departments.index')],
@@ -7,6 +8,7 @@
         ['name' => 'Project Managers', 'route' => route('admin.project-managers.index')],
         ['name' => 'Clients', 'route' => route('admin.clients.index')],
         ['name' => 'Projects', 'route' => route('admin.projects.index')],
+        ['name' => 'Human Resources', 'route' => route('admin.human-resources.index')],
     ];
 @endphp
 
@@ -23,13 +25,13 @@
         
         <!-- Logo and App Name -->
         <div :class="open ? 'flex items-center space-x-2 ml-4' : 'flex items-center space-x-2 ml-0'" class="transition-all duration-300">
-            <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8">
+            <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow">
             <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span>
         </div>
     </div>
 
     <!-- Middle Section: Search Field -->
-    <div x-data="searchComponent()" class="flex-1 mx-4 relative max-w-lg"> <!-- Set max-w-lg for controlling input field width -->
+    <div x-data="searchComponent()" class="flex-1 mx-4 relative max-w-lg"> 
         <input
             type="text"
             placeholder="Search..."
@@ -62,8 +64,7 @@
     </div>
 
     <!-- Right Side: User Profile Dropdown -->
-    <div class="relative flex items-center space-x-2" x-data="{ openDropdown: false }">
-        <!-- User Profile Image or Lottie Animation -->
+    <div class="relative flex items-center space-x-2" x-data="{ isProfileDropdownOpen: false }">
         <div class="relative">
             @php
                 $user = Auth::user();
@@ -93,7 +94,7 @@
         </div>
 
         <!-- User Name and Dropdown -->
-        <button @click="openDropdown = !openDropdown" class="flex items-center space-x-1 focus:outline-none">
+        <button @click="isProfileDropdownOpen = !isProfileDropdownOpen" class="flex items-center space-x-1 focus:outline-none">
             <span class="text-white hidden md:inline">{{ $user->name ?? 'Guest' }}</span>
             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -101,8 +102,8 @@
         </button>
 
         <!-- Dropdown Menu -->
-        <div x-show="openDropdown" 
-            @click.away="openDropdown = false"
+        <div x-show="isProfileDropdownOpen" 
+            @click.away="isProfileDropdownOpen = false"
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 transform scale-90"
             x-transition:enter-end="opacity-100 transform scale-100"
@@ -132,6 +133,8 @@
             </form>
         </div>
     </div>
+
+    
 </header>
 
 <!-- Alpine.js Component Script -->

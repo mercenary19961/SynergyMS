@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'HR',
                 'gender' => 'Female',
-                'image' => 'users/HR Soundos.jpg',
+                'image' => 'human_resources/HR Soundos.jpg',
             ],
             // ID: 5
             [
@@ -198,30 +198,30 @@ class UserSeeder extends Seeder
             ],
             // ID: 21
             [
-                'name' => 'HR Mahmoud',
-                'email' => 'hrmahmoud@example.com',
+                'name' => 'HR Roger Fleet',
+                'email' => 'hrrogerfleet@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'HR',
                 'gender' => 'Male',
-                'image' => 'users/HR Mahmoud.jpg',
+                'image' => 'human_resources/HR Roger Fleet.jpg',
             ],
             // ID: 22
             [
-                'name' => 'HR Abeer',
-                'email' => 'hrabeer@example.com',
+                'name' => 'HR Clara',
+                'email' => 'hrClara@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'HR',
                 'gender' => 'Female',
-                'image' => 'users/HR Abeer.jpg',
+                'image' => 'human_resources/HR Clara.jpg',
             ],
             // ID: 23
             [
-                'name' => 'HR Rania',
-                'email' => 'hrrania@example.com',
+                'name' => 'HR Ranilla',
+                'email' => 'hrRanilla@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'HR',
                 'gender' => 'Female',
-                'image' => 'users/HR Rania.jpg',
+                'image' => 'human_resources/HR Ranilla.jpg',
             ],
             // ID: 24
             [
@@ -230,7 +230,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'HR',
                 'gender' => 'Male',
-                'image' => 'users/HR Omar.jpg',
+                'image' => 'human_resources/HR Omar.jpg',
             ],
 
             // Newly Added Users (Employees)

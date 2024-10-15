@@ -3,7 +3,7 @@
 @section('content')
 <div class="flex h-screen">
 
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
         <div class="flex items-center justify-between mb-4">
@@ -146,7 +146,7 @@
                                 </div>
                             </td>
         
-                            <td class="py-3 px-4 flex space-x-4">
+                            <td class="py-3 px-1 lg:px-4 flex space-x-4">
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                 </a>

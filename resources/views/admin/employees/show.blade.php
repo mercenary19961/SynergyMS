@@ -8,7 +8,7 @@
         <!-- Employee Info Section -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <div class="flex items-center">
-                <img src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" class="w-24 h-24 rounded-full object-cover mr-4" alt="Employee Image">
+                <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover h-40 w-60 mr-2">
                 <div>
                     <h2 class="text-lg font-semibold">
                         <i class="fas fa-user mr-2 text-gray-600"></i>{{ $employee->user->name }}

@@ -92,7 +92,7 @@ class EmployeesController extends Controller
     
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('users', 'public');
+            $imagePath = $request->file('image')->store('employee_images', 'public');
         }
     
         $user = User::create([
@@ -159,7 +159,7 @@ class EmployeesController extends Controller
         ]);
     
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('users', 'public');
+            $imagePath = $request->file('image')->store('employee_images', 'public');
             $employee->user->update(['image' => $imagePath]);
         }
     

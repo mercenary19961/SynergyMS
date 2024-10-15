@@ -7,10 +7,10 @@
 
         @include('components.form.errors')
 
-        @if ($employee->image)
+        @if ($employee->user->image)
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700"><i class="fas fa-image text-gray-600 mr-1"></i> Current Image</label>
-                <img src="{{ asset('storage/' . $employee->image) }}" alt="Employee Image" class="mt-1 w-32 h-32 rounded-md object-cover">
+                <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover">
             </div>
         @endif
 

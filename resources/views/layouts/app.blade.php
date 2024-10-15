@@ -21,24 +21,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- x-cloak Style -->
-    <style>
-        [x-cloak] { display: none !important; }
-        /* Loader Styles */
-        .loader {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: #f97316;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
-        }
-    
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
 </head>
 <body class="font-montserrat antialiased bg-gray-100 font-normal"
       x-data="{ isLoading: true }"
@@ -50,9 +32,9 @@
     </div>
 
     <!-- Global Alpine.js state -->
-    <div class="min-h-screen flex flex-col" 
-         x-cloak
-         x-data="{ 
+    <div class="min-h-screen flex flex-col"
+            x-cloak
+            x-data="{ 
             open: localStorage.getItem('sidebarOpen') === 'true', 
             hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
             toggleSidebar() {
@@ -64,24 +46,39 @@
                     this.open = !this.open;
                 }
             }
-         }"
-         @resize.window="if (window.innerWidth >= 1024) { 
+            }"
+            @resize.window="if (window.innerWidth >= 1024) { 
             open = true;  
             localStorage.setItem('sidebarOpen', true);
             hoverEnabled = false;
-         } else {
+            } else {
             open = false;
-         }">
+            }">
 
         @if (!request()->routeIs('login'))
             @if (!isset($hideHeader) || !$hideHeader)
-                @include('partials.header')
+                <!-- Include fixed header -->
+                <div class="fixed-header w-full">
+                    @include('partials.header')
+                </div>
             @endif
 
             <div class="flex">
-                @include('partials.sidebar')
+                <!-- Sidebar only shows when open -->
+                <div class="fixed-sidebar" 
+                        :class="{'w-60': open, 'w-12': !open}" 
+                        x-show="open || window.innerWidth >= 1024" 
+                        x-transition:enter="transition ease-out duration-300" 
+                        x-transition:enter-start="opacity-0 transform -translate-x-full" 
+                        x-transition:enter-end="opacity-100 transform translate-x-0" 
+                        x-transition:leave="transition ease-in duration-300" 
+                        x-transition:leave-start="opacity-100 transform translate-x-0" 
+                        x-transition:leave-end="opacity-0 transform -translate-x-full">
+                    @include('partials.sidebar')
+                </div>
 
-                <div class="flex-1 relative">
+                <!-- Main content area with dynamic margin based on sidebar state -->
+                <div :class="{'main-content open': open, 'main-content closed': !open}" class="main-content flex-1 relative">
                     @if (session('status'))
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
@@ -97,7 +94,7 @@
 
                     <!-- Overlay for small screens when sidebar is open -->
                     <div x-show="open && window.innerWidth < 1024" 
-                        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
+                        class="overlay"
                         @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
                 </div>
             </div>
