@@ -110,7 +110,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 transform scale-100"
             x-transition:leave-end="opacity-0 transform scale-90"
-            class="absolute right-0 top-10 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
+            class="profile-dropdown absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-200">
             <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
             </a>

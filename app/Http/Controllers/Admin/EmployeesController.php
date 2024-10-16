@@ -100,7 +100,7 @@ class EmployeesController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt('defaultpassword'),
             'gender' => $request->input('gender'),
-            'image' => $imagePath, // Save the image path in the users table
+            'image' => $imagePath,
         ]);
     
         $user->assignRole('Employee');

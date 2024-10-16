@@ -149,7 +149,7 @@
                         </div>
 
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
-                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover">
+                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class=" w-auto max-h-32 ">
                         </a>
                         <h3 class="mt-4 text-sm font-semibold text-gray-600">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600 text-sm">{{ $employee->position->name }}</p>

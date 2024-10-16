@@ -10,7 +10,7 @@
         @if ($employee->user->image)
             <div class="mb-2">
                 <label class="block text-sm font-medium text-gray-700"><i class="fas fa-image text-gray-600 mr-1"></i> Current Image</label>
-                <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover">
+                <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover h-40 w-60 mr-2">
             </div>
         @endif
 

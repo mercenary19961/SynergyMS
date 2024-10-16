@@ -295,7 +295,6 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
-                'image' => 'employee_images/employee_31.jpg',
             ],
             // ID: 32
             [
@@ -485,7 +484,7 @@ class UserSeeder extends Seeder
                 'email' => $userData['email'],
                 'password' => $userData['password'],
                 'gender' => $userData['gender'],
-                'image' => $userData['image'],
+                'image' => $userData['image'] ?? null,
             ]);
 
             $user->assignRole($userData['role']);

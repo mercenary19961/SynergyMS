@@ -87,7 +87,7 @@
                 <h2 class="text-xl font-semibold mb-4">Present Employees</h2>
                 <ul class="text-sm">
                     @foreach ($presentEmployees as $attendance)
-                        <li class="mb-2">{{ $attendance->employee->name }} <span class="text-gray-500">(Checked in on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
+                        <li class="mb-2">{{ $attendance->employee->user->name }} <span class="text-gray-500">(Checked in on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
                     @endforeach
                 </ul>
             </div>
@@ -98,7 +98,7 @@
                 <h2 class="text-xl font-semibold mb-4">Absent Employees</h2>
                 <ul class="text-sm">
                     @foreach ($absentEmployees as $attendance)
-                        <li class="mb-2">{{ $attendance->employee->name }} <span class="text-gray-500">(Absent on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
+                        <li class="mb-2">{{ $attendance->employee->user->name }} <span class="text-gray-500">(Absent on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
                     @endforeach
                 </ul>
             </div>

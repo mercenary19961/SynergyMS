@@ -12,9 +12,6 @@
     <!-- Livewire Styles -->
     @livewireStyles
 
-    <!-- Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -31,10 +28,10 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Global Alpine.js state -->
+    <!-- Global Alpine.js state for Sidebar -->
     <div class="min-h-screen flex flex-col"
-            x-cloak
-            x-data="{ 
+         x-cloak
+         x-data="{ 
             open: localStorage.getItem('sidebarOpen') === 'true', 
             hoverEnabled: localStorage.getItem('sidebarOpen') === 'false',
             toggleSidebar() {
@@ -46,14 +43,14 @@
                     this.open = !this.open;
                 }
             }
-            }"
-            @resize.window="if (window.innerWidth >= 1024) { 
+         }"
+         @resize.window="if (window.innerWidth >= 1024) { 
             open = true;  
             localStorage.setItem('sidebarOpen', true);
             hoverEnabled = false;
-            } else {
+         } else {
             open = false;
-            }">
+         }">
 
         @if (!request()->routeIs('login'))
             @if (!isset($hideHeader) || !$hideHeader)
@@ -66,14 +63,14 @@
             <div class="flex">
                 <!-- Sidebar only shows when open -->
                 <div class="fixed-sidebar" 
-                        :class="{'w-60': open, 'w-12': !open}" 
-                        x-show="open || window.innerWidth >= 1024" 
-                        x-transition:enter="transition ease-out duration-300" 
-                        x-transition:enter-start="opacity-0 transform -translate-x-full" 
-                        x-transition:enter-end="opacity-100 transform translate-x-0" 
-                        x-transition:leave="transition ease-in duration-300" 
-                        x-transition:leave-start="opacity-100 transform translate-x-0" 
-                        x-transition:leave-end="opacity-0 transform -translate-x-full">
+                     :class="{'w-60': open, 'w-12': !open}" 
+                     x-show="open || window.innerWidth >= 1024" 
+                     x-transition:enter="transition ease-out duration-300" 
+                     x-transition:enter-start="opacity-0 transform -translate-x-full" 
+                     x-transition:enter-end="opacity-100 transform translate-x-0" 
+                     x-transition:leave="transition ease-in duration-300" 
+                     x-transition:leave-start="opacity-100 transform translate-x-0" 
+                     x-transition:leave-end="opacity-0 transform -translate-x-full">
                     @include('partials.sidebar')
                 </div>
 
@@ -109,5 +106,6 @@
 
     </div>
 
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>
