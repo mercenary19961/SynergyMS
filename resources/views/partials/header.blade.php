@@ -19,12 +19,12 @@
 <header class="bg-gradient-to-r from-pink-600 to-orange-500 p-4 flex justify-between items-center shadow-md">
     <div class="flex items-center space-x-4">
         <!-- Sidebar Toggle Button -->
-        <button @click="toggleSidebar()" class="text-white focus:outline-none transition-transform duration-300">
-            <i :class="open ? 'fa-solid fa-list fa-lg transition-transform duration-200 hover:scale-110' : 'fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110'"></i>
+        <button id="sidebar-toggle" class="text-white focus:outline-none transition-transform duration-300">
+            <i class="fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110"></i>
         </button>
         
         <!-- Logo and App Name -->
-        <div :class="open ? 'flex items-center space-x-2 ml-4' : 'flex items-center space-x-2 ml-0'" class="transition-all duration-300">
+        <div id="logo-container" class="flex items-center space-x-2 ml-0 transition-all duration-300">
             <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow">
             <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span>
         </div>
@@ -64,7 +64,7 @@
     </div>
 
     <!-- Right Side: User Profile Dropdown -->
-    <div class="relative flex items-center space-x-2" x-data="{ isProfileDropdownOpen: false }">
+    <div class="relative flex items-center space-x-2">
         <div class="relative">
             @php
                 $user = Auth::user();
@@ -93,8 +93,8 @@
             <div class="absolute bottom-0 right-0 bg-green-500 border-2 border-white w-3 h-3 rounded-full"></div>
         </div>
 
-        <!-- User Name and Dropdown -->
-        <button @click="isProfileDropdownOpen = !isProfileDropdownOpen" class="flex items-center space-x-1 focus:outline-none">
+        <!-- User Name and Dropdown Button -->
+        <button id="profile-button" class="flex items-center space-x-1 focus:outline-none">
             <span class="text-white hidden md:inline">{{ $user->name ?? 'Guest' }}</span>
             <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -102,15 +102,8 @@
         </button>
 
         <!-- Dropdown Menu -->
-        <div x-show="isProfileDropdownOpen" 
-            @click.away="isProfileDropdownOpen = false"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 transform scale-90"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 transform scale-100"
-            x-transition:leave-end="opacity-0 transform scale-90"
-            class="profile-dropdown absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-200">
+        <div id="profile-dropdown" 
+            class="profile-dropdown absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-50 hidden">
             <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
             </a>
@@ -133,9 +126,9 @@
             </form>
         </div>
     </div>
-
-    
+        
 </header>
+
 
 <!-- Alpine.js Component Script -->
 <script>
