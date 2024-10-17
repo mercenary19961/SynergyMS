@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Livewire Styles -->
-    @livewireStyles
-
+    
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    
+    <!-- Livewire Styles -->
+    @livewireStyles
 </head>
 <body class="font-montserrat antialiased bg-gray-100 font-normal"
       x-data="{ isLoading: true }"
@@ -54,14 +54,12 @@
 
         @if (!request()->routeIs('login'))
             @if (!isset($hideHeader) || !$hideHeader)
-                <!-- Include fixed header -->
                 <div class="fixed-header w-full">
                     @include('partials.header')
                 </div>
             @endif
 
             <div class="flex">
-                <!-- Sidebar only shows when open -->
                 <div class="fixed-sidebar" 
                      :class="{'w-60': open, 'w-12': !open}" 
                      x-show="open || window.innerWidth >= 1024" 
@@ -89,7 +87,6 @@
                         @yield('content')
                     </main>
 
-                    <!-- Overlay for small screens when sidebar is open -->
                     <div x-show="open && window.innerWidth < 1024" 
                         class="overlay"
                         @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
@@ -106,7 +103,7 @@
 
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    @livewireScripts
 </body>
 </html>

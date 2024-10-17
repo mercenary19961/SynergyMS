@@ -12,96 +12,52 @@
         <!-- Summary Cards (Employees, Clients, Projects, Tickets) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Employees Card -->
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-users fa-2x text-orange-500 mb-2"></i>
-                <div class="text-4xl font-bold text-orange-500 mb-2">{{ $totalEmployees }}</div>
-                <p class="text-sm font-semibold text-gray-600">Total Employees</p>
-            </div>
+            <livewire:summary-card 
+                title="Total Employees" 
+                icon="fas fa-users" 
+                route="{{ route('admin.employees.index') }}" 
+                countType="employees" 
+            />
 
             <!-- Clients Card -->
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-handshake fa-2x text-orange-500 mb-2"></i>
-                <div class="text-4xl font-bold text-orange-500 mb-2">{{ $totalClients }}</div>
-                <p class="text-sm font-semibold text-gray-600">Total Clients</p>
-            </div>
+            <livewire:summary-card 
+                title="Total Clients" 
+                icon="fas fa-handshake" 
+                route="{{ route('admin.clients.index') }}" 
+                countType="clients" 
+            />
 
             <!-- Projects Card -->
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-briefcase fa-2x text-orange-500 mb-2"></i>
-                <div class="text-4xl font-bold text-orange-500 mb-2">{{ $totalProjects }}</div>
-                <p class="text-sm font-semibold text-gray-600">Total Projects</p>
-            </div>
+            <livewire:summary-card 
+                title="Total Projects" 
+                icon="fas fa-briefcase" 
+                route="{{ route('admin.projects.index') }}" 
+                countType="projects" 
+            />
 
             <!-- Tickets Card -->
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-ticket-alt fa-2x text-orange-500 mb-2"></i>
-                <div class="text-4xl font-bold text-orange-500 mb-2">{{ $totalTickets }}</div>
-                <p class="text-sm font-semibold text-gray-600">Total Tickets</p>
-            </div>
+            <livewire:summary-card 
+                title="Total Tickets" 
+                icon="fas fa-ticket-alt" 
+                route="{{ route('admin.tickets.index') }}" 
+                countType="tickets" 
+            />
         </div>
 
         <!-- Recent Employees, Clients, and Projects -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <!-- Recent Employees -->
-            <div class="bg-white p-6 rounded shadow">
-                <i class="fas fa-user-plus fa-2x text-orange-500 mb-2"></i>
-                <h2 class="text-xl font-semibold mb-4">Recent Employees</h2>
-                <ul class="text-sm">
-                    @foreach ($recentEmployees as $employee)
-                        <li class="mb-2">{{ $employee->user->name }} <span class="text-gray-500">(Joined {{ $employee->created_at->diffForHumans() }})</span></li>
-                    @endforeach
-                </ul>
-                <a href="{{ route('admin.employees.index') }}" class="block bg-orange-500 text-white text-center py-2 rounded mt-4">View All Employees</a>
-            </div>
-
-            <!-- Recent Clients -->
-            <div class="bg-white p-6 rounded shadow">
-                <i class="fas fa-user-tie fa-2x text-orange-500 mb-2"></i>
-                <h2 class="text-xl font-semibold mb-4">Recent Clients</h2>
-                <ul class="text-sm">
-                    @foreach ($recentClients as $client)
-                        <li class="mb-2">{{ $client->user->name }} <span class="text-gray-500">(Joined {{ $client->created_at->diffForHumans() }})</span></li>
-                    @endforeach
-                </ul>
-                <a href="{{ route('admin.clients.index') }}" class="block bg-orange-500 text-white text-center py-2 rounded mt-4">View All Clients</a>
-            </div>
-
-            <!-- Recent Projects -->
-            <div class="bg-white p-6 rounded shadow">
-                <i class="fas fa-list-check fa-2x text-orange-500 mb-2"></i>
-                <h2 class="text-xl font-semibold mb-4">Recent Projects</h2>
-                <ul class="text-sm">
-                    @foreach ($recentProjects as $project)
-                        <li class="mb-2">{{ $project->name }} <span class="text-gray-500">(Started {{ $project->created_at->diffForHumans() }})</span></li>
-                    @endforeach
-                </ul>
-                <a href="{{ route('admin.projects.index') }}" class="block bg-orange-500 text-white text-center py-2 rounded mt-4">View All Projects</a>
-            </div>
+            <livewire:recent-employees />
+            <livewire:recent-clients />
+            <livewire:recent-projects />
         </div>
 
         <!-- Present and Absent Employees -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <!-- Present Employees Card -->
-            <div class="bg-white p-6 rounded shadow">
-                <i class="fas fa-user-check fa-2x text-orange-500 mb-2"></i>
-                <h2 class="text-xl font-semibold mb-4">Present Employees</h2>
-                <ul class="text-sm">
-                    @foreach ($presentEmployees as $attendance)
-                        <li class="mb-2">{{ $attendance->employee->user->name }} <span class="text-gray-500">(Checked in on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
-                    @endforeach
-                </ul>
-            </div>
+            <livewire:present-employees />
 
             <!-- Absent Employees Card -->
-            <div class="bg-white p-6 rounded shadow">
-                <i class="fas fa-user-times fa-2x text-orange-500 mb-2"></i>
-                <h2 class="text-xl font-semibold mb-4">Absent Employees</h2>
-                <ul class="text-sm">
-                    @foreach ($absentEmployees as $attendance)
-                        <li class="mb-2">{{ $attendance->employee->user->name }} <span class="text-gray-500">(Absent on {{ \Carbon\Carbon::parse($attendance->attendance_date)->format('D M Y') }})</span></li>
-                    @endforeach
-                </ul>
-            </div>
+            <livewire:absent-employees />
         </div>
 
         <!-- Log Table -->
@@ -139,4 +95,6 @@
         </div>
     </div>
 </div>
+
 @endsection
+

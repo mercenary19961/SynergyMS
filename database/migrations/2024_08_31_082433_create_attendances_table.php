@@ -14,8 +14,8 @@ return new class extends Migration
             $table->date('attendance_date');
             $table->time('clock_in')->nullable();
             $table->time('clock_out')->nullable();
-            $table->smallInteger('total_hours')->nullable();
-            $table->smallInteger('leave_hours')->nullable();
+            $table->decimal('total_hours', 5, 2)->nullable();
+            $table->decimal('leave_hours', 5, 2)->nullable();
             $table->enum('status', ['Present', 'Absent', 'Leave', 'Hourly Leave', 'Annual Leave', 'Sick Leave', 'Day Off'])->default('Present'); // Updated enum values
             $table->timestamps();
         });

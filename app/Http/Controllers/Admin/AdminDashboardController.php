@@ -19,6 +19,7 @@ class AdminDashboardController extends Controller
         $totalClients = Client::count();
         $totalProjects = Project::count();
         $totalTickets = Ticket::count();
+        
         $recentEmployees = EmployeeDetail::latest()->limit(3)->get();
         $recentClients = Client::latest()->limit(3)->get();
         $recentProjects = Project::latest()->limit(3)->get(); 

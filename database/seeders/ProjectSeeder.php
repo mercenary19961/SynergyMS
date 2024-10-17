@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Project;
+use App\Models\EmployeeDetail;
 
 class ProjectSeeder extends Seeder
 {
@@ -132,8 +133,11 @@ class ProjectSeeder extends Seeder
             ],
         ];
 
-        foreach ($projects as $project) {
-            Project::create($project);
+        foreach ($projects as $projectData) {
+            $project = Project::create($projectData);
+
+            $employeeIds = EmployeeDetail::inRandomOrder()->limit(rand(5, 10))->pluck('id');
+            $project->employees()->attach($employeeIds);
         }
     }
 }

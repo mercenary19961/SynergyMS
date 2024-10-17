@@ -61,4 +61,9 @@ class EmployeeDetail extends Model
         return $this->hasOneThrough(ProjectManager::class, Department::class, 'id', 'department_id', 'department_id', 'id');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'employee_project', 'employee_id', 'project_id');
+    }
+
 }

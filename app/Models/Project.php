@@ -30,6 +30,11 @@ class Project extends Model
         return $this->belongsTo(ProjectManager::class, 'project_manager_id');
     }
 
+    public function employees()
+    {
+        return $this->belongsToMany(EmployeeDetail::class, 'employee_project', 'project_id', 'employee_id');
+    }
+
     public function tickets()
     {
         return $this->hasMany(Ticket::class, 'project_id');
