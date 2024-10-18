@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Project;
+use App\Models\User;
 use App\Models\EmployeeDetail;
 
 class ProjectSeeder extends Seeder
@@ -134,9 +135,15 @@ class ProjectSeeder extends Seeder
         ];
 
         foreach ($projects as $projectData) {
+            // Create each project
             $project = Project::create($projectData);
 
-            $employeeIds = EmployeeDetail::inRandomOrder()->limit(rand(5, 10))->pluck('id');
+            // Fetch employee_ids from EmployeeDetail based on User role 'Employee'
+            $employeeIds = EmployeeDetail::whereHas('user.roles', function($query) {
+                $query->where('name', 'Employee');
+            })->pluck('id');
+
+            // Attach employees to the project
             $project->employees()->attach($employeeIds);
         }
     }

@@ -42,21 +42,29 @@ class RolePermissionSeeder extends Seeder
         // Assign specific permissions to HR
         $hrRole = Role::findByName('HR');
         $hrRole->givePermissionTo([
-            'manage users', 
-            'create users', 
-            'view users', 
-            'edit users', 
-            'delete users',
-            'manage attendance', 
+            'manage employees',   // Permission to manage employees
+            'create employees', 
+            'view employees', 
+            'edit employees', 
+            'delete employees',
+
+            'manage attendance',  // Permission to manage attendance
             'create attendance', 
             'view attendance', 
             'edit attendance', 
             'delete attendance',
-            'manage departments', 
-            'create departments', 
-            'view departments', 
-            'edit departments', 
-            'delete departments',
+
+            'manage project managers',  // Permission to manage project managers
+            'view project managers',
+            'edit project managers',
+            'delete project managers',
+
+            'manage clients',  // Permission to manage clients
+            'create clients', 
+            'view clients', 
+            'edit clients', 
+            'delete clients',
+
             'view dashboard',
         ]);
 

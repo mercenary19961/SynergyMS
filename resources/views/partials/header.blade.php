@@ -19,7 +19,8 @@
 <header class="bg-gradient-to-r from-pink-600 to-orange-500 p-4 flex justify-between items-center shadow-md">
     <div class="flex items-center space-x-4">
         <!-- Sidebar Toggle Button -->
-        <button id="sidebar-toggle" class="text-white focus:outline-none transition-transform duration-300">
+        <button @click="open = !open; localStorage.setItem('sidebarOpen', open);" 
+                class="text-white focus:outline-none transition-transform duration-300">
             <i class="fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110"></i>
         </button>
         

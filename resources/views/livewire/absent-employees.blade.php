@@ -1,4 +1,4 @@
-<div wire:poll.{{ $pollingInterval }}="refreshAbsentEmployees" class="bg-white p-6 rounded shadow flex flex-col h-full">
+<div wire:poll.{{ $pollingInterval }}="refreshAbsentEmployees" class="bg-white p-6 mb-5 rounded shadow flex flex-col h-full">
     <i class="fas fa-user-times fa-2x text-orange-500 mb-2"></i>
     <h2 class="text-xl font-semibold mb-4">Absent Employees</h2>
 
@@ -72,6 +72,11 @@
                         @endif
                     </div>
                 </div>
+
+                <!-- View Employee Button -->
+                <a href="{{ route('admin.employees.show', $selectedAbsentEmployee->employee->id) }}" class="block mt-4 bg-orange-500 text-white text-center py-2 rounded hover:bg-orange-600 transition">
+                    View Employee
+                </a>
             </div>
         </div>
     </div>

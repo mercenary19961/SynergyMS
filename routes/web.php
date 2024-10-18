@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ProjectManagerController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\HumanResourcesController;
+use App\Http\Controllers\Employee\EmployeeDashboardController;
 
 // Redirect to Login
 Route::get('/', function () {
@@ -115,6 +116,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 
 });
+
+
+// Employee Clock In/Out Routes
+Route::middleware(['auth', 'role:Employee|Super Admin'])->prefix('employee')->name('employee.')->group(function () {
+    Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
+    Route::post('/clockin', [EmployeeDashboardController::class, 'clockIn'])->name('clockin');
+    Route::post('/clockout', [EmployeeDashboardController::class, 'clockOut'])->name('clockout');
+});
+
 
 // Permission Management (Accessible by Super Admin)
 Route::middleware(['auth', 'role:Super Admin'])->group(function () {

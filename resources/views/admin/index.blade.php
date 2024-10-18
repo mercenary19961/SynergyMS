@@ -59,40 +59,6 @@
             <!-- Absent Employees Card -->
             <livewire:absent-employees />
         </div>
-
-        <!-- Log Table -->
-        <div class="mt-8">
-            <h2 class="text-xl font-bold mb-4">Daily Logs</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white rounded-lg shadow">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="py-2 px-4 text-left">#</th>
-                            <th class="py-2 px-4 text-left">Date</th>
-                            <th class="py-2 px-4 text-left">Punch In</th>
-                            <th class="py-2 px-4 text-left">Punch Out</th>
-                            <th class="py-2 px-4 text-left">Total Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-t">
-                            <td class="py-2 px-4">1</td>
-                            <td class="py-2 px-4">Tue Jul 2024</td>
-                            <td class="py-2 px-4">15 PM</td>
-                            <td class="py-2 px-4">15 PM</td>
-                            <td class="py-2 px-4">0</td>
-                        </tr>
-                        <tr class="border-t">
-                            <td class="py-2 px-4">2</td>
-                            <td class="py-2 px-4">Tue Jul 2024</td>
-                            <td class="py-2 px-4">16 PM</td>
-                            <td class="py-2 px-4"></td>
-                            <td class="py-2 px-4">0</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 

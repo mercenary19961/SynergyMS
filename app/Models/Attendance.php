@@ -23,7 +23,13 @@ class Attendance extends Model
         'status',
     ];
 
-    protected $workingHours = ['start' => '09:00', 'end' => '17:00'];
+    protected $casts = [
+        'attendance_date' => 'datetime',
+        'clock_in' => 'datetime:H:i',
+        'clock_out' => 'datetime:H:i',
+    ];
+
+    protected $workingHours = ['start' => '09:00', 'end' => '18:00'];
 
     public function isLate()
     {
