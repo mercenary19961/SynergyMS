@@ -7,6 +7,7 @@ use App\Http\Middleware\RegisterAccess;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\RoleController;
@@ -22,14 +23,24 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\HumanResourcesController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 
+use App\Http\Controllers\UserController;
+
 // Redirect to Login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Redirect to Dashboard
+Route::get('/dashboard-redirect', [UserController::class, 'dashboardRedirect'])->name('dashboard.redirect');
+
+// Profile page
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+
 // Public Routes
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::get('/support', [SupportController::class, 'show'])->name('support');
+Route::post('/support', [SupportController::class, 'submit'])->name('support.submit');
 
 // Authentication Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -49,7 +60,7 @@ Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Admin Routes
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:Super Admin'])->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Route
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -118,6 +129,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
+// Project Manager Dashboard Route
+// Route::middleware(['auth', 'role:Project Manager|Super Admin'])->prefix('project-manager')->name('project-manager.')->group(function () {
+//     Route::get('/dashboard', [ProjectManagerDashboardController::class, 'index'])->name('dashboard');
+// });
+
 // Employee Clock In/Out Routes
 Route::middleware(['auth', 'role:Employee|Super Admin'])->prefix('employee')->name('employee.')->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
@@ -125,6 +141,15 @@ Route::middleware(['auth', 'role:Employee|Super Admin'])->prefix('employee')->na
     Route::post('/clockout', [EmployeeDashboardController::class, 'clockOut'])->name('clockout');
 });
 
+// HR Dashboard Route
+// Route::middleware(['auth', 'role:HR|Super Admin'])->prefix('hr')->name('hr.')->group(function () {
+//     Route::get('/dashboard', [HRDashboardController::class, 'index'])->name('dashboard');
+// });
+
+// Client Dashboard Route
+// Route::middleware(['auth', 'role:Client|Super Admin'])->prefix('client')->name('client.')->group(function () {
+//     Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
+// });
 
 // Permission Management (Accessible by Super Admin)
 Route::middleware(['auth', 'role:Super Admin'])->group(function () {

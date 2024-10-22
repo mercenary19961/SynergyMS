@@ -79,7 +79,7 @@ class EmployeesController extends Controller
             'email' => 'required|email|unique:users,email',
             'gender' => 'required|string|in:Male,Female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'position' => 'required|string',
+            'position_id' => 'required|exists:positions,id',
             'salary' => 'required|numeric',
             'date_of_joining' => 'required|date',
             'address' => 'required|string',
@@ -107,7 +107,7 @@ class EmployeesController extends Controller
     
         EmployeeDetail::create([
             'user_id' => $user->id,
-            'position' => $request->input('position'),
+            'position_id' => $request->input('position_id'),
             'salary' => $request->input('salary'),
             'date_of_joining' => $request->input('date_of_joining'),
             'address' => $request->input('address'),
@@ -141,7 +141,7 @@ class EmployeesController extends Controller
             'email' => 'required|email|unique:users,email,' . $employee->user_id,
             'gender' => 'required|string|in:Male,Female',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'position' => 'required|string',
+            'position_id' => 'required|exists:positions,id',
             'salary' => 'required|numeric',
             'date_of_joining' => 'required|date',
             'address' => 'required|string',
@@ -164,7 +164,7 @@ class EmployeesController extends Controller
         }
     
         $employee->update([
-            'position' => $request->input('position'),
+            'position_id' => $request->input('position_id'),
             'salary' => $request->input('salary'),
             'date_of_joining' => $request->input('date_of_joining'),
             'address' => $request->input('address'),

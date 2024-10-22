@@ -15,6 +15,20 @@ class EmployeeDashboardController extends Controller
     {
         $employee = Auth::user();
 
+        // Check if the user is a Super Admin
+        if ($employee->hasRole('Super Admin')) {
+            $assignedProjects = collect();
+            $attendanceRecords = collect();
+            $todayAttendance = null;
+
+            return view('pages.employee.employeeDashboard', [
+                'employee' => $employee,
+                'assignedProjects' => $assignedProjects,
+                'attendanceRecords' => $attendanceRecords,
+                'todayAttendance' => $todayAttendance,
+            ]);
+        }
+
         // Check if the user has the 'Employee' role
         if (!$employee->hasRole('Employee')) {
             return redirect()->route('login')->with('error', 'Access denied. Only employees can access the dashboard.');
@@ -22,18 +36,12 @@ class EmployeeDashboardController extends Controller
 
         // Fetch the EmployeeDetail model
         $employeeDetail = EmployeeDetail::where('user_id', $employee->id)->first();
-
         if (!$employeeDetail) {
             return redirect()->route('login')->with('error', 'Employee details not found.');
         }
 
-        // Fetch assigned projects for this employee
         $assignedProjects = $employeeDetail->projects()->get();
-
-        // Fetch attendance records for this employee
         $attendanceRecords = $employeeDetail->attendances()->get();
-
-        // Check if the employee has clocked in today
         $todayAttendance = $attendanceRecords->where('attendance_date', Carbon::today())->first();
 
         return view('pages.employee.employeeDashboard', [

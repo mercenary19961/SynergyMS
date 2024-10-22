@@ -37,7 +37,7 @@
         @endrole
 
         <!-- Employee Dashboard -->
-        @role('Employee')
+        {{-- @role('Employee') --}}
         <a href="{{ route('employee.dashboard') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -47,7 +47,7 @@
             <i class="fa-solid fa-users fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Employee Dashboard</span>
         </a>
-        @endrole
+        {{-- @endrole --}}
 
         <!-- Managing Sectors Dropdown -->
         @role('Super Admin|HR')

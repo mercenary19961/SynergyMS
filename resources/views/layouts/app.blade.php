@@ -52,7 +52,7 @@
             open = false;
          }">
 
-        @if (!request()->routeIs('login'))
+        @if (!request()->routeIs('login', 'contact'))
             @if (!isset($hideHeader) || !$hideHeader)
                 <div class="fixed-header w-full">
                     @include('partials.header')

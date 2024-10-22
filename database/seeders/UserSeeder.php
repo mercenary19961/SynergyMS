@@ -27,21 +27,21 @@ class UserSeeder extends Seeder
             ],
             // ID: 2
             [
-                'name' => 'Client Tech',
-                'email' => 'ctech@example.com',
+                'name' => 'Tech Solutions',
+                'email' => 'techsolutions@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Female',
-                'image' => 'clients/Client Tech.jpg',
+                'image' => 'clients/Tech Solutions.jpg',
             ],
             // ID: 3
             [
                 'name' => 'Manager Khaled',
                 'email' => 'mkhaled@example.com',
                 'password' => Hash::make('password'),
-                'role' => 'Super Admin',
+                'role' => 'Project Manager',
                 'gender' => 'Male',
-                'image' => 'project_managers/Manager Khaled.jpg',
+                'image' => 'project_managers/first manager.jpg',
             ],
             // ID: 4
             [
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
             // ID: 5
             [
                 'name' => 'Mohammad Jameel',
-                'email' => 'mkhawara@example.com',
+                'email' => 'mohammad.jameel@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
@@ -153,48 +153,48 @@ class UserSeeder extends Seeder
             ],
             // ID: 16
             [
-                'name' => 'Client Media',
-                'email' => 'cmedia@example.com',
+                'name' => 'MediaCorp',
+                'email' => 'mediacorp@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Female',
-                'image' => 'users/Client Media.jpg',
+                'image' => 'clients/MediaCorp.jpg',
             ],
             // ID: 17
             [
-                'name' => 'Client Healthcare',
-                'email' => 'chealthcare@example.com',
+                'name' => 'HealthCare Plus',
+                'email' => 'healthcareplus@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Female',
-                'image' => 'users/Client Healthcare.jpg',
+                'image' => 'clients/HealthCare Plus.jpg',
             ],
             // ID: 18
             [
-                'name' => 'Client Finance',
-                'email' => 'cfinance@example.com',
+                'name' => 'FinServe Group',
+                'email' => 'finserve@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Male',
-                'image' => 'users/Client Finance.jpg',
+                'image' => 'clients/FinServe Group.jpg',
             ],
             // ID: 19
             [
-                'name' => 'Client Energy',
-                'email' => 'cenergy@example.com',
+                'name' => 'EnergyCo',
+                'email' => 'energyco@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Male',
-                'image' => 'users/Client Energy.jpg',
+                'image' => 'clients/EnergyCo.jpg',
             ],
             // ID: 20
             [
-                'name' => 'Client EduSmart',
-                'email' => 'cedusmart@example.com',
+                'name' => 'EduSmart Academy',
+                'email' => 'edusmartacademy@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Client',
                 'gender' => 'Female',
-                'image' => 'users/Client EduSmart.jpg',
+                'image' => 'clients/EduSmart Academy.jpg',
             ],
             // ID: 21
             [
@@ -339,7 +339,6 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
-                'image' => 'employee_images/employee_36.jpg',
             ],
             // ID: 37
             [

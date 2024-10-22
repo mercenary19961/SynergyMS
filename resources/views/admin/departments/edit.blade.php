@@ -70,23 +70,67 @@
 
             <div class="md:w-1/2">
                 <label for="positions" class="block text-sm font-medium text-gray-700">Positions</label>
-                <div x-data="{ positions: {{ json_encode($department->positions->pluck('name')->toArray()) }} }">
-                    <template x-for="(position, index) in positions" :key="index">
-                        <div class="flex mt-1">
-                            <input :name="'positions[' + index + ']'" type="text" x-model="positions[index]" class="block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter position">
-                            <button type="button" @click="positions.push('')" class="ml-2 text-green-500 hover:text-green-700">
+                <div id="positions-wrapper">
+                    @foreach($department->positions as $index => $position)
+                        <div class="flex mt-1 position-entry">
+                            <input name="positions[{{ $index }}]" type="text" value="{{ $position->name }}" class="block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter position">
+                            <button type="button" class="ml-2 text-green-500 hover:text-green-700 add-position">
                                 <i class="fas fa-plus-circle"></i>
                             </button>
-                            <button type="button" @click="positions.splice(index, 1)" class="ml-2 text-red-500 hover:text-red-700" x-show="positions.length > 1">
+                            <button type="button" class="ml-2 text-red-500 hover:text-red-700 remove-position">
                                 <i class="fas fa-minus-circle"></i>
                             </button>
                         </div>
-                    </template>
+                    @endforeach
                 </div>
             </div>
-
+                    
             <x-form.button-submit label="Update Department" />
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const wrapper = document.getElementById('positions-wrapper');
+        
+        // Function to add a new position input field
+        function addPositionField() {
+            const index = wrapper.querySelectorAll('.position-entry').length;
+            const newField = document.createElement('div');
+            newField.classList.add('flex', 'mt-1', 'position-entry');
+            newField.innerHTML = `
+                <input name="positions[${index}]" type="text" class="block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2" placeholder="Enter position">
+                <button type="button" class="ml-2 text-green-500 hover:text-green-700 add-position">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+                <button type="button" class="ml-2 text-red-500 hover:text-red-700 remove-position">
+                    <i class="fas fa-minus-circle"></i>
+                </button>
+            `;
+            wrapper.appendChild(newField);
+            attachEventListeners(newField);
+        }
+
+        // Function to remove a position input field
+        function removePositionField(button) {
+            if (wrapper.querySelectorAll('.position-entry').length > 1) {
+                button.closest('.position-entry').remove();
+            }
+        }
+
+        // Attach event listeners to buttons
+        function attachEventListeners(entry) {
+            entry.querySelector('.add-position').addEventListener('click', addPositionField);
+            entry.querySelector('.remove-position').addEventListener('click', function() {
+                removePositionField(this);
+            });
+        }
+
+        // Initial event listener attachment for existing fields
+        wrapper.querySelectorAll('.position-entry').forEach(entry => {
+            attachEventListeners(entry);
+        });
+    });
+</script>
 @endsection

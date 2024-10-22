@@ -22,9 +22,9 @@ class HumanResourcesSeeder extends Seeder
             [
                 'user_id' => 21,
                 'department_id' => 8,
-                'position_id' => $positions['Payroll Specialist'],
+                'position_id' => $positions['Payroll Manager'],
                 'contact_number' => '+962791234568',
-                'company_email' => 'payrollspecialist@example.com',
+                'company_email' => 'payrollmanager@example.com',
             ],
             [
                 'user_id' => 22,

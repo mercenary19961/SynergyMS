@@ -19,16 +19,23 @@
 <header class="bg-gradient-to-r from-pink-600 to-orange-500 p-4 flex justify-between items-center shadow-md">
     <div class="flex items-center space-x-4">
         <!-- Sidebar Toggle Button -->
-        <button @click="open = !open; localStorage.setItem('sidebarOpen', open);" 
+        <button @click="toggleSidebar" 
                 class="text-white focus:outline-none transition-transform duration-300">
-            <i class="fa-solid fa-bars fa-lg transition-transform duration-200 hover:scale-110"></i>
+                <i :class="open ? 'fa-solid fa-bars-staggered' : 'fa-solid fa-bars'" 
+                    class="fa-lg transition-transform duration-200 hover:scale-110"></i>
         </button>
         
         <!-- Logo and App Name -->
-        <div id="logo-container" class="flex items-center space-x-2 ml-0 transition-all duration-300">
-            <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow">
-            <span class="text-white text-xl font-poppins hidden xxs:inline">SynergyMS</span>
+        <div id="logo-container" class="flex items-center space-x-2 ml-0">
+            <a href="{{ route('dashboard.redirect') }}" class="flex items-center space-x-2 group transition-all duration-500 hover:scale-105">
+                <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow transition-all duration-500">
+                <span class="text-xl font-poppins hidden xxs:inline text-white transition-all duration-500 group-hover:scale-105 group-hover:translate-y-[-1px]">
+                    <span class="transition-all duration-500 group-hover:text-orange-300">S</span>ynergy
+                    <span class="transition-all duration-500 group-hover:text-orange-300">MS</span>
+                </span>
+            </a>
         </div>
+
     </div>
 
     <!-- Middle Section: Search Field -->
@@ -105,16 +112,16 @@
         <!-- Dropdown Menu -->
         <div id="profile-dropdown" 
             class="profile-dropdown absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-50 hidden">
-            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <a href="{{ route('profile') }}" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
             </a>
-            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            {{-- <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-cog mr-2 text-orange-500 group-hover:text-white"></i> Settings
             </a>
             <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-bell mr-2 text-orange-500 group-hover:text-white"></i> Notifications
-            </a>
-            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            </a> --}}
+            <a href="{{ route('support')}}" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-question-circle mr-2 text-orange-500 group-hover:text-white"></i> Help & Support
             </a>
 

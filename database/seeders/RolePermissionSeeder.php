@@ -13,6 +13,54 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        // Define the permissions
+        $permissions = [
+            // Employee management
+            'manage employees',
+            'create employees',
+            'view employees',
+            'edit employees',
+            'delete employees',
+
+            // Attendance management
+            'manage attendance',
+            'create attendance',
+            'view attendance',
+            'edit attendance',
+            'delete attendance',
+
+            // Project manager management
+            'manage project managers',
+            'view project managers',
+            'edit project managers',
+            'delete project managers',
+
+            // Client management
+            'manage clients',
+            'create clients',
+            'view clients',
+            'edit clients',
+            'delete clients',
+
+            // General permissions
+            'view dashboard',
+            'create projects',
+            'view projects',
+            'edit projects',
+            'delete projects',
+            'create tickets',
+            'view tickets',
+            'edit tickets',
+            'delete tickets',
+            'view profile',
+            'edit profile'
+        ];
+
+        // Create the permissions in the database
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
         // Assign all permissions to Super Admin
         $superAdminRole = Role::findByName('Super Admin');
         $superAdminRole->givePermissionTo(Permission::all());
@@ -20,8 +68,8 @@ class RolePermissionSeeder extends Seeder
         // Assign specific permissions to Client
         $clientRole = Role::findByName('Client');
         $clientRole->givePermissionTo([
-            'view dashboard', 
-            'view projects', 
+            'view dashboard',
+            'view projects',
             'create projects',
         ]);
 
@@ -29,42 +77,38 @@ class RolePermissionSeeder extends Seeder
         $projectManagerRole = Role::findByName('Project Manager');
         $projectManagerRole->givePermissionTo([
             'view dashboard',
-            'create projects', 
-            'view projects', 
-            'edit projects', 
+            'create projects',
+            'view projects',
+            'edit projects',
             'delete projects',
-            'create tickets', 
-            'view tickets', 
-            'edit tickets', 
+            'create tickets',
+            'view tickets',
+            'edit tickets',
             'delete tickets',
         ]);
 
         // Assign specific permissions to HR
         $hrRole = Role::findByName('HR');
         $hrRole->givePermissionTo([
-            'manage employees',   // Permission to manage employees
-            'create employees', 
-            'view employees', 
-            'edit employees', 
+            'manage employees',
+            'create employees',
+            'view employees',
+            'edit employees',
             'delete employees',
-
-            'manage attendance',  // Permission to manage attendance
-            'create attendance', 
-            'view attendance', 
-            'edit attendance', 
+            'manage attendance',
+            'create attendance',
+            'view attendance',
+            'edit attendance',
             'delete attendance',
-
-            'manage project managers',  // Permission to manage project managers
+            'manage project managers',
             'view project managers',
             'edit project managers',
             'delete project managers',
-
-            'manage clients',  // Permission to manage clients
-            'create clients', 
-            'view clients', 
-            'edit clients', 
+            'manage clients',
+            'create clients',
+            'view clients',
+            'edit clients',
             'delete clients',
-
             'view dashboard',
         ]);
 

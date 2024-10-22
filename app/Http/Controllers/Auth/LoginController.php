@@ -20,8 +20,22 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
     
-            // Redirect based on role, or for now, let's use a static redirect
-            return redirect()->route('admin.dashboard'); // This should match your route definition
+
+            // Redirect based on role
+            if ($user->hasRole('Super Admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->hasRole('Client')) {
+                return redirect()->route('client.dashboard');
+            } elseif ($user->hasRole('Project Manager')) {
+                return redirect()->route('project-manager.dashboard');
+            } elseif ($user->hasRole('HR')) {
+                return redirect()->route('hr.dashboard');
+            } elseif ($user->hasRole('Employee')) {
+                return redirect()->route('employee.dashboard');
+            } else {
+                // Default redirect if no role is assigned (optional)
+                return redirect()->route('home');
+            }
         }
     
         // If authentication fails

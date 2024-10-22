@@ -115,7 +115,7 @@
                                             @endif
                                             {{ $employee->user->name }}
                                         </td>
-                                        <td class="py-3 px-4">{{ $employee->position }}</td>
+                                        <td class="py-3 px-4">{{ $employee->position->name }}</td>
                                         <td class="py-3 px-4">{{ $employee->phone }}</td>
                                     </tr>
                                 @endforeach

@@ -27,12 +27,12 @@ class AbsentEmployees extends Component
         // Get the current date
         $currentDate = Carbon::today()->toDateString();
 
-        // Fetch absent employees for the current day, followed by sick leave, then annual leave
-        $this->absentEmployees = Attendance::whereNull('clock_in') // Absent
-            ->where('attendance_date', $currentDate) // Filter by today's date
-            ->whereIn('status', ['absent', 'sick', 'annual']) // Only these statuses
+
+        $this->absentEmployees = Attendance::whereNull('clock_in')
+            ->whereDate('attendance_date', $currentDate)
+            ->whereIn('status', ['Absent', 'Sick Leave', 'Annual Leave'])
             ->with('employee.user')
-            ->orderByRaw("FIELD(status, 'absent', 'sick', 'annual')") // Order by absent, sick, then annual
+            ->orderByRaw("FIELD(status, 'Absent', 'Sick Leave', 'Annual Leave')")
             ->latest()
             ->get();
     }
