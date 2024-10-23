@@ -10,10 +10,11 @@
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-building mr-2 text-gray-600"></i> Departments
             </h1>
-        
+            @role('Admin|Super Admin|HR')
             <a href="{{ route('admin.departments.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
                 <i class="fas fa-plus-circle mr-2"></i> Add New Department
             </a>
+            @endrole
         </div>
 
         <form method="GET" action="{{ route('admin.departments.index') }}" class="mb-6">
@@ -32,7 +33,7 @@
                     >
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-orange-500"></i>
                         </span>
                     </button>
         
@@ -71,7 +72,7 @@
                     >
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-orange-500"></i>
                         </span>
                     </button>
         
@@ -119,7 +120,7 @@
                     <tr>
                         <th class="py-2 px-4"><i class="fas fa-hashtag"></i></th>
                         <th class="py-2 px-4"><i class="fas fa-building"></i> Department Name</th>
-                        <th class="py-2 px-4"><i class="fas fa-sitemap"></i> Sector</th>
+                        <th class="py-2 px-4 hidden lg:table-cell"><i class="fas fa-sitemap"></i> Sector</th>
                         <th class="py-2 px-4"><i class="fas fa-users"></i> Project Managers</th>
                         <th class="py-2 px-4 hidden lg:table-cell"><i class="fas fa-info-circle "></i> Description</th>
                         <th class="py-2 px-4"><i class="fas fa-tools"></i> Actions</th>
@@ -130,7 +131,7 @@
                         <tr class="{{ $index % 2 == 1 ? 'bg-gray-100' : 'bg-white' }} border-t">
                             <td class="py-3 px-4">{{ $department->id }}</td>
                             <td class="py-3 px-4">{{ $department->name }}</td>
-                            <td class="py-3 px-4">{{ ucfirst($department->sector) }}</td>
+                            <td class="py-3 px-4 hidden lg:table-cell">{{ ucfirst($department->sector) }}</td>
         
                             <td class="py-3 px-4">
                                 @if($department->project_manager)
@@ -150,6 +151,7 @@
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                 </a>
+                                @role('Admin|Super Admin|HR')
                                 <a href="{{ route('admin.departments.edit', $department->id) }}" class="transform hover:text-orange-500 hover:scale-110">
                                     <i class="fas fa-pen fa-md text-orange-500 hover:text-yellow-500"></i>
                                 </a>
@@ -158,6 +160,7 @@
                                     @method('DELETE')
                                     <x-delete-button formId="delete-form-{{ $department->id }}" />
                                 </form>
+                                @endrole
                             </td>
                         </tr>
                     @endforeach

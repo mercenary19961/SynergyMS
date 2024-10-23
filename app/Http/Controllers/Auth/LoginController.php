@@ -18,6 +18,9 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
     
         if (Auth::attempt($credentials)) {
+            /**
+             * @method bool hasRole(string $role) // PHPDoc to let Intelephense know hasRole() exists
+             */
             $user = Auth::user();
     
 
@@ -33,8 +36,7 @@ class LoginController extends Controller
             } elseif ($user->hasRole('Employee')) {
                 return redirect()->route('employee.dashboard');
             } else {
-                // Default redirect if no role is assigned (optional)
-                return redirect()->route('home');
+                return redirect()->route('login');
             }
         }
     

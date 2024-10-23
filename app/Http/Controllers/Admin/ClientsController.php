@@ -10,9 +10,32 @@ use Illuminate\Support\Facades\Hash;
 
 class ClientsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::with('user')->paginate(8);
+        // Start with a base query to fetch clients with their associated user
+        $query = Client::with('user');
+    
+        // Filter by Client Name
+        if ($request->has('name') && $request->name != '') {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%');
+            });
+        }
+    
+        // Filter by Company Name
+        if ($request->has('company_name') && $request->company_name != '') {
+            $query->where('company_name', 'like', '%' . $request->company_name . '%');
+        }
+    
+        // Filter by Industry
+        if ($request->has('industry') && $request->industry != '') {
+            $query->where('industry', 'like', '%' . $request->industry . '%');
+        }
+    
+        // Paginate the results
+        $clients = $query->paginate(8);
+    
+        // Return the view with the filtered clients
         return view('admin.clients.index', compact('clients'));
     }
 

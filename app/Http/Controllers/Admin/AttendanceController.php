@@ -31,27 +31,32 @@ class AttendanceController extends Controller
             });
         }
     
+        // Filter by attendance date
         if ($request->has('attendance_date') && $request->attendance_date != '') {
-            $query->where('attendance_date', $request->attendance_date);
+            $query->whereDate('attendance_date', $request->attendance_date);
         }
     
+        // Filter by status
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
     
+        // Apply sorting by attendance_date (default: descending order)
+        $query->orderBy('attendance_date', 'desc'); // Adjust 'asc' or 'desc' as needed
+    
+        // Paginate results
         $attendances = $query->paginate(8);
     
         return view('admin.attendance.index', compact('attendances'));
     }
     
-
+    
     public function show($id)
     {
         $attendance = Attendance::with(['employee.user', 'employee.projectManager.user'])->findOrFail($id);
     
         return view('admin.attendance.show', compact('attendance'));
     }
-    
 
     public function create()
     {

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
@@ -35,9 +35,11 @@
                     <i class="fas fa-list"></i>
                 </button>
 
-                <a href="{{ route('admin.employees.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
-                    <i class="fas fa-plus-circle mr-2"></i> Add Employee
-                </a>
+                @role('Super Admin|HR')
+                    <a href="{{ route('admin.employees.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
+                        <i class="fas fa-plus-circle mr-2"></i> Add Employee
+                    </a>
+                @endrole
 
             </div>
         </div>
@@ -131,23 +133,24 @@
                             class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 transition-colors duration-200"
                             @click.away="openDropdown = false" 
                             @keydown.escape="openDropdown = false" 
-                        >
-                            <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
-                                <i class="fas fa-eye mr-2 fa-md"></i> View
-                            </a>
-                            <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
-                                <i class="fas fa-pen mr-2 fa-md"></i> Edit
-                            </a>
-                            <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-xs text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="w-full text-left flex items-center delete-btn">
-                                    <i class="fas fa-trash mr-2 fa-md"></i> Delete
-                                </button>
-                            </form>
+                            >
+                                <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
+                                    <i class="fas fa-eye mr-2 fa-md"></i> View
+                                </a>
+                                @role('Admin|Super Admin|HR')
+                                <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
+                                    <i class="fas fa-pen mr-2 fa-md"></i> Edit
+                                </a>
+                                <form action="{{ route('admin.employees.destroy', $employee->id) }}" method="POST" class="px-4 py-2 text-xs text-gray-700 hover:bg-red-500 hover:text-white flex items-center">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-full text-left flex items-center delete-btn">
+                                        <i class="fas fa-trash mr-2 fa-md"></i> Delete
+                                    </button>
+                                </form>
+                                @endrole
+                            </div>
                         </div>
-                        </div>
-
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
                             <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class=" w-auto max-h-32 ">
                         </a>
@@ -236,6 +239,7 @@
                                             <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                                 <i class="fas fa-eye mr-2 fa-md"></i> View
                                             </a>
+                                            @role('Admin|Super Admin|HR')
                                             <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                                 <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                             </a>
@@ -246,6 +250,7 @@
                                                     <i class="fas fa-trash mr-2 fa-md"></i> Delete
                                                 </button>
                                             </form>
+                                            @endrole
                                         </div>
                                     </td>
                                 </tr>

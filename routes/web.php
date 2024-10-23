@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\HumanResourcesController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
+use App\Http\Controllers\ProjectManager\ProjectManagerDashboardController;
 
 use App\Http\Controllers\UserController;
 
@@ -60,7 +61,7 @@ Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Admin Routes
-Route::middleware(['auth', 'role:Super Admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:Super Admin|Project Manager'])->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Route
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -91,30 +92,20 @@ Route::middleware(['auth', 'role:Super Admin'])->prefix('admin')->name('admin.')
         Route::post('/settings', 'store')->name('settings.store');
     });
 
-    // Ticket Management Routes
-    Route::controller(TicketsController::class)->group(function () {
-        Route::get('/tickets', 'index')->name('tickets.index');
-        Route::get('/tickets/create', 'create')->name('tickets.create');
-        Route::post('/tickets', 'store')->name('tickets.store');
-        Route::get('/tickets/{id}', 'show')->name('tickets.show');
-        Route::put('/tickets/{id}', 'update')->name('tickets.update');
-        Route::delete('/tickets/{id}', 'destroy')->name('tickets.destroy');
-    });
-
     // Employees Management Routes (Accessible by Super Admin, HR, and Project Manager)
     Route::resource('employees', EmployeesController::class)->middleware('role:Super Admin|HR|Project Manager');
 
     // Attendance Management Routes (Accessible by Super Admin and HR)
-    Route::resource('attendance', AttendanceController::class)->middleware('role:Super Admin|HR');
+    Route::resource('attendance', AttendanceController::class)->middleware('role:Super Admin|HR|Project Manager');
 
     // Departments Management Routes (Accessible by Super Admin and HR)
-    Route::resource('departments', DepartmentController::class)->middleware('role:Super Admin|HR');
+    Route::resource('departments', DepartmentController::class)->middleware('role:Super Admin|HR|Project Manager');
 
     // Ticket Management Routes (Accessible by Super Admin and Project Manager)
     Route::resource('tickets', TicketsController::class)->middleware('role:Super Admin|Project Manager');
 
     // Project Manager Management Routes (Accessible by Super Admin and HR)
-    Route::resource('project-managers', ProjectManagerController::class)->middleware('role:Super Admin|HR');
+    Route::resource('project-managers', ProjectManagerController::class)->middleware('role:Super Admin|HR|Project Manager');
 
     // Clients Management Routes
     Route::resource('clients', ClientsController::class)->middleware('role:Super Admin|Project Manager');
@@ -123,16 +114,16 @@ Route::middleware(['auth', 'role:Super Admin'])->prefix('admin')->name('admin.')
     Route::resource('projects', ProjectController::class)->middleware('role:Super Admin|Project Manager');
 
     // Human Resources Management Routes
-    Route::resource('human-resources', HumanResourcesController::class)->middleware('role:Super Admin|HR');
+    Route::resource('human-resources', HumanResourcesController::class)->middleware('role:Super Admin|HR|Project Manager');
 
 
 });
 
 
 // Project Manager Dashboard Route
-// Route::middleware(['auth', 'role:Project Manager|Super Admin'])->prefix('project-manager')->name('project-manager.')->group(function () {
-//     Route::get('/dashboard', [ProjectManagerDashboardController::class, 'index'])->name('dashboard');
-// });
+Route::middleware(['auth', 'role:Project Manager|Super Admin'])->prefix('project-manager')->name('project-manager.')->group(function () {
+    Route::get('/dashboard', [ProjectManagerDashboardController::class, 'index'])->name('dashboard');
+});
 
 // Employee Clock In/Out Routes
 Route::middleware(['auth', 'role:Employee|Super Admin'])->prefix('employee')->name('employee.')->group(function () {

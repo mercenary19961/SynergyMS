@@ -22,14 +22,14 @@
         <a href="{{ route('admin.dashboard') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
-                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.dashboard') }}', // Apply background only when open and route is active
-                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.dashboard') }}' // Apply hover color when not active
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.dashboard') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.dashboard') }}' 
             }">
             <i class="fa-solid fa-gauge fa-lg"
                 :class="{
-                    'text-white': !open && '{{ request()->routeIs('admin.dashboard') }}', // Change icon to white when sidebar is closed and dashboard is active
-                    'text-orange-500': open && '{{ request()->routeIs('admin.dashboard') }}', // Orange icon when sidebar is open and dashboard is active
-                    'text-gray-300': !'{{ request()->routeIs('admin.dashboard') }}' // Default color when not active
+                    'text-white': !open && '{{ request()->routeIs('admin.dashboard') }}',
+                    'text-orange-500': open && '{{ request()->routeIs('admin.dashboard') }}',
+                    'text-gray-300': !'{{ request()->routeIs('admin.dashboard') }}'
                 }">
             </i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Admin Dashboard</span>
@@ -37,7 +37,7 @@
         @endrole
 
         <!-- Employee Dashboard -->
-        {{-- @role('Employee') --}}
+        @role('Employee')
         <a href="{{ route('employee.dashboard') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -47,81 +47,124 @@
             <i class="fa-solid fa-users fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Employee Dashboard</span>
         </a>
-        {{-- @endrole --}}
-
-        <!-- Managing Sectors Dropdown -->
-        @role('Super Admin|HR')
-        <div x-data="{ openDropdown: {{ request()->routeIs('admin.employees.*') || request()->routeIs('admin.attendance.*') || request()->routeIs('admin.departments.*') || request()->routeIs('admin.tickets.*') || request()->routeIs('admin.project-managers.*') || request()->routeIs('admin.clients.*') || request()->routeIs('admin.projects.*') || request()->routeIs('admin.human-resources.*') ? 'true' : 'false' }} }" 
-            class="p-2 text-gray-300">
-            <button @click="openDropdown = !openDropdown" class="w-full text-left flex items-center justify-between">
-                <div class="flex items-center">
-                    <i class="fa-solid fa-bezier-curve fa-md mr-2 hover:text-white"></i>
-                    <span x-show="open" class="text-sm hover:text-white">Managing Sectors</span>
-                </div>
-                <i :class="{ 'rotate-180': openDropdown }" x-show="open" class="fa-solid fa-chevron-down text-xxs transition-transform duration-200 ease-in-out"></i>
-            </button>
-
-            <!-- Dropdown items with icons -->
-            <div x-show="open && openDropdown" 
-                x-transition:enter="transition ease-out duration-300" 
-                x-transition:enter-start="opacity-0 transform scale-90" 
-                x-transition:enter-end="opacity-100 transform scale-100" 
-                x-transition:leave="transition ease-in duration-300" 
-                x-transition:leave-start="opacity-100 transform scale-100" 
-                x-transition:leave-end="opacity-0 transform scale-90" 
-                class="mt-2 space-y-1 bg-zinc-900 rounded-lg">
-
-                <!-- Manage Employees (Visible to Admin and HR) -->
-                <a href="{{ route('admin.employees.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.employees.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-user-tie fa-md mr-2"></i> Manage Employees
-                </a>
-
-                <!-- Manage Attendance (Visible to Admin and HR) -->
-                <a href="{{ route('admin.attendance.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.attendance.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-calendar-check fa-md mr-2"></i> Manage Attendance
-                </a>
-
-                <!-- Manage Project Managers (Visible to Admin and HR) -->
-                <a href="{{ route('admin.project-managers.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.project-managers.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-user-cog fa-md mr-2"></i> Manage Project Managers
-                </a>
-
-                <!-- Manage Clients (Visible to Admin and HR) -->
-                <a href="{{ route('admin.clients.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.clients.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-handshake fa-md mr-2"></i> Manage Clients
-                </a>
-
-                <!-- Other management links (only visible to Admins) -->
-                @role('Super Admin')
-                <a href="{{ route('admin.departments.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.departments.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-building fa-md mr-2"></i> Manage Departments
-                </a>
-
-                <a href="{{ route('admin.tickets.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.tickets.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-ticket-alt fa-md mr-2"></i> Manage Tickets
-                </a>
-
-                <a href="{{ route('admin.projects.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.projects.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-folder fa-md mr-2"></i> Manage Projects
-                </a>
-
-                <a href="{{ route('admin.human-resources.index') }}" 
-                class="block py-2 px-4 text-xs text-gray-300 hover:text-white transition-colors duration-200 {{ request()->routeIs('admin.human-resources.*') ? 'text-orange-500' : '' }}">
-                    <i class="fa-solid fa-users-cog fa-md mr-2"></i> Manage Human Resources
-                </a>
-                @endrole
-
-            </div>
-        </div>
         @endrole
 
+        <!-- Project Manager Dashboard -->
+        @role('Project Manager')
+        <a href="{{ route('project-manager.dashboard') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('projectManager.dashboard') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('projectManager.dashboard') }}'
+            }">
+            <i class="fa-solid fa-clipboard-list fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Project Manager Dashboard</span>
+        </a>
+        @endrole
+
+        <!-- Manage Employees -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.employees.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.employees.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.employees.index') }}'
+            }">
+            <i class="fa-solid fa-user-tie fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Employees</span>
+        </a>
+        @endrole
+
+        <!-- Manage Attendance -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.attendance.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.attendance.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.attendance.index') }}'
+            }">
+            <i class="fa-solid fa-calendar-check fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Attendance</span>
+        </a>
+        @endrole
+
+        <!-- Manage Project Managers -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.project-managers.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.project-managers.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.project-managers.index') }}'
+            }">
+            <i class="fa-solid fa-user-cog fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Project Managers</span>
+        </a>
+        @endrole
+
+        <!-- Manage Clients -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.clients.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.clients.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.clients.index') }}'
+            }">
+            <i class="fa-solid fa-handshake fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Clients</span>
+        </a>
+        @endrole
+
+        <!-- Manage Departments -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.departments.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.departments.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.departments.index') }}'
+            }">
+            <i class="fa-solid fa-building fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Departments</span>
+        </a>
+        @endrole
+
+        <!-- Manage Tickets -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.tickets.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.tickets.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.tickets.index') }}'
+            }">
+            <i class="fa-solid fa-ticket-alt fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Tickets</span>
+        </a>
+        @endrole
+
+        <!-- Manage Projects -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.projects.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.projects.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.projects.index') }}'
+            }">
+            <i class="fa-solid fa-folder fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Projects</span>
+        </a>
+        @endrole
+
+        <!-- Manage Human Resources -->
+        @role('Super Admin|HR|Project Manager')
+        <a href="{{ route('admin.human-resources.index') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.human-resources.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.human-resources.index') }}'
+            }">
+            <i class="fa-solid fa-users-cog fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Human Resources</span>
+        </a>
+        @endrole
     </nav>
 </div>
 

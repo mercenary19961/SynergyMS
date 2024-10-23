@@ -2,16 +2,18 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-ticket-alt mr-2 text-gray-600"></i> Tickets
             </h1>
+            @role('Admin|Super Admin|HR')
             <a href="{{ route('admin.tickets.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
                 <i class="fas fa-plus mr-2"></i> Add New Ticket
             </a>
+            @endrole
         </div>
 
         <form method="GET" action="{{ route('admin.tickets.index') }}" class="mb-6">
@@ -145,26 +147,26 @@
                         <th class="py-3 px-6 text-left"><i class="fas fa-file-alt mr-2"></i>Title</th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-tasks mr-2"></i>Status</th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-exclamation-triangle mr-2"></i>Priority</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-user mr-2"></i>Employee</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-user-tie mr-2"></i>Project Manager</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-user mr-2"></i>Employee</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-user-tie mr-2"></i>Project Manager</th>
                         <th class="py-3 px-6 text-center"><i class="fas fa-cogs mr-2"></i>Actions</th>
                     </tr>
                 </thead>
-                <tbody class="text-black text-sm font-normal">
+                <tbody class="text-black text-xs md:text-sm font-normal">
                     @foreach($tickets as $ticket)
                         <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
                             <td class="py-3 px-6">{{ $ticket->id }}</td>
                             <td class="py-3 px-6">{{ $ticket->title }}</td>
                             <td class="py-3 px-6">{{ $ticket->status }}</td>
                             <td class="py-3 px-6">{{ $ticket->priority }}</td>
-                            <td class="py-3 px-6">
+                            <td class="py-3 px-6 hidden lg:table-cell">
                                 @if($ticket->employee && $ticket->employee->user)
                                     {{ $ticket->employee->user->name }}
                                 @else
                                     <span class="text-gray-500">Unassigned</span>
                                 @endif
                             </td>
-                            <td class="py-3 px-6">
+                            <td class="py-3 px-6 hidden lg:table-cell">
                                 @if($ticket->projectManager && $ticket->projectManager->user)
                                     {{ $ticket->projectManager->user->name }}
                                 @else
@@ -176,6 +178,7 @@
                                     <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
+                                    @role('Admin|Super Admin|HR')
                                     <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
                                         <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                     </a>
@@ -184,6 +187,7 @@
                                         @method('DELETE')
                                         <x-delete-button formId="delete-form-{{ $ticket->id }}" />
                                     </form>
+                                    @endrole
                                 </div>
                             </td>
                         </tr>

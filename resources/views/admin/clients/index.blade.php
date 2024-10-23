@@ -2,16 +2,18 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-users mr-2 text-gray-600"></i> Clients
             </h1>
+            @role('Admin|Super Admin|HR')
             <a href="{{ route('admin.clients.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i> Add New Client
             </a>
+            @endrole
         </div>
 
         <form method="GET" action="{{ route('admin.clients.index') }}" class="mb-6">
@@ -50,8 +52,8 @@
                         <th class="py-3 px-6 text-left"><i class="fas fa-hashtag mr-2"></i></th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-user mr-2"></i>Client Name</th>
                         <th class="py-3 px-6 text-left"><i class="fas fa-building mr-2"></i>Company Name</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-industry mr-2"></i>Industry</th>
-                        <th class="py-3 px-6 text-left"><i class="fas fa-phone-alt mr-2"></i>Contact Number</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-industry mr-2"></i>Industry</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell"><i class="fas fa-phone-alt mr-2"></i>Contact Number</th>
                         <th class="py-3 px-6 text-center"><i class="fas fa-cogs mr-2"></i>Actions</th>
                     </tr>
                 </thead>
@@ -61,13 +63,14 @@
                             <td class="py-3 px-6">{{ $client->id }}</td>
                             <td class="py-3 px-6">{{ $client->user->name }}</td>
                             <td class="py-3 px-6">{{ $client->company_name }}</td>
-                            <td class="py-3 px-6">{{ $client->industry }}</td>
-                            <td class="py-3 px-6">{{ $client->contact_number }}</td>
+                            <td class="py-3 px-6 hidden lg:table-cell">{{ $client->industry }}</td>
+                            <td class="py-3 px-6 hidden lg:table-cell">{{ $client->contact_number }}</td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center space-x-4">
                                     <a href="{{ route('admin.clients.show', $client->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
+                                    @role('Admin|Super Admin|HR')
                                     <a href="{{ route('admin.clients.edit', $client->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
                                         <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                     </a>
@@ -76,6 +79,7 @@
                                         @method('DELETE')
                                         <x-delete-button formId="delete-form-{{ $client->id }}" />
                                     </form>
+                                    @endrole
                                 </div>
                             </td>
                         </tr>

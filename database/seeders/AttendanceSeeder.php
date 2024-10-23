@@ -107,7 +107,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                 'employee_id' => 29,
-                'attendance_date' => Carbon::parse('2024-08-04 09:00:00'),
+                'attendance_date' => Carbon::parse('2024-10-22 09:00:00'),
                 'clock_in' => null,
                 'clock_out' => null,
                 'total_hours' => null,
@@ -116,7 +116,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                 'employee_id' => 30,
-                'attendance_date' => Carbon::parse('2024-08-04 09:00:00'),
+                'attendance_date' => Carbon::parse('2024-10-22 09:00:00'),
                 'clock_in' => null,
                 'clock_out' => null,
                 'total_hours' => null,
@@ -135,7 +135,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                 'employee_id' => 32,
-                'attendance_date' => Carbon::parse('2024-10-20 09:00:00'),
+                'attendance_date' => Carbon::parse('2024-10-22 09:00:00'),
                 'clock_in' => null,
                 'clock_out' => null,
                 'total_hours' => null,
@@ -247,7 +247,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                 'employee_id' => 26,
-                'attendance_date' => Carbon::parse('2024-10-20 09:00:00'),
+                'attendance_date' => Carbon::parse('2024-10-22 09:00:00'),
                 'clock_in' => null,
                 'clock_out' => null,
                 'total_hours' => null,

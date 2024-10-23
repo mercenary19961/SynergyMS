@@ -23,13 +23,3 @@ class ProjectManagerSeeder extends Seeder
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

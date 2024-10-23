@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
         <!-- Header Row -->
@@ -10,9 +10,11 @@
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-tasks mr-2 text-gray-600"></i> Projects
             </h1>
+            @role('Admin|Super Admin|HR')
             <a href="{{ route('admin.projects.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i>Add New Project
             </a>
+            @endrole
         </div>
 
         <!-- Filter Form -->
@@ -31,7 +33,7 @@
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-gray-400"></i>
                         </span>
                     </button>
 
@@ -55,7 +57,7 @@
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-gray-400"></i>
                         </span>
                     </button>
 
@@ -79,13 +81,13 @@
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-gray-400"></i>
                         </span>
                     </button>
 
                     <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                         <li @click="selected = 'Select Status'; open = false; $refs.status.value = ''" class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center">
-                            <i class="fas fa-tasks mr-2 text-orange-500 group-hover:text-white"></i> Select Status
+                            <i class="fas fa-tasks  mr-2 text-orange-500 group-hover:text-white"></i> Select Status
                         </li>
                         <li @click="selected = 'In Progress'; open = false; $refs.status.value = 'In Progress'" class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center">
                             <i class="fas fa-spinner mr-2 text-orange-500 group-hover:text-white"></i> In Progress
@@ -165,6 +167,7 @@
                                 <a href="{{ route('admin.projects.show', $project->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
                                 </a>
+                                @role('Admin|Super Admin|HR')
                                 <a href="{{ route('admin.projects.edit', $project->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
                                     <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
                                 </a>
@@ -173,6 +176,7 @@
                                     @method('DELETE')
                                     <x-delete-button formId="delete-form-{{ $project->id }}" />
                                 </form>
+                                @endrole
                             </td>
                         </tr>
                     @endforeach

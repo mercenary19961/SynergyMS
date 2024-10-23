@@ -475,6 +475,22 @@ class UserSeeder extends Seeder
                 'gender' => 'Male',
                 'image' => 'employee_images/employee_51.jpg',
             ],
+            // ID: 52
+            [
+                'name' => 'Osama Karam',
+                'email' => 'osama.karam@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'Employee',
+                'gender' => 'Male',
+            ],
+            // ID: 53
+            [
+                'name' => 'Yaseen Zaid',
+                'email' => 'yaseen.zaid@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'Employee',
+                'gender' => 'Male',
+            ],
         ];
 
         foreach ($users as $index => $userData) {

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
+    <div class="flex-1 p-0 lg:p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
@@ -35,9 +35,11 @@
                     <i class="fas fa-list"></i>
                 </button>
 
+                @role('Admin|Super Admin|HR')
                 <a href="{{ route('admin.human-resources.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
                     <i class="fas fa-plus-circle mr-2"></i> Add HR Employee
                 </a>
+                @endrole
             </div>
         </div>
 
@@ -154,6 +156,7 @@
                                 <a href="{{ route('admin.human-resources.show', $hrEmployee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                     <i class="fas fa-eye mr-2 fa-md"></i> View
                                 </a>
+                                @role('Admin|Super Admin|HR')
                                 <a href="{{ route('admin.human-resources.edit', $hrEmployee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                     <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                 </a>
@@ -164,6 +167,7 @@
                                         <i class="fas fa-trash mr-2 fa-md"></i> Delete
                                     </button>
                                 </form>
+                                @endrole
                             </div>
                         </div>
         
@@ -249,6 +253,7 @@
                                             <a href="{{ route('admin.human-resources.show', $hrEmployee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                                 <i class="fas fa-eye mr-2 fa-md"></i> View
                                             </a>
+                                            @role('Admin|Super Admin|HR')
                                             <a href="{{ route('admin.human-resources.edit', $hrEmployee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                                 <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                             </a>
@@ -259,6 +264,7 @@
                                                     <i class="fas fa-trash mr-2 fa-md"></i> Delete
                                                 </button>
                                             </form>
+                                            @endrole
                                         </div>
                                     </td>
                                 </tr>

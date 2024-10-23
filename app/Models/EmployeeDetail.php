@@ -39,7 +39,7 @@ class EmployeeDetail extends Model
 
     public function attendances()
     {
-        return $this->hasMany(Attendance::class, 'employee_id');
+        return $this->hasMany(Attendance::class, 'employee_id', 'id');
     }
 
     public function department()
@@ -65,6 +65,11 @@ class EmployeeDetail extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'employee_project', 'employee_id', 'project_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
 }

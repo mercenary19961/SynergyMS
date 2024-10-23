@@ -410,6 +410,30 @@ class EmployeeDetailSeeder extends Seeder
                 'date_of_birth' => '1992-11-11',
                 'phone' => '+962788765678',
             ],
+            [
+                'user_id' => 52,
+                'department_id' => 1,
+                'position_id' => $positions['Full Stack Developer'],
+                'salary' => 1350.00,
+                'date_of_joining' => '2022-06-12',
+                'address' => 'Amman, Jordan',
+                'nationality' => 'Jordan',
+                'age' => 29,
+                'date_of_birth' => '1995-02-10',
+                'phone' => '+962788741678',
+            ],
+            [
+                'user_id' => 53,
+                'department_id' => 1,
+                'position_id' => $positions['Full Stack Developer'],
+                'salary' => 1400.00,
+                'date_of_joining' => '2022-07-12',
+                'address' => 'Amman, Jordan',
+                'nationality' => 'Jordan',
+                'age' => 25,
+                'date_of_birth' => '1999-07-10',
+                'phone' => '+962788655678',
+            ],
         ];
 
         foreach ($employees as $employee) {

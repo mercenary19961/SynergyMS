@@ -3,12 +3,11 @@
 @section('content')
 <div class="flex h-screen">
     <!-- Main Content -->
-    <div class="flex-1 p-6 bg-gray-100">
+    <div class="flex-1 p-6 bg-gray-100 mb-4">
         <!-- Dashboard Header -->
         <h1 class="text-2xl font-semibold mb-6">
             <i class="fas fa-tachometer-alt mr-2 text-gray-600"></i> Admin Dashboard
         </h1>
-
         <!-- Summary Cards (Employees, Clients, Projects, Tickets) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Employees Card -->
