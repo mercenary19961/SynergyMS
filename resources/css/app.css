@@ -62,12 +62,12 @@ html, body {
 /* Adjust padding on smaller screens */
 @media (max-width: 1024px) {
     .main-content {
-        padding-left: 20px; /* Equal padding on the left */
-        padding-right: 20px; /* Equal padding on the right */
-        margin-left: 0; /* Ensure there's no margin when sidebar is closed */
+        /* padding-left: 20px; */
+        /* padding-right: 20px; */
+        margin-left: 0;
     }
     .main-content.open {
-        margin-left: 0px; /* Adjust based on sidebar width */
+        margin-left: 0px;
     }
 
     .main-content.closed {
@@ -82,7 +82,7 @@ html, body {
 }
 
 .main-content {
-    padding: 20px;
+    /* padding: 20px; */
     margin-top: 72px;
     transition: margin-left 0.3s ease-in-out;
     height: calc(100vh - 72px); /* Full height minus the header */
@@ -95,7 +95,7 @@ html, body {
 }
 
 .main-content.closed {
-    margin-left: 60px; /* Adjust based on closed sidebar width */
+    margin-left: 48px; /* Adjust based on closed sidebar width */
 }
 
 /* Overlay for small screens */

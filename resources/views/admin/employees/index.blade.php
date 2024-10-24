@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-0 lg:p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
         <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <a href="{{ route('admin.employees.show', $employee->id) }}">
-                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class=" w-auto max-h-32 ">
+                            <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover w-auto max-h-32 ">
                         </a>
                         <h3 class="mt-4 text-sm font-semibold text-gray-600">{{ $employee->user->name }}</h3>
                         <p class="text-gray-600 text-sm">{{ $employee->position->name }}</p>
@@ -266,6 +266,7 @@
             </div>
         </div>
     </div>
+    <x-footer />
 
     <!-- Tailwind CSS Loader Styles -->
     <style>

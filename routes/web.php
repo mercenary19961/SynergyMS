@@ -25,6 +25,8 @@ use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\ProjectManager\ProjectManagerDashboardController;
 
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckRecruitmentManager;
+use App\Http\Middleware\ProjectOwnerOrSuperAdmin;
 
 // Redirect to Login
 Route::get('/', function () {
@@ -61,62 +63,132 @@ Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Admin Routes
-Route::middleware(['auth', 'role:Super Admin|Project Manager'])->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Route
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'role:Super Admin']);
 
     // User Management Routes
     Route::controller(UserManagementController::class)->group(function () {
-        Route::get('/users', 'index')->name('users.index');
-        Route::get('/users/create', 'create')->name('users.create');
-        Route::post('/users', 'store')->name('users.store');
-        Route::get('/users/{id}/edit', 'edit')->name('users.edit');
-        Route::put('/users/{id}', 'update')->name('users.update');
-        Route::delete('/users/{id}', 'destroy')->name('users.destroy');
+        Route::get('/users', 'index')->name('users.index')->middleware(['auth', 'role:Super Admin']);
+        Route::get('/users/create', 'create')->name('users.create')->middleware(['auth', 'role:Super Admin']);
+        Route::post('/users', 'store')->name('users.store')->middleware(['auth', 'role:Super Admin']);
+        Route::get('/users/{id}/edit', 'edit')->name('users.edit')->middleware(['auth', 'role:Super Admin']);
+        Route::put('/users/{id}', 'update')->name('users.update')->middleware(['auth', 'role:Super Admin']);
+        Route::delete('/users/{id}', 'destroy')->name('users.destroy')->middleware(['auth', 'role:Super Admin']);
     });
 
     // Role Management Routes
     Route::controller(RoleController::class)->group(function () {
-        Route::get('/roles', 'index')->name('roles.index');
-        Route::get('/roles/create', 'create')->name('roles.create');
-        Route::post('/roles', 'store')->name('roles.store');
-        Route::get('/roles/{id}/edit', 'edit')->name('roles.edit');
-        Route::put('/roles/{id}', 'update')->name('roles.update');
-        Route::delete('/roles/{id}', 'destroy')->name('roles.destroy');
+        Route::get('/roles', 'index')->name('roles.index')->middleware(['auth', 'role:Super Admin']);
+        Route::get('/roles/create', 'create')->name('roles.create')->middleware(['auth', 'role:Super Admin']);
+        Route::post('/roles', 'store')->name('roles.store')->middleware(['auth', 'role:Super Admin|Project Manager']);
+        Route::get('/roles/{id}/edit', 'edit')->name('roles.edit')->middleware(['auth', 'role:Super Admin']);
+        Route::put('/roles/{id}', 'update')->name('roles.update')->middleware(['auth', 'role:Super Admin']);
+        Route::delete('/roles/{id}', 'destroy')->name('roles.destroy')->middleware(['auth', 'role:Super Admin']);
     });
 
     // Settings Routes
     Route::controller(SettingsController::class)->group(function () {
-        Route::get('/settings', 'index')->name('settings.index');
-        Route::post('/settings', 'store')->name('settings.store');
+        Route::get('/settings', 'index')->name('settings.index')->middleware(['auth', 'role:Super Admin']);
+        Route::post('/settings', 'store')->name('settings.store')->middleware(['auth', 'role:Super Admin']);
     });
 
-    // Employees Management Routes (Accessible by Super Admin, HR, and Project Manager)
-    Route::resource('employees', EmployeesController::class)->middleware('role:Super Admin|HR|Project Manager');
+    // Employees Management Routes
+    Route::controller(EmployeesController::class)->group(function () {
+        Route::get('/employees', 'index')->name('employees.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/employees/{employee}', 'show')->name('employees.show')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/admin/employees/create', 'create')->name('employees.create')->middleware('role:Super Admin|HR');
+        Route::post('/employees', 'store')->name('employees.store')->middleware('role:Super Admin|HR');
+        Route::get('/employees/{employee}/edit', 'edit')->name('employees.edit')->middleware('role:Super Admin|HR');
+        Route::put('/employees/{employee}', 'update')->name('employees.update')->middleware('role:Super Admin|HR');
+        Route::delete('/employees/{employee}', 'destroy')->name('employees.destroy')->middleware('role:Super Admin|HR');
+    });
 
-    // Attendance Management Routes (Accessible by Super Admin and HR)
-    Route::resource('attendance', AttendanceController::class)->middleware('role:Super Admin|HR|Project Manager');
+    // Attendance Management Routes
+    Route::controller(AttendanceController::class)->group(function () {
+        Route::get('/attendance', 'index')->name('attendance.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/attendance/{attendance}', 'show')->name('attendance.show')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/admin/attendance/create', 'create')->name('attendance.create')->middleware('role:Super Admin|HR');
+        Route::post('/attendance', 'store')->name('attendance.store')->middleware('role:Super Admin|HR');
+        Route::get('/attendance/{attendance}/edit', 'edit')->name('attendance.edit')->middleware('role:Super Admin|HR');
+        Route::put('/attendance/{attendance}', 'update')->name('attendance.update')->middleware('role:Super Admin|HR');
+        Route::delete('/admin/attendance/{attendance}', 'destroy')->name('attendance.destroy')->middleware('role:Super Admin|HR');
+    });
 
-    // Departments Management Routes (Accessible by Super Admin and HR)
-    Route::resource('departments', DepartmentController::class)->middleware('role:Super Admin|HR|Project Manager');
+    // Departments Management Routes
+    Route::controller(DepartmentController::class)->group(function () {
+        Route::get('/departments', 'index')->name('departments.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/departments/{department}', 'show')->name('departments.show')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/admin/departments/create', 'create')->name('departments.create')->middleware('role:Super Admin|HR');
+        Route::post('/departments', 'store')->name('departments.store')->middleware('role:Super Admin|HR');
+        Route::get('/departments/{department}/edit', 'edit')->name('departments.edit')->middleware('role:Super Admin|HR');
+        Route::put('/departments/{department}', 'update')->name('departments.update')->middleware('role:Super Admin|HR');
+        Route::delete('/admin/departments/{department}', 'destroy')->name('departments.destroy')->middleware('role:Super Admin|HR');
+    });
 
-    // Ticket Management Routes (Accessible by Super Admin and Project Manager)
-    Route::resource('tickets', TicketsController::class)->middleware('role:Super Admin|Project Manager');
-
-    // Project Manager Management Routes (Accessible by Super Admin and HR)
-    Route::resource('project-managers', ProjectManagerController::class)->middleware('role:Super Admin|HR|Project Manager');
+    // Tickets Management Routes
+    Route::controller(TicketsController::class)->group(function () {
+        Route::get('/tickets', 'index')->name('tickets.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/tickets/{ticket}', 'show')->name('tickets.show')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/admin/tickets/create', 'create')->name('tickets.create')->middleware('role:Super Admin|Project Manager');
+        Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager');
+        Route::get('/tickets/{ticket}/edit', 'edit')->name('tickets.edit')->middleware('role:Super Admin|Project Manager');
+        Route::put('/tickets/{ticket}', 'update')->name('tickets.update')->middleware('role:Super Admin|Project Manager');
+        Route::delete('/tickets/{ticket}', 'destroy')->name('tickets.destroy')->middleware('role:Super Admin|Project Manager');
+    });
 
     // Clients Management Routes
-    Route::resource('clients', ClientsController::class)->middleware('role:Super Admin|Project Manager');
+    Route::controller(ClientsController::class)->group(function () {
+        Route::get('/clients', 'index')->name('clients.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/clients/{client}', 'show')->name('clients.show')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/admin/clients/create', 'create')->name('clients.create')->middleware('role:Super Admin|Project Manager');
+        Route::post('/clients', 'store')->name('clients.store')->middleware('role:Super Admin|Project Manager');
+        Route::get('/clients/{client}/edit', 'edit')->name('clients.edit')->middleware('role:Super Admin|Project Manager');
+        Route::put('/clients/{client}', 'update')->name('clients.update')->middleware('role:Super Admin|Project Manager');
+        Route::delete('/clients/{client}', 'destroy')->name('clients.destroy')->middleware('role:Super Admin|Project Manager');
+    });
 
     // Projects Management Routes
-    Route::resource('projects', ProjectController::class)->middleware('role:Super Admin|Project Manager');
+    Route::controller(ProjectController::class)->group(function () {
+        Route::get('/projects', 'index')->name('projects.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/projects/{project}', 'show')->name('projects.show')->middleware('role:Super Admin|HR|Project Manager');
+        
+        // Only Super Admin and Project Manager can create new projects
+        Route::get('/admin/projects/create', 'create')->name('projects.create')->middleware('role:Super Admin|Project Manager');
+        Route::post('/projects', 'store')->name('projects.store')->middleware('role:Super Admin|Project Manager');
 
-    // Human Resources Management Routes
-    Route::resource('human-resources', HumanResourcesController::class)->middleware('role:Super Admin|HR|Project Manager');
+        // Use custom middleware to check project owner or Super Admin
+        Route::get('/projects/{project}/edit', 'edit')->name('projects.edit')->middleware(ProjectOwnerOrSuperAdmin::class);
+        Route::put('/projects/{project}', 'update')->name('projects.update')->middleware(ProjectOwnerOrSuperAdmin::class);
+        Route::delete('/projects/{project}', 'destroy')->name('projects.destroy')->middleware(ProjectOwnerOrSuperAdmin::class);
+    });
+
+});
+
+// Project Manager Management Routes with 'admin/project-managers' prefix
+Route::prefix('admin/project-managers')->name('admin.')->controller(ProjectManagerController::class)->group(function () {
+    Route::get('/', 'index')->name('project-managers.index')->middleware('role:Super Admin|HR|Project Manager');
+    Route::get('/{projectManager}', 'show')->name('project-managers.show')->middleware('role:Super Admin|HR|Project Manager');
+    Route::get('/create', 'create')->name('project-managers.create')->middleware('role:Super Admin|HR');
+    Route::post('/', 'store')->name('project-managers.store')->middleware('role:Super Admin|HR');
+    Route::get('/{projectManager}/edit', 'edit')->name('project-managers.edit')->middleware('role:Super Admin|HR');
+    Route::put('/{projectManager}', 'update')->name('project-managers.update')->middleware('role:Super Admin|HR');
+    Route::delete('/{projectManager}', 'destroy')->name('project-managers.destroy')->middleware('role:Super Admin|HR');
+});
 
 
+// Human Resources Management Routes with 'admin/human-resources' prefix
+Route::prefix('admin/human-resources')->name('admin.')->controller(HumanResourcesController::class)->group(function () {
+    Route::get('/', 'index')->name('human-resources.index')->middleware('role:Super Admin|HR|Project Manager');
+    Route::get('/{id}', 'show')->name('human-resources.show')->middleware('role:Super Admin|HR|Project Manager');
+
+    // Apply custom middleware for creating, editing, updating, and deleting
+    Route::get('/admin/human-resources/create', 'create')->name('human-resources.create')->middleware(CheckRecruitmentManager::class);
+    Route::post('/', 'store')->name('human-resources.store')->middleware(CheckRecruitmentManager::class);
+    Route::get('/{id}/edit', 'edit')->name('human-resources.edit')->middleware(CheckRecruitmentManager::class);
+    Route::put('/{id}', 'update')->name('human-resources.update')->middleware(CheckRecruitmentManager::class);
+    Route::delete('/{id}', 'destroy')->name('human-resources.destroy')->middleware(CheckRecruitmentManager::class);
 });
 
 

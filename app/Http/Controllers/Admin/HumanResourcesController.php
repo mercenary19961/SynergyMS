@@ -137,14 +137,16 @@ class HumanResourcesController extends Controller
         return redirect()->route('admin.human-resources.index')->with('success', 'HR Employee updated successfully.');
     }
 
-    public function destroy(HumanResources $humanResource)
+    public function destroy($id)
     {
+        $humanResource = HumanResources::findOrFail($id);
         $humanResource->delete();
         return redirect()->route('admin.human-resources.index')->with('success', 'HR Employee deleted successfully.');
     }
 
-    public function show(HumanResources $humanResource)
+    public function show($id)
     {
-        return view('admin.human-resources.show', compact('humanResource'));
+        $hrEmployee = HumanResources::with('user', 'department', 'position')->findOrFail($id);
+        return view('admin.human-resources.show', compact('hrEmployee'));
     }
 }

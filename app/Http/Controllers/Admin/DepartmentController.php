@@ -135,4 +135,12 @@ class DepartmentController extends Controller
         return redirect()->route('admin.departments.index')->with('success', 'Department updated successfully.');
     }
     
+    public function destroy(Department $department)
+    {
+        $department->positions()->delete();
+        $department->employees()->update(['department_id' => null]);
+        $department->delete();
+
+        return redirect()->route('admin.departments.index')->with('success', 'Department deleted successfully.');
+    }
 }

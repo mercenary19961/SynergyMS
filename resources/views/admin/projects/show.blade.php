@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-6 bg-gray-100">
         <x-title-with-back title="Project Details" />
 
@@ -75,19 +75,26 @@
 
         <!-- Actions -->
         <div class="mt-6 flex justify-end space-x-4">
-            <a href="{{ route('admin.projects.edit', $project->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                <i class="fas fa-edit mr-2"></i>Edit Project
-            </a>
 
-            <form method="POST" action="{{ route('admin.projects.destroy', $project->id) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure you want to delete this project?')">
-                    <i class="fas fa-trash-alt mr-2"></i>Delete Project
-                </button>
-            </form>
+            @if(auth()->user()->hasRole('Super Admin') || auth()->user()->id === $project->projectManager->user->id)
+                <!-- Edit Project Button -->
+                <a href="{{ route('admin.projects.edit', $project->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    <i class="fas fa-edit mr-2"></i>Edit Project
+                </a>
+
+                <!-- Delete Project Button -->
+                <form method="POST" action="{{ route('admin.projects.destroy', $project->id) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure you want to delete this project?')">
+                        <i class="fas fa-trash-alt mr-2"></i>Delete Project
+                    </button>
+                </form>
+            @endif
+
         </div>
 
     </div>
+    <x-footer />
 </div>
 @endsection

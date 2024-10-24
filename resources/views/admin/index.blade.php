@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col min-h-screen">
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 mb-4">
         <!-- Dashboard Header -->
@@ -59,6 +59,7 @@
             <livewire:absent-employees />
         </div>
     </div>
+    <x-footer />
 </div>
 
 @endsection

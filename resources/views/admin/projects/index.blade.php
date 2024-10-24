@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
@@ -167,16 +167,20 @@
                                 <a href="{{ route('admin.projects.show', $project->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
                                 </a>
-                                @role('Admin|Super Admin|HR')
+                                @if(auth()->user()->hasRole('Super Admin') || auth()->user()->id === $project->projectManager->user->id)
+                                <!-- Edit Project Button -->
                                 <a href="{{ route('admin.projects.edit', $project->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
                                     <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
                                 </a>
+                            
+                                <!-- Delete Project Form -->
                                 <form id="delete-form-{{ $project->id }}" action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" class="inline delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <x-delete-button formId="delete-form-{{ $project->id }}" />
                                 </form>
-                                @endrole
+                            @endif
+                            
                             </td>
                         </tr>
                     @endforeach
@@ -191,5 +195,6 @@
         </x-pagination>
         
     </div>
+    <x-footer />
 </div>
 @endsection

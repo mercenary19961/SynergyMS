@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col min-h-screen">
     <div class="flex-1 p-6 bg-gray-100">
         <!-- Project Manager Name Header -->
         <div class="flex justify-between items-center mb-6">
@@ -131,7 +131,7 @@
         </div>
 
         <!-- Attendance Records -->
-        <div>
+        <div class="pb-6">
             <h2 class="text-xl font-semibold mb-4">Attendance Records</h2>
             <div class="bg-white p-4 rounded shadow">
                 <table class="min-w-full bg-white rounded-lg shadow">
@@ -157,5 +157,7 @@
             </div>
         </div>
     </div>
+    <x-footer />
 </div>
 @endsection
+

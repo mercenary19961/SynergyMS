@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Ticket Details" route="admin.tickets.index" />
 
@@ -88,5 +88,6 @@
             </div>
         </div>
     </div>
+    <x-footer />
 </div>
 @endsection

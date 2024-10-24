@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-grow p-4 md:p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Project Manager" />
 
@@ -115,6 +115,7 @@
             <x-form.button-submit label="Update Project Manager" />
         </form>
     </div>
+    <x-footer />
 </div>
 
 <script>

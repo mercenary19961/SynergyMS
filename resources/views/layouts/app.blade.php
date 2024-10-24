@@ -73,7 +73,7 @@
                 </div>
 
                 <!-- Main content area with dynamic margin based on sidebar state -->
-                <div :class="{'main-content open': open, 'main-content closed': !open}" class="main-content flex-1 relative">
+                <div :class="{'main-content open': open, 'main-content closed': !open}" class="main-content flex-1 relative flex flex-col">
                     @if (session('status'))
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
@@ -83,10 +83,10 @@
                     @endif
 
                     <!-- Main Content -->
-                    <main class="flex-1">
+                    <main class="flex-grow">
                         @yield('content')
                     </main>
-
+                    
                     <div x-show="open && window.innerWidth < 1024" 
                         class="overlay"
                         @click="open = false; localStorage.setItem('sidebarOpen', false);"></div>
@@ -99,10 +99,9 @@
             </main>
         @endif
 
-        @include('partials.footer')
-
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @livewireScripts
 </body>

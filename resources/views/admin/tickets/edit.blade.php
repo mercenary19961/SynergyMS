@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
         <x-title-with-back title="Edit Ticket" />
 
@@ -106,6 +106,7 @@
             <x-form.button-submit label="Update Ticket" />
         </form>
     </div>
+    <x-footer />
 </div>
 
 <script>

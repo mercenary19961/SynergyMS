@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
     <div class="flex-1 p-6 bg-gray-100">
         <x-title-with-back title="Project Manager Details" />
 
@@ -129,5 +129,6 @@
 
         </div>
     </div>
+    <x-footer />
 </div>
 @endsection

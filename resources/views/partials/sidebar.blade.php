@@ -4,8 +4,8 @@
      @mouseover="if (!open && hoverEnabled && window.innerWidth >= 1024) { open = true; isHovering = true; }" 
      @mouseleave="if (hoverEnabled && window.innerWidth >= 1024) { open = false; isHovering = false; }"
      :class="{
-         'w-60 min-h-screen overflow-hidden border-r bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': open || window.innerWidth >= 1024 && isHovering, 
-         'w-12 min-h-screen overflow-hidden border-r bg-gradient-to-b from-pink-600 to-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': !open && !isHovering && window.innerWidth >= 1024,
+         'w-60 min-h-screen overflow-hidden  bg-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': open || window.innerWidth >= 1024 && isHovering, 
+         'w-12 min-h-screen overflow-hidden  bg-gradient-to-b from-pink-600 to-zinc-800 lg:shadow-lg transition-all duration-300 fixed lg:relative z-50': !open && !isHovering && window.innerWidth >= 1024,
          'hidden lg:block lg:w-12': !open && window.innerWidth < 1024
      }"
      class="sidebar transition-all duration-300">

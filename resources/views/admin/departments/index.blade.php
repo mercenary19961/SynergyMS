@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
+<div class="flex flex-col h-screen">
 
     <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
@@ -167,11 +167,11 @@
                 </tbody>
             </table>
         </div>
-        
 
         <x-pagination>
             {{ $departments->appends(request()->query())->links('pagination::tailwind') }}
         </x-pagination>
     </div>
+    <x-footer />
 </div>
 @endsection

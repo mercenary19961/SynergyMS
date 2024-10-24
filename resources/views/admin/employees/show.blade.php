@@ -6,23 +6,28 @@
         <x-title-with-back title="Employee Details" />
 
         <!-- Employee Info Section -->
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <div class="flex items-center">
-                <img loading="lazy" src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" class="rounded-full object-cover h-40 w-60 mr-2">
-                <div>
-                    <h2 class="text-lg font-semibold">
-                        <i class="fas fa-user mr-2 text-gray-600"></i>{{ $employee->user->name }}
-                    </h2>
-                    <p class="text-gray-700">
-                        <i class="fas fa-briefcase mr-2 text-gray-600"></i>{{ $employee->position->name }} - {{ $employee->department->name }}
-                    </p>
-                    <p class="text-gray-600">
-                        <i class="fas fa-envelope mr-2 text-gray-600"></i>{{ $employee->user->email }}
-                    </p>
-                    <p class="text-gray-600">
-                        <i class="fas fa-phone-alt mr-2 text-gray-600"></i>{{ $employee->phone }}
-                    </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"> <!-- Using grid to align image and text -->
+            <div class=" p-6 rounded-lg shadow-lg flex justify-center items-center"> <!-- Center the image -->
+                <div class="flex-shrink-0 mb-4 md:mb-0">
+                    <img loading="lazy" 
+                        src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) . '?v=' . time() : asset('images/default_user_image.png') }}" 
+                        class="rounded-full object-cover h-40 w-40">
                 </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg"> <!-- Right side (Information) -->
+                <h2 class="text-lg font-semibold">
+                    <i class="fas fa-user mr-2 text-gray-600"></i>{{ $employee->user->name }}
+                </h2>
+                <p class="text-gray-700">
+                    <i class="fas fa-briefcase mr-2 text-gray-600"></i>{{ $employee->position->name }} - {{ $employee->department->name }}
+                </p>
+                <p class="text-gray-600">
+                    <i class="fas fa-envelope mr-2 text-gray-600"></i>{{ $employee->user->email }}
+                </p>
+                <p class="text-gray-600">
+                    <i class="fas fa-phone-alt mr-2 text-gray-600"></i>{{ $employee->phone }}
+                </p>
             </div>
         </div>
 

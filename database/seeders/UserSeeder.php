@@ -117,12 +117,12 @@ class UserSeeder extends Seeder
             ],
             // ID: 12
             [
-                'name' => 'Sara Ali',
-                'email' => 'saraali@example.com',
+                'name' => 'Katrina Vanya',
+                'email' => 'katrinavanya@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'Project Manager',
                 'gender' => 'Female',
-                'image' => 'project_managers/Sara Ali.jpg',
+                'image' => 'project_managers/Katrina Vanya.jpg',
             ],
             // ID: 13
             [
@@ -295,6 +295,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
+                'image' => 'employee_images/employee_31.jpg',
             ],
             // ID: 32
             [
@@ -339,6 +340,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
+                'image' => 'employee_images/employee_36.jpg',
             ],
             // ID: 37
             [
@@ -482,6 +484,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Employee',
                 'gender' => 'Male',
+                'image' => 'employee_images/employee_52.jpg',
             ],
             // ID: 53
             [
