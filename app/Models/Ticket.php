@@ -27,4 +27,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(ProjectManager::class, 'project_manager_id');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

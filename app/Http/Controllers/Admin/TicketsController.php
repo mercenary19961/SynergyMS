@@ -69,8 +69,9 @@ class TicketsController extends Controller
     public function edit($id)
     {
         $ticket = Ticket::findOrFail($id);
-        $employees = EmployeeDetail::all();
-        $projectManagers = ProjectManager::all();
+        $employees = EmployeeDetail::with('projectManager.user')->get();
+        $projectManagers = ProjectManager::with('user')->get();
+        
         return view('admin.tickets.edit', compact('ticket', 'employees', 'projectManagers'));
     }
 
@@ -85,9 +86,11 @@ class TicketsController extends Controller
 
         $ticket = Ticket::findOrFail($id);
 
-        if ($ticket->project_manager_id != $request->project_manager_id) {
-            $ticket->employee_id = null;
-            $ticket->status = 'Open';
+        $ticket->employee_id = $request->employee_id;
+        $ticket->project_manager_id = $request->project_manager_id;
+
+        if ($ticket->status === 'Open' && $request->employee_id) {
+            $ticket->status = 'In Progress';
         }
 
         $ticket->update($validated);

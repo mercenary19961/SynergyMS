@@ -45,7 +45,7 @@
                     </label>
                     <button type="button" @click="open = !open" class="mt-1 block w-full bg-white border border-gray-300 focus:ring-orange-500 focus:border-orange-500 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none">
                         <span x-text="selected" class="block truncate"></span>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <span class="absolute inset-y-10 right-0 flex items-center pr-2 pointer-events-none">
                             <i class="fas fa-chevron-down fa-xs text-gray-400"></i>
                         </span>
                     </button>

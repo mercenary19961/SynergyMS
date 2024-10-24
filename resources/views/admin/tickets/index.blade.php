@@ -157,8 +157,24 @@
                         <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
                             <td class="py-3 px-6">{{ $ticket->id }}</td>
                             <td class="py-3 px-6">{{ $ticket->title }}</td>
-                            <td class="py-3 px-6">{{ $ticket->status }}</td>
-                            <td class="py-3 px-6">{{ $ticket->priority }}</td>
+                            <td class="py-3 px-6">
+                                <span class="font-semibold
+                                    @if($ticket->status === 'In Progress') text-yellow-500
+                                    @elseif($ticket->status === 'Open') text-orange-500
+                                    @elseif($ticket->status === 'Closed') text-green-500
+                                    @else text-gray-500 @endif">
+                                    {{ $ticket->status }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-6">
+                                <span class="font-semibold
+                                    @if($ticket->priority === 'High') text-red-500
+                                    @elseif($ticket->priority === 'Medium') text-yellow-500
+                                    @elseif($ticket->priority === 'Low') text-green-500
+                                    @endif">
+                                    {{ $ticket->priority }}
+                                </span>
+                            </td>
                             <td class="py-3 px-6 hidden lg:table-cell">
                                 @if($ticket->employee && $ticket->employee->user)
                                     {{ $ticket->employee->user->name }}
@@ -170,7 +186,7 @@
                                 @if($ticket->projectManager && $ticket->projectManager->user)
                                     {{ $ticket->projectManager->user->name }}
                                 @else
-                                    <span class="text-gray-500">Unknown</span>
+                                    <span class="text-gray-500">Unassigned</span>
                                 @endif
                             </td>
                             <td class="py-3 px-6 text-center">
@@ -178,21 +194,38 @@
                                     <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
-                                    @role('Admin|Super Admin|HR')
-                                    <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
-                                        <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
-                                    </a>
-                                    <form id="delete-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="inline delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-delete-button formId="delete-form-{{ $ticket->id }}" />
-                                    </form>
-                                    @endrole
+                                    @php
+                                        $isTicketIssuer = auth()->user()->id === $ticket->created_by;
+                                        $isProjectManagerOfDepartment = $ticket->department 
+                                            && $ticket->department->project_manager 
+                                            && $ticket->department->project_manager->user_id === auth()->user()->id;
+                                        $isSuperAdminOrHR = auth()->user()->hasRole('Super Admin|HR');
+                                    @endphp
+                                    
+                                    @if($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer)
+                                        @if($ticket->status !== 'Confirmed')
+                                            <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
+                                                <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
+                                            </a>
+                                            <form id="delete-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="inline delete-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <x-delete-button formId="delete-form-{{ $ticket->id }}" />
+                                            </form>
+                                        @else
+                                            <!-- Disabled Edit and Delete for Confirmed Tickets -->
+                                            <i class="fas fa-edit fa-md text-gray-500"></i>
+                                            <i class="fas fa-trash fa-md text-gray-500"></i>
+                                        @endif
+                                    @endif
+                                
                                 </div>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
+                
+                
             </table>
         </div>
 

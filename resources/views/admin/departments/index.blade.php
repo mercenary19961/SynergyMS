@@ -33,7 +33,7 @@
                     >
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down fa-xs text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-gray-500"></i>
                         </span>
                     </button>
         
@@ -72,7 +72,7 @@
                     >
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
-                            <i class="fas fa-chevron-down fa-xs text-orange-500"></i>
+                            <i class="fas fa-chevron-down fa-xs text-gray-500"></i>
                         </span>
                     </button>
         
