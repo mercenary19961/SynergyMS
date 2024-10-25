@@ -85,7 +85,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         // Get related department and client details
-        $project->load('department', 'client', 'projectManager.user');
+        $project->load('department', 'client', 'projectManager.user', 'tasks.employee');
         
         return view('admin.projects.show', compact('project'));
     }

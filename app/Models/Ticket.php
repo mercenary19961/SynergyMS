@@ -16,6 +16,8 @@ class Ticket extends Model
         'priority',
         'employee_id',
         'project_manager_id',
+        'user_id',
+        'department_id',
     ];
 
     public function employee()
@@ -31,5 +33,15 @@ class Ticket extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
     }
 }

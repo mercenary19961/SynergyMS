@@ -13,6 +13,21 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+                <!-- Ticket Issuer (User) Name and ID -->
+                <div class="mb-4">
+                    <label for="user_name" class="block text-sm font-bold text-gray-700">
+                        <i class="fas fa-user mr-1"></i> Ticket Issuer
+                    </label>
+                    <!-- Display the name in a read-only field -->
+                    <input type="text" id="user_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none bg-gray-100" value="{{ $ticket->user->name }}" readonly>
+
+                    <!-- Hidden input to hold the user ID -->
+                    <input type="hidden" name="user_id" value="{{ $ticket->user_id }}">
+                    @error('user_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-file-alt mr-1"></i> Title

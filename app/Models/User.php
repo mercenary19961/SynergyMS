@@ -9,9 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
+ * @method \Illuminate\Notifications\DatabaseNotificationCollection notifications()
  * @method bool hasRole(string|array|\Spatie\Permission\Models\Role $roles, string|null $guard = null)
- * @method bool hasAnyRole(...$roles)
- * @method bool hasAllRoles(...$roles)
  */
 
 class User extends Authenticatable
@@ -39,13 +38,34 @@ class User extends Authenticatable
         ];
     }
 
-    public function humanResources()
+    public function humanResource()
     {
-        return $this->hasMany(HumanResources::class);
+        return $this->hasOne(HumanResources::class, 'user_id');
     }
 
     public function employeeDetail()
     {
         return $this->hasOne(EmployeeDetail::class, 'user_id');
     }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class, 'user_id');
+    }
+
+    public function projectManager()
+    {
+        return $this->hasOne(ProjectManager::class, 'user_id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
 }

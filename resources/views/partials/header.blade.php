@@ -1,4 +1,8 @@
 @php
+    // Get the authenticated user and their role
+    $user = Auth::user();
+
+    // Define all the pages
     $searchPages = [
         ['name' => 'Admin Dashboard', 'route' => route('admin.dashboard')],
         ['name' => 'Employees', 'route' => route('admin.employees.index')],
@@ -9,7 +13,40 @@
         ['name' => 'Clients', 'route' => route('admin.clients.index')],
         ['name' => 'Projects', 'route' => route('admin.projects.index')],
         ['name' => 'Human Resources', 'route' => route('admin.human-resources.index')],
+        ['name' => 'Project Manager Dashboard', 'route' => route('project-manager.dashboard')],
+        ['name' => 'Employee Dashboard', 'route' => route('employee.dashboard')],
+        ['name' => 'Client Dashboard', 'route' => route('client.dashboard')],
+        // ['name' => 'HR Dashboard', 'route' => route('hr.dashboard')],
+        ['name' => 'Login', 'route' => route('login')],
+        ['name' => 'Profile', 'route' => route('profile')],
+        ['name' => 'Contact', 'route' => route('contact')],
+        ['name' => 'Support', 'route' => route('support')],
     ];
+
+    // Filter pages based on the user's role
+    if ($user->hasRole('Employee')) {
+        // Filter for Employee
+        $searchPages = array_values(array_filter($searchPages, function ($page) {
+            return in_array($page['name'], ['Employee Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+        }));
+    } elseif ($user->hasRole('Super Admin')) {
+        $searchPages = array_values($searchPages);
+    } elseif ($user->hasRole('Project Manager')) {
+        // Filter for Project Manager
+        $searchPages = array_values(array_filter($searchPages, function ($page) {
+            return in_array($page['name'], ['Project Manager Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+        }));
+    } elseif ($user->hasRole('Client')) {
+        // Filter for Client
+        $searchPages = array_values(array_filter($searchPages, function ($page) {
+            return in_array($page['name'], ['Client Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+        }));
+    } elseif ($user->hasRole('HR')) {
+        // Filter for HR
+        $searchPages = array_values(array_filter($searchPages, function ($page) {
+            return in_array($page['name'], ['HR Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+        }));
+    }
 @endphp
 
 <script>
@@ -71,14 +108,70 @@
         </ul>
     </div>
 
-    <!-- Right Side: User Profile Dropdown -->
-    <div class="relative flex items-center space-x-2">
-        <div class="relative">
-            @php
-                $user = Auth::user();
-                $isSuperAdmin = $user && $user->hasRole('Super Admin');
-            @endphp
+    <!-- Right Side: User Profile Dropdown with Notification -->
+    <div class="relative flex items-center space-x-4">
+        @php
+            $user = Auth::user(); // Get the authenticated user
+            $unreadNotifications = $user->unreadNotifications->count(); // Get the unread notifications count
+            $isSuperAdmin = $user && $user->hasRole('Super Admin'); // Check if the user is Super Admin
+        @endphp
 
+        <!-- Notification Bell Icon -->
+        <div x-data="{ notificationOpen: false }" class="relative">
+            <!-- Wrap the entire button and dropdown in one div to handle the click-away correctly -->
+            <div @click.away="notificationOpen = false" class="relative cursor-pointer">
+                <!-- Toggle Notification Dropdown -->
+                <div @click="notificationOpen = !notificationOpen" class="relative cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hover:text-pink-300 transition duration-200 ease-in-out" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.118V11a7.002 7.002 0 00-5-6.708V4a3 3 0 10-6 0v.292A7.002 7.002 0 002 11v3.118c0 .523-.214 1.025-.595 1.477L1 17h5m4 0v1a3 3 0 006 0v-1m-6 0h6" />
+                    </svg>
+
+                    <!-- Notification Badge (shows only if unread notifications exist) -->
+                    @if($unreadNotifications > 0)
+                        <span class="absolute bottom-4 left-4 inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
+                    @endif
+                </div>
+
+                <!-- Notification Dropdown -->
+                <div x-show="notificationOpen" class="absolute right-0 mt-2 w-64 bg-white border border-gray-300 rounded-md shadow-lg"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                >
+                    <div class="p-4">
+                        @if($user->unreadNotifications->isEmpty())
+                            <p class="text-gray-600 text-sm">No new notifications</p>
+                        @else
+                            <ul class="divide-y divide-gray-200">
+                                @foreach($user->unreadNotifications as $notification)
+                                    <li class="py-2 hover:bg-gray-100 rounded-md">
+                                        <!-- Notification details -->
+                                        <div class="block text-gray-700 text-sm font-semibold">
+                                            Invoice #{{ $notification->data['invoice_id'] }}
+                                            <span class="block text-xs font-normal text-gray-500">Amount: ${{ $notification->data['amount'] }} - Status: {{ $notification->data['status'] }}</span>
+                                        </div>
+                                        <span class="text-xs text-gray-400">{{ $notification->created_at->diffForHumans() }}</span>
+                    
+                                        <!-- Form to mark notification as read -->
+                                        <form method="POST" action="{{ route('notifications.read', $notification->id) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-sm text-blue-500 hover:text-blue-700 mt-2">Mark as read</button>
+                                        </form>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User's Profile Image or Lottie Animation for Super Admin -->
+        <div class="relative flex items-center space-x-2">
             @if($isSuperAdmin)
                 <!-- Lottie Animation for Super Admin -->
                 <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
@@ -90,14 +183,11 @@
                     loop autoplay>
                 </dotlottie-player>
             @else
-                <!-- User's Profile Image for other roles -->
                 @php
                     $profileImage = $user && $user->image ? asset('storage/' . $user->image) : asset('images/default_user_image.png');
                 @endphp
                 <img src="{{ $profileImage }}" alt="User Image" class="w-10 h-10 rounded-full">
             @endif
-
-            <!-- Online Indicator -->
             <div class="absolute bottom-0 right-0 bg-green-500 border-2 border-white w-3 h-3 rounded-full"></div>
         </div>
 
@@ -109,22 +199,21 @@
             </svg>
         </button>
 
-        <!-- Dropdown Menu -->
+        <!-- Profile Dropdown -->
         <div id="profile-dropdown" 
             class="profile-dropdown absolute right-0 top-full mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-50 hidden">
+            <!-- Profile Link -->
             <a href="{{ route('profile') }}" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> Profile
             </a>
-            {{-- <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
-                <i class="fas fa-cog mr-2 text-orange-500 group-hover:text-white"></i> Settings
-            </a>
-            <a href="#" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
+            <!-- Notifications Link -->
+            <a href="{{ route('notifications.index') }}" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-bell mr-2 text-orange-500 group-hover:text-white"></i> Notifications
-            </a> --}}
+            </a>
+            <!-- Support Link -->
             <a href="{{ route('support')}}" class="group px-4 py-2 text-black hover:bg-orange-500 hover:text-white flex items-center">
                 <i class="fas fa-question-circle mr-2 text-orange-500 group-hover:text-white"></i> Help & Support
             </a>
-
             <!-- Logout Form -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -134,7 +223,7 @@
             </form>
         </div>
     </div>
-        
+
 </header>
 
 

@@ -4,17 +4,34 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 
 class CheckTicketAccess
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        $ticket = Ticket::find($request->route('ticket'));
+
+        if (!$ticket) {
+            abort(404, 'Ticket not found');
+        }
+
+        $user = Auth::user();
+
+        $isTicketIssuer = $user->id === $ticket->created_by;
+        $isProjectManagerOfDepartment = $ticket->department 
+            && $ticket->department->project_manager 
+            && $ticket->department->project_manager->user_id === $user->id;
+        $isSuperAdminOrHR = $user->hasRole('Super Admin');
+
+        if ($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer) {
+            return $next($request);
+        }
+
+        abort(403, 'Unauthorized access to this ticket');
     }
 }

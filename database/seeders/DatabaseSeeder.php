@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(TaskSeeder::class);
+        $this->call(InvoiceSeeder::class);
+        $this->call(NotificationSeeder::class);
     }
 }

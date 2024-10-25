@@ -9,12 +9,75 @@
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-ticket-alt mr-2 text-gray-600"></i> Tickets
             </h1>
-            @role('Admin|Super Admin|HR')
-            <a href="{{ route('admin.tickets.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
-                <i class="fas fa-plus mr-2"></i> Add New Ticket
-            </a>
-            @endrole
+            <div class="flex space-x-2">
+                
+                <div x-data="{ showModal: false }">
+
+                    <!-- Quick Add Ticket Button -->
+                    <button @click="showModal = true" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center">
+                        <i class="fas fa-ticket-alt mr-2"></i> Quick Add Ticket
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div x-show="showModal" class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                            <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="text-center sm:text-left">
+                                        <h3 class="text-lg font-medium text-gray-900" id="modal-title">Create a New Ticket</h3>
+                                        <div class="mt-2">
+                                            <!-- Form inside the modal with grid layout -->
+                                            <form action="{{ route('admin.tickets.store') }}" method="POST">
+                                                @csrf
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <!-- Priority Dropdown -->
+                                                    <livewire:priority-dropdown />
+
+                                                    <!-- Ticket Name Field -->
+                                                    <div class="col-span-1 mb-4">
+                                                        <label for="ticket_name" class="block text-sm font-bold text-gray-700">
+                                                            <i class="fas fa-ticket-alt text-orange-500 mr-1"></i> Ticket Name
+                                                        </label>
+                                                        <input type="text" name="title" id="ticket_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required>
+                                                    </div>
+
+                                                    <!-- Description Field (now spans 2 columns) -->
+                                                    <div class="col-span-2 mb-4">
+                                                        <label for="description" class="block text-sm font-bold text-gray-700">
+                                                            <i class="fas fa-align-left text-orange-500 mr-1"></i> Description
+                                                        </label>
+                                                        <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Automatically set the user_id of the ticket issuer -->
+                                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+
+                                                <!-- Submit and Cancel Buttons -->
+                                                <div class="flex justify-end mt-4">
+                                                    <button type="button" @click="showModal = false" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Cancel</button>
+                                                    <button type="submit" class="ml-2 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">Create Ticket</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Original Add Ticket Button -->
+                    @role('Admin|Super Admin|HR')
+                    <a href="{{ route('admin.tickets.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Create New Ticket
+                    </a>
+                    @endrole
+                </div>
+            </div>
         </div>
+
 
         <form method="GET" action="{{ route('admin.tickets.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
@@ -195,7 +258,7 @@
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
                                     @php
-                                        $isTicketIssuer = auth()->user()->id === $ticket->created_by;
+                                        $isTicketIssuer = auth()->user()->id === $ticket->user_id;
                                         $isProjectManagerOfDepartment = $ticket->department 
                                             && $ticket->department->project_manager 
                                             && $ticket->department->project_manager->user_id === auth()->user()->id;
@@ -203,21 +266,29 @@
                                     @endphp
                                     
                                     @if($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer)
+                                        <!-- Only show edit and delete buttons for issuers if they are the ones who created the ticket -->
                                         @if($ticket->status !== 'Confirmed')
-                                            <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
-                                                <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
-                                            </a>
-                                            <form id="delete-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="inline delete-form">
-                                                @csrf
-                                                @method('DELETE')
-                                                <x-delete-button formId="delete-form-{{ $ticket->id }}" />
-                                            </form>
+                                            <!-- Show the edit button only if the logged-in user is the ticket issuer or has higher access -->
+                                            @if($isTicketIssuer || $isSuperAdminOrHR || $isProjectManagerOfDepartment)
+                                                <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
+                                                    <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
+                                                </a>
+                                            @endif
+                                            <!-- Allow deletion only for users with Super Admin or Project Manager roles -->
+                                            @if($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer)
+                                                <form id="delete-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="inline delete-form">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <x-delete-button formId="delete-form-{{ $ticket->id }}" />
+                                                </form>
+                                            @endif
                                         @else
                                             <!-- Disabled Edit and Delete for Confirmed Tickets -->
                                             <i class="fas fa-edit fa-md text-gray-500"></i>
                                             <i class="fas fa-trash fa-md text-gray-500"></i>
                                         @endif
                                     @endif
+                                
                                 
                                 </div>
                             </td>

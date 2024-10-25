@@ -54,4 +54,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function taskEmployees()
+    {
+        return $this->hasManyThrough(User::class, Task::class, 'project_id', 'id', 'id', 'employee_id')->distinct();
+    }
 }

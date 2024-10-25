@@ -62,8 +62,21 @@
         </a>
         @endrole
 
+        <!-- Client Dashboard -->
+        @role('Client')
+        <a href="{{ route('client.dashboard') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('client.dashboard') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('client.dashboard') }}'
+            }">
+            <i class="fa-solid fa-user-tie fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Client Dashboard</span>
+        </a>
+        @endrole
+
         <!-- Manage Employees -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.employees.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -89,7 +102,7 @@
         @endrole
 
         <!-- Manage Project Managers -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.project-managers.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -102,7 +115,7 @@
         @endrole
 
         <!-- Manage Clients -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.clients.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -115,7 +128,7 @@
         @endrole
 
         <!-- Manage Departments -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.departments.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -128,7 +141,7 @@
         @endrole
 
         <!-- Manage Tickets -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.tickets.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -141,7 +154,7 @@
         @endrole
 
         <!-- Manage Projects -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.projects.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -154,7 +167,7 @@
         @endrole
 
         <!-- Manage Human Resources -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.human-resources.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{

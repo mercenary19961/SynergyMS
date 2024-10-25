@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Ticket;
 use App\Models\EmployeeDetail;
 use App\Models\ProjectManager;
@@ -46,8 +47,8 @@ class TicketsController extends Controller
 
     public function create()
     {
-        $projectManagers = ProjectManager::all();
-        return view('admin.tickets.create', compact('projectManagers'));
+        $users = User::all();
+        return view('admin.tickets.create', compact('users'));
     }
     
     public function store(Request $request)
@@ -56,7 +57,7 @@ class TicketsController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'priority' => 'required|string', 
-            'project_manager_id' => 'required|exists:project_managers,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $validated['status'] = 'Open';
@@ -68,7 +69,7 @@ class TicketsController extends Controller
 
     public function edit($id)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::with('user')->findOrFail($id);
         $employees = EmployeeDetail::with('projectManager.user')->get();
         $projectManagers = ProjectManager::with('user')->get();
         

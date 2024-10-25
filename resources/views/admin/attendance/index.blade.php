@@ -146,9 +146,13 @@
                             <td class="hidden md:table-cell py-2 sm:py-3 px-4 sm:px-6">
                                 {{ $attendance->employee && $attendance->employee->projectManager && $attendance->employee->projectManager->user ? $attendance->employee->projectManager->user->name : 'N/A' }}
                             </td>
-                            <td class="py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->attendance_date }}</td>
-                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->clock_in ?? 'N/A' }} </td>
-                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->clock_out ?? 'N/A' }}</td>
+                            <td class="py-2 sm:py-3 px-4 sm:px-6">{{ \Carbon\Carbon::parse($attendance->attendance_date)->format('Y-m-d') }}</td>
+                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
+                                {{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : 'N/A' }}
+                            </td>
+                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
+                                {{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : 'N/A' }}
+                            </td>
                             <td class="hidden xl:table-cell py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->total_hours ?? 'N/A' }}</td>
                             <td class="py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->status }}</td>
                             <td class="py-2 sm:py-3 px-4 sm:px-6 flex space-x-4">
