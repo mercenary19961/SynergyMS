@@ -2,7 +2,19 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h2 class="text-3xl font-semibold mb-6 text-orange-600">Notifications</h2>
+    <div class="flex items-center justify-between mb-6">
+        <!-- Title with Icon -->
+        <h2 class="text-3xl font-semibold text-gray-600 flex items-center">
+            <i class="fas fa-bell mr-2 text-orange-500"></i> <!-- Icon -->
+            Notifications
+        </h2>
+    
+        <!-- Back Button -->
+        <a href="{{ url()->previous() }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+            <i class="fas fa-arrow-left mr-2"></i> <!-- Icon -->
+            Back
+        </a>
+    </div>
 
     @if($notifications->isEmpty())
         <p class="text-gray-600 text-lg">No notifications found.</p>

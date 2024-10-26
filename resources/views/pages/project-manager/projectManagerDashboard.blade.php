@@ -129,33 +129,6 @@
                 @endif
             </div>
         </div>
-
-        <!-- Attendance Records -->
-        <div class="pb-6">
-            <h2 class="text-xl font-semibold mb-4">Attendance Records</h2>
-            <div class="bg-white p-4 rounded shadow">
-                <table class="min-w-full bg-white rounded-lg shadow">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="py-2 px-4 text-left">Date</th>
-                            <th class="py-2 px-4 text-left">Clock In</th>
-                            <th class="py-2 px-4 text-left">Clock Out</th>
-                            <th class="py-2 px-4 text-left">Hours Worked</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($attendanceRecords as $attendance)
-                            <tr class="border-t">
-                                <td class="py-2 px-4">{{ $attendance->attendance_date->format('D, M j, Y') }}</td>
-                                <td class="py-2 px-4">{{ $attendance->clock_in }}</td>
-                                <td class="py-2 px-4">{{ $attendance->clock_out ?? 'N/A' }}</td>
-                                <td class="py-2 px-4">{{ $attendance->total_hours ?? 'N/A' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
     <x-footer />
 </div>

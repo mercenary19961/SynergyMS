@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Department;
 use App\Models\ProjectManager;
 use App\Models\Client;
+use App\Models\EmployeeDetail;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -85,9 +86,10 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         // Get related department and client details
-        $project->load('department', 'client', 'projectManager.user', 'tasks.employee');
+        $project->load('department', 'client', 'projectManager.user', 'tasks.employee.user');
+        $employees = EmployeeDetail::where('department_id', $project->department_id)->with('user')->get();
         
-        return view('admin.projects.show', compact('project'));
+        return view('admin.projects.show', compact('project', 'employees'));
     }
 
 
@@ -107,6 +109,21 @@ class ProjectController extends Controller
     // Update the specified project in the database
     public function update(Request $request, Project $project)
     {
+        // Determine if the request is from the modal (only updates status and end date)
+        if ($request->has(['status', 'end_date'])) {
+            $request->validate([
+                'status' => 'required|string|in:Pending,In Progress,Completed',
+                'end_date' => 'nullable|date',
+            ]);
+
+            // Update only status and end date
+            $project->update([
+                'status' => $request->status,
+                'end_date' => $request->end_date,
+            ]);
+
+            return redirect()->back()->with('success', 'Project updated successfully!');
+        }
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',

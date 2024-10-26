@@ -28,6 +28,6 @@ class Task extends Model
     // Each task can be assigned to an employee
     public function employee()
     {
-        return $this->belongsTo(EmployeeDetail::class);
+        return $this->belongsTo(EmployeeDetail::class, 'employee_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -219,6 +220,11 @@ Route::prefix('admin/human-resources')->name('admin.')->controller(HumanResource
     Route::put('/{id}', 'update')->name('human-resources.update')->middleware(CheckRecruitmentManager::class);
     Route::delete('/{id}', 'destroy')->name('human-resources.destroy')->middleware(CheckRecruitmentManager::class);
 });
+
+// Task Management Route
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+Route::put('/admin/tasks/update/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::get('/admin/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
 
 // Project Manager Dashboard Route

@@ -64,10 +64,10 @@
         
         <!-- Logo and App Name -->
         <div id="logo-container" class="flex items-center space-x-2 ml-0">
-            <a href="{{ route('dashboard.redirect') }}" class="flex items-center space-x-2 group transition-all duration-500 hover:scale-105">
-                <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow transition-all duration-500">
-                <span class="text-xl font-poppins hidden xxs:inline text-white transition-all duration-500 group-hover:scale-105 group-hover:translate-y-[-1px]">
-                    <span class="transition-all duration-500 group-hover:text-orange-300">S</span>ynergy
+            <a href="{{ route('dashboard.redirect') }}" class="flex items-center space-x-2 group transition-all duration-500 hover:scale-105 ">
+                <img src="{{ asset('images/logo sms.png') }}" alt="Logo" class="w-8 h-8 animate-spin-slow transition-all duration-500 hidden md:block">
+                <span class="text-md md:text-xl font-poppins hidden xxs:inline text-white transition-all duration-500 group-hover:scale-105 group-hover:translate-y-[-1px]">
+                    <span class="transition-all duration-500 group-hover:text-orange-300 ">S</span>ynergy
                     <span class="transition-all duration-500 group-hover:text-orange-300">MS</span>
                 </span>
             </a>
@@ -133,33 +133,36 @@
                 </div>
 
                 <!-- Notification Dropdown -->
-                <div x-show="notificationOpen" class="absolute right-0 mt-2 w-64 bg-white border border-gray-300 rounded-md shadow-lg"
+                <div x-show="notificationOpen" class="absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded-md shadow-lg"
                     x-transition:enter="transition ease-out duration-100"
                     x-transition:enter-start="transform opacity-0 scale-95"
                     x-transition:enter-end="transform opacity-100 scale-100"
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="transform opacity-100 scale-100"
                     x-transition:leave-end="transform opacity-0 scale-95"
-                >
+                    >
                     <div class="p-4">
                         @if($user->unreadNotifications->isEmpty())
                             <p class="text-gray-600 text-sm">No new notifications</p>
                         @else
                             <ul class="divide-y divide-gray-200">
                                 @foreach($user->unreadNotifications as $notification)
-                                    <li class="py-2 hover:bg-gray-100 rounded-md">
+                                    <li class="py-2 hover:bg-gray-50 rounded-md">
                                         <!-- Notification details -->
                                         <div class="block text-gray-700 text-sm font-semibold">
                                             Invoice #{{ $notification->data['invoice_id'] }}
                                             <span class="block text-xs font-normal text-gray-500">Amount: ${{ $notification->data['amount'] }} - Status: {{ $notification->data['status'] }}</span>
                                         </div>
                                         <span class="text-xs text-gray-400">{{ $notification->created_at->diffForHumans() }}</span>
-                    
+
                                         <!-- Form to mark notification as read -->
-                                        <form method="POST" action="{{ route('notifications.read', $notification->id) }}">
+                                        <form method="POST" action="{{ route('notifications.read', $notification->id) }}" class="mt-2">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="text-sm text-blue-500 hover:text-blue-700 mt-2">Mark as read</button>
+                                            <button type="submit" class="flex items-center bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
+                                                <i class="fas fa-check-circle mr-2"></i> <!-- Icon -->
+                                                Mark as read
+                                            </button>
                                         </form>
                                     </li>
                                 @endforeach
