@@ -62,7 +62,7 @@
                 <div>
                     <strong>Projects:</strong>
                     <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
-                        @if ($selectedEmployee->employee->projects->isNotEmpty())
+                        @if ($selectedEmployee && $selectedEmployee->employee->projects->isNotEmpty())
                             @foreach ($selectedEmployee->employee->projects as $project)
                                 <div class="bg-gray-100 p-2 rounded text-xs truncate" title="{{ $project->name }}">
                                     {{ Str::limit($project->name, 20) }}

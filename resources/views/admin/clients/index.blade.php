@@ -5,7 +5,7 @@
     <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-4 p-1">
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-users mr-2 text-gray-600"></i> Clients
             </h1>
@@ -16,23 +16,34 @@
             @endrole
         </div>
 
-        <form method="GET" action="{{ route('admin.clients.index') }}" class="mb-6">
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('admin.clients.index') }}" class="mb-6 p-1">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
+                <!-- Client Name Field -->
                 <div class="flex-1">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Client Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-user mr-2 text-gray-700"></i> Client Name
+                    </label>
                     <input type="text" name="name" id="name" value="{{ request('name') }}" placeholder="Client Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
+                <!-- Company Name Field -->
                 <div class="flex-1">
-                    <label for="company_name" class="block text-sm font-medium text-gray-700">Company Name</label>
+                    <label for="company_name" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-building mr-2 text-gray-700"></i> Company Name
+                    </label>
                     <input type="text" name="company_name" id="company_name" value="{{ request('company_name') }}" placeholder="Company Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
+                <!-- Industry Field -->
                 <div class="flex-1">
-                    <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+                    <label for="industry" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-industry mr-2 text-gray-700"></i> Industry
+                    </label>
                     <input type="text" name="industry" id="industry" value="{{ request('industry') }}" placeholder="Industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
+                <!-- Search and Clear Buttons -->
                 <div class="flex-shrink-0 flex space-x-2">
                     <button type="submit" class="w-full md:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
                         <i class="fas fa-search mr-2"></i> Search
@@ -45,7 +56,7 @@
             </div>
         </form>
 
-        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-1">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
                     <tr>

@@ -58,6 +58,7 @@ class InvoicePaid extends Notification
     public function toArray($notifiable)
     {
         return [
+            'type' => 'invoice',
             'invoice_id' => $this->invoice->id,
             'amount' => $this->invoice->amount,
             'status' => $this->invoice->status,

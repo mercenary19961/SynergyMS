@@ -34,6 +34,10 @@ class PresentEmployees extends Component
     public function showEmployeeDetails($employeeId)
     {
         $this->selectedEmployee = $this->presentEmployees->firstWhere('employee.id', $employeeId);
+        
+        if ($this->selectedEmployee && !$this->selectedEmployee->employee->relationLoaded('projects')) {
+            $this->selectedEmployee->employee->load('projects');
+        }
     }
 
     public function closeEmployeeDetails()

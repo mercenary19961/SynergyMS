@@ -4,7 +4,7 @@
 <div class="flex flex-col h-screen">
     <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-4 p-1">
             <h1 class="md:text-lg lg:text-2xl font-semibold flex items-center">
                 <i class="fas fa-user-tie mr-2 text-gray-600"></i> Project Managers
             </h1>
@@ -16,18 +16,22 @@
         </div>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('admin.project-managers.index') }}" class="mb-6">
+        <form method="GET" action="{{ route('admin.project-managers.index') }}" class="mb-6 p-1">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
                 <!-- User Name Field -->
                 <div class="flex-1">
-                    <label for="name" class="block text-sm font-medium text-gray-700">User Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-user mr-2 text-gray-700"></i> User Name
+                    </label>
                     <input type="text" name="name" id="name" value="{{ request('name') }}" placeholder="User Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
                 <!-- Department Dropdown -->
                 <div class="flex-1">
                     <div x-data="{ open: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
-                        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+                        <label for="department" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-building mr-2 text-gray-700"></i> Department
+                        </label>
                         <button 
                             @click="open = !open; $event.stopPropagation()" 
                             type="button" 
@@ -89,7 +93,9 @@
 
                 <!-- Experience Years Field -->
                 <div class="flex-1">
-                    <label for="experience_years" class="block text-sm font-medium text-gray-700">Experience Years</label>
+                    <label for="experience_years" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-calendar-alt mr-2 text-gray-700"></i> Experience Years
+                    </label>
                     <input type="number" name="experience_years" id="experience_years" value="{{ request('experience_years') }}" placeholder="Minimum Experience Years" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
@@ -107,7 +113,7 @@
         </form>
 
         <!-- Table with Project Managers -->
-        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-1">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
                     <tr>

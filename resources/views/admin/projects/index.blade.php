@@ -6,7 +6,7 @@
         @include('components.form.success')
 
         <!-- Header Row -->
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-4 p-1">
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-tasks mr-2 text-gray-600"></i> Projects
             </h1>
@@ -18,18 +18,22 @@
         </div>
 
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('admin.projects.index') }}" class="mb-4 text-sm">
+        <form method="GET" action="{{ route('admin.projects.index') }}" class="mb-4 text-sm p-1">
             <div class="grid grid-cols-2 lg:grid-cols-6 gap-2 mb-4">
                 
                 <!-- Project Name Field -->
                 <div class="lg:col-span-1">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Project Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-project-diagram mr-2 text-gray-700"></i> Project Name
+                    </label>
                     <input type="text" name="name" id="name" value="{{ request('name') }}" placeholder="Project Name" class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                 </div>
 
                 <!-- Department Dropdown -->
                 <div class="lg:col-span-1 text-sm relative" x-data="{ open: false, selected: '{{ request('department') ?? 'Select Department' }}' }">
-                    <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+                    <label for="department" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-building mr-2 text-gray-700"></i> Department
+                    </label>
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
@@ -53,7 +57,9 @@
 
                 <!-- Project Manager Dropdown -->
                 <div class="lg:col-span-1 text-sm relative" x-data="{ open: false, selected: '{{ request('project_manager') ?? 'Select Project Manager' }}' }">
-                    <label for="project_manager" class="block text-sm font-medium text-gray-700">Project Manager</label>
+                    <label for="project_manager" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-user-tie mr-2 text-gray-700"></i> Project Manager
+                    </label>
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
@@ -77,7 +83,9 @@
 
                 <!-- Status Dropdown -->
                 <div class="lg:col-span-1 text-sm relative" x-data="{ open: false, selected: '{{ request('status') ?? 'Select Status' }}' }">
-                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                    <label for="status" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-tasks mr-2 text-gray-700"></i> Status
+                    </label>
                     <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                         <span x-text="selected" class="block truncate"></span>
                         <span class="absolute inset-y-11 right-0 flex items-center pr-2 pointer-events-none">
@@ -87,7 +95,7 @@
 
                     <ul x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                         <li @click="selected = 'Select Status'; open = false; $refs.status.value = ''" class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center">
-                            <i class="fas fa-tasks  mr-2 text-orange-500 group-hover:text-white"></i> Select Status
+                            <i class="fas fa-tasks mr-2 text-orange-500 group-hover:text-white"></i> Select Status
                         </li>
                         <li @click="selected = 'In Progress'; open = false; $refs.status.value = 'In Progress'" class="group cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center">
                             <i class="fas fa-spinner mr-2 text-orange-500 group-hover:text-white"></i> In Progress
@@ -120,7 +128,7 @@
         </form>
 
         <!-- Projects Table -->
-        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-1">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-200 uppercase text-xxs sm:text-xs leading-tight text-gray-600">
                     <tr>
@@ -187,7 +195,6 @@
                 </tbody>
             </table>
         </div>
-
 
         <!-- Pagination -->
         <x-pagination>

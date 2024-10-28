@@ -13,16 +13,17 @@
             <!-- Button Group for Add Task, Edit Project, and Back -->
             <div class="flex space-x-4">
                 <!-- Add Task Button (visible only to the Project Manager) -->
-                @if(auth()->user()->id === $project->projectManager->user->id)
+                @if(auth()->user()->id === $project->projectManager->user->id || auth()->user()->hasRole('Super Admin'))
                     <button @click="showAddTaskModal = true" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
                         <i class="fas fa-plus mr-1"></i> Add Task
                     </button>
-                @endif
                 
-                <!-- Edit Project Button (visible to all users) -->
-                <button @click="showEditProjectModal = true" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                    <i class="fas fa-edit mr-1"></i> Edit Project
-                </button>
+                
+                    <!-- Edit Project Button (visible to all users) -->
+                    <button @click="showEditProjectModal = true" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                        <i class="fas fa-edit mr-1"></i> Edit Status
+                    </button>
+                @endif
                 
                 <!-- Back Button -->
                 <a href="{{ url()->previous() }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center">
@@ -137,11 +138,13 @@
                                         {{ ucfirst($task->priority) }}
                                     </span>
                                 </p>
-                                <!-- Edit Task Button -->
-                                <button @click="openEditTaskModal({{ $task->id }})" 
-                                        class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition text-sm mt-2">
-                                    <i class="fas fa-edit mr-1"></i> Edit Task
-                                </button>
+                                @if(auth()->user()->id === $project->projectManager->user->id || auth()->user()->hasRole('Super Admin'))
+                                    <!-- Edit Task Button -->
+                                    <button @click="openEditTaskModal({{ $task->id }})" 
+                                            class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition text-sm mt-2">
+                                        <i class="fas fa-edit mr-1"></i> Edit Task
+                                    </button>
+                                @endif
                             </div>
                         @endforeach
                     </div>

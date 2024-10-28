@@ -9,6 +9,8 @@ use App\Models\ProjectManager;
 use App\Models\Client;
 use App\Models\EmployeeDetail;
 use Illuminate\Http\Request;
+use App\Notifications\ProjectRequestNotification;
+
 
 class ProjectController extends Controller
 {
@@ -144,7 +146,6 @@ class ProjectController extends Controller
                         ->with('success', 'Project updated successfully');
     }
 
-
     // Delete a project
     public function destroy(Project $project)
     {
@@ -153,4 +154,36 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index')
                          ->with('success', 'Project deleted successfully');
     }
+
+    public function storeRequest(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'department_id' => 'required|exists:departments,id',
+            'client_id' => 'required|exists:clients,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'project_manager_id' => 'required|exists:users,id',
+        ]);
+    
+        // Create the project request with a 'Pending' status
+        $validated['status'] = 'Pending';
+        $projectRequest = Project::create($validated);
+
+        // Set a session flash message
+        session()->flash('show_popup', 'Project request submitted successfully.');
+    
+        // Notify the project manager about the new project request
+        if ($projectRequest->project_manager_id) {
+            $projectManager = ProjectManager::find($projectRequest->project_manager_id);
+            if ($projectManager) {
+                $projectManager->user->notify(new ProjectRequestNotification($projectRequest));
+            }
+        }
+
+        return redirect()->back()->with('success', 'Project request submitted successfully.');
+    }
+    
+
 }

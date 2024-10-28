@@ -3,18 +3,18 @@
 @section('content')
 <div class="flex flex-col h-screen">
     <div class="flex-1 p-0 lg:p-6 bg-gray-100" x-data="employeeView('{{ request('view', 'grid') }}')">
-        <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div x-show="isLoading" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-1">
             <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
         </div>
 
         @include('components.form.success')
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 p-1">
             <h1 class="text-2xl font-semibold mb-4 md:mb-0 flex items-center">
                 <i class="fas fa-building mr-2 text-gray-600"></i> Human Resources
             </h1>
             
-            <div class="flex justify-end space-x-2">
+            <div class="flex justify-end space-x-2 p-1">
                 <button 
                     @click="setViewMode('grid')"
                     :class="viewMode === 'grid' 
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <form method="GET" action="{{ route('admin.human-resources.index') }}" class="mb-6" @submit="isLoading = true">
+        <form method="GET" action="{{ route('admin.human-resources.index') }}" class="mb-6 p-1" @submit="isLoading = true">
             <input type="hidden" name="view" :value="viewMode">
         
             <!-- Flex behavior changes based on screen width -->
@@ -136,11 +136,10 @@
                 </div>
             </div>
         </form>
-        
 
-        <div>
+        <div class="p-1">
             <!-- Grid View -->
-            <div x-show="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div x-show="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-1">
                 @forelse($hrEmployees as $hrEmployee)
                     <div x-data="{ openDropdown: false }" class="bg-white p-4 rounded-lg shadow flex flex-col items-center relative">
                         <div class="absolute top-2 right-2">
@@ -188,7 +187,7 @@
             </div>
         
             <!-- List View -->
-            <div x-show="viewMode === 'list'" class="space-y-4">
+            <div x-show="viewMode === 'list'" class="space-y-4 p-1">
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white shadow table-auto">
                         <thead class="bg-gray-200">

@@ -4,10 +4,13 @@
 <div class="flex flex-col min-h-screen">
     <div class="flex-1 p-6 bg-gray-100">
         <!-- Project Manager Name Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-semibold">
+        <div class="flex flex-col justify-between items-start mb-6">
+            <h2 class="text-2xl md:text-2xl font-semibold flex items-center text-gray-700">
                 <i class="fas fa-user-tie mr-2 text-gray-600"></i> {{ $projectManager->user->name }}'s Dashboard
-            </h1>
+            </h2>
+            <p class="text-xl md:text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-orange-500 mt-2 ml-8">
+                READY TO LEAD YOUR TEAM TO SUCCESS TODAY?
+            </p>
         </div>
 
         <!-- Summary Cards -->
@@ -48,7 +51,10 @@
 
         <!-- Managed Projects -->
         <div class="mb-6">
-            <h2 class="text-xl font-semibold mb-2">Current Projects</h2>
+            <h2 class="text-xl font-semibold mb-2 flex items-center">
+                <i class="fas fa-tasks mr-2 text-gray-500"></i> 
+                Current Projects
+            </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 bg-gray-100">
                 @foreach($managedProjects as $project)
@@ -97,7 +103,11 @@
 
         <!-- Managed Employees -->
         <div class="mb-6">
-            <h2 class="text-xl font-semibold mb-4">Team of Employees</h2>
+            <h2 class="text-xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-users mr-2 text-gray-500"></i> 
+                Team of Employees
+            </h2>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach($managedEmployees->take(7) as $employee)
                     <div class="bg-white p-4 rounded-lg shadow transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex flex-col items-center">

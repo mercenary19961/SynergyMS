@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="bg-white p-10 rounded-lg shadow-lg max-w-md w-full">
@@ -25,7 +24,7 @@
         
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                <input id="email" type="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required autofocus class="w-full px-4 py-2 border border-red-500 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-600 bg-gray-100 text-gray-800">
+                <input id="email" type="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required class="w-full px-4 py-2 border border-red-500 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-600 bg-gray-100 text-gray-800">
                 @error('email')
                     <span class="text-red-500 text-xs mt-2">{{ $message }}</span>
                 @enderror
@@ -33,7 +32,6 @@
         
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <!-- Adjusted background color to a dark gray and text to light gray -->
                 <input id="password" type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border border-red-500 rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-600 bg-gray-100 text-gray-800">
                 @error('password')
                     <span class="text-red-500 text-xs mt-2">{{ $message }}</span>
@@ -49,4 +47,11 @@
         
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Explicitly set focus to the email input field since it's not working in the html attribute
+        document.getElementById('email').focus();
+    });
+</script>
 @endsection

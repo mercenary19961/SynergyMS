@@ -93,7 +93,7 @@
                                 <h3 class="text-lg font-medium text-gray-900" id="modal-title">Create a New Project</h3>
                                 <div class="mt-2">
                                     <!-- Form inside the modal with grid layout -->
-                                    <form action="{{ route('admin.projects.store') }}" method="POST">
+                                    <form action="{{ route('admin.projects.storeRequest') }}" method="POST">
                                         @csrf
                                         <div class="grid grid-cols-2 gap-4">
                                             <!-- Project Name Field -->
@@ -112,6 +112,28 @@
                                                 <textarea name="description" id="project_description" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required></textarea>
                                             </div>
 
+                                            <!-- Department Selection Field in the Modal -->
+                                            <div class="col-span-2 mb-4">
+                                                <label for="department" class="block text-sm font-bold text-gray-700">
+                                                    <i class="fas fa-building text-orange-500 mr-1"></i> Department
+                                                </label>
+                                                <select name="department_id" id="department" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required
+                                                        @change="document.getElementById('project_manager_id').value = getProjectManagerId($event.target.value)">
+                                                    <option value="" disabled selected>Select Department</option>
+                                                    @foreach($departments as $department)
+                                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Start Date Field -->
+                                            <div class="col-span-2 mb-4">
+                                                <label for="start_date" class="block text-sm font-bold text-gray-700">
+                                                    <i class="fas fa-calendar-alt text-orange-500 mr-1"></i> Start Date
+                                                </label>
+                                                <input type="date" name="start_date" id="start_date" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required>
+                                            </div>
+
                                             <!-- End Date Field -->
                                             <div class="col-span-2 mb-4">
                                                 <label for="end_date" class="block text-sm font-bold text-gray-700">
@@ -119,10 +141,13 @@
                                                 </label>
                                                 <input type="date" name="end_date" id="end_date" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" required>
                                             </div>
-                                        </div>
 
-                                        <!-- Automatically set the client_id of the project -->
-                                        <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                            <!-- Hidden input for Project Manager ID -->
+                                            <input type="hidden" name="project_manager_id" id="project_manager_id">
+
+                                            <!-- Automatically set the client_id of the project -->
+                                            <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                        </div>
 
                                         <!-- Submit and Cancel Buttons -->
                                         <div class="flex justify-end mt-4">
@@ -137,6 +162,33 @@
                 </div>
             </div>
 
+            <script>
+                function getProjectManagerId(departmentId) {
+                    const departmentToManagerMap = {
+                        1: 1,
+                        2: 1,
+                        3: 3,
+                        4: 4,
+                        5: 5,
+                        6: 6
+                    };
+                    return departmentToManagerMap[departmentId] || '';
+                }
+            </script>
+
+            <!-- SweetAlert Popup -->
+            @if(session('show_popup'))
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: '{{ session('show_popup') }}',
+                            confirmButtonColor: '#ff6600',
+                        });
+                    });
+                </script>
+            @endif
         </div>
 
         <!-- Grid Layout for the Dashboard Sections -->
@@ -250,7 +302,6 @@
                     </ul>
                 @endif
             </div>
-
         </div>
     </div>
     <x-footer />

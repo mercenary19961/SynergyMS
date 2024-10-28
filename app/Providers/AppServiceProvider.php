@@ -29,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('absent-employees', \App\Http\Livewire\AbsentEmployees::class);
         Livewire::component('user-search', \App\Http\Livewire\UserSearch::class);
         Livewire::component('priority-dropdown', \App\Http\Livewire\PriorityDropdown::class);
+        Livewire::component('notifications', \App\Http\Livewire\Notifications::class);
+        Livewire::component('popup-message', \App\Http\Livewire\PopupMessage::class);
     }
 }

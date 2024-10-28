@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Models\EmployeeDetail;
@@ -106,4 +107,34 @@ class TicketsController extends Controller
 
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket deleted successfully.');
     }
+
+    public function takeTicket($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $employee = Auth::user()->employeeDetail;
+
+        // Update the ticket details
+        $ticket->status = 'In Progress';
+        $ticket->employee_id = $employee->id;
+        $ticket->department_id = $employee->department_id;
+        $ticket->project_manager_id = $employee->department->projectManager->id;
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Ticket taken successfully.');
+    }
+
+    public function sendBack($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        // Reset the ticket details
+        $ticket->status = 'Open';
+        $ticket->employee_id = null;
+        $ticket->department_id = null;
+        $ticket->project_manager_id = null;
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Ticket sent back successfully.');
+    }
+
 }

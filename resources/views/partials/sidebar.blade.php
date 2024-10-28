@@ -83,7 +83,7 @@
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.employees.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.employees.index') }}'
             }">
-            <i class="fa-solid fa-user-tie fa-md"></i>
+            <i class="fa-solid fa-users fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Employees</span>
         </a>
         @endrole
@@ -148,7 +148,7 @@
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.tickets.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.tickets.index') }}'
             }">
-            <i class="fa-solid fa-ticket-alt fa-md"></i>
+            <i class="fa-regular fa-ticket fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Tickets</span>
         </a>
         @endrole

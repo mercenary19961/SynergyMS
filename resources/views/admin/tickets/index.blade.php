@@ -5,7 +5,7 @@
     <div class="flex-1 p-0 lg:p-6 bg-gray-100">
         @include('components.form.success')
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-4 p-1">
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-ticket-alt mr-2 text-gray-600"></i> Tickets
             </h1>
@@ -78,19 +78,23 @@
             </div>
         </div>
 
-
-        <form method="GET" action="{{ route('admin.tickets.index') }}" class="mb-6">
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('admin.tickets.index') }}" class="mb-6 p-1">
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
                 <!-- Title Field -->
                 <div class="flex-1">
-                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <label for="title" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <i class="fas fa-ticket-alt mr-2 text-gray-700"></i> Title
+                    </label>
                     <input type="text" name="title" id="title" value="{{ request('title') }}" placeholder="Ticket Title" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
 
                 <!-- Status Dropdown -->
                 <div class="flex-1">
                     <div x-data="{ open: false, selected: '{{ request('status') ?? 'Select Status' }}' }" class="relative">
-                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <label for="status" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-info-circle mr-2 text-gray-700"></i> Status
+                        </label>
                         <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
@@ -124,16 +128,17 @@
                     </div>
                 </div>
 
-
                 <!-- Priority Dropdown -->
                 <div class="flex-1">
                     <div x-data="{ open: false, selected: '{{ request('priority') ?? 'Select Priority' }}' }" class="relative">
-                        <label for="priority" class="block text-sm font-medium text-gray-700">Priority</label>
+                        <label for="priority" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2 text-gray-700"></i> Priority
+                        </label>
                         <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </span>
                         </button>
@@ -162,12 +167,14 @@
                 <!-- Employee Dropdown -->
                 <div class="flex-1">
                     <div x-data="{ open: false, selected: '{{ request('employee') ?? 'Select Employee' }}' }" class="relative">
-                        <label for="employee" class="block text-sm font-medium text-gray-700">Employee</label>
+                        <label for="employee" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <i class="fas fa-user mr-2 text-gray-700"></i> Employee
+                        </label>
                         <button @click="open = !open" type="button" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a 1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </span>
                         </button>
@@ -202,7 +209,7 @@
             </div>
         </form>
 
-        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-1">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-100 text-left text-gray-600 uppercase text-xs leading-normal">
                     <tr>

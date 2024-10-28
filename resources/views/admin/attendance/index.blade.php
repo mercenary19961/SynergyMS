@@ -7,7 +7,7 @@
         @include('components.form.success')
 
         <!-- Header Row -->
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-4 p-1">
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-calendar-check mr-2 text-gray-600"></i> Attendance Records
             </h1>
@@ -19,7 +19,7 @@
         </div>
 
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('admin.attendance.index') }}" class="mb-4">
+        <form method="GET" action="{{ route('admin.attendance.index') }}" class="mb-4 p-1">
             <div class="grid grid-cols-2 lg:grid-cols-6 gap-2 mb-4">
 
                 <!-- Employee ID Field -->
@@ -99,7 +99,7 @@
         </form>
 
         <!-- Attendance Table -->
-        <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-1">
             <table class="min-w-full bg-white">
                 <thead class="bg-gray-200 uppercase text-[10px] sm:text-[10px] leading-tight text-gray-600">
                     <tr>

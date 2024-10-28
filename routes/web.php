@@ -64,7 +64,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Notifications Routes
 Route::get('/notifications', function () {
     $user = Auth::user();
-    $notifications = $user->notifications; // Fetch all notifications (read and unread)
+    $notifications = $user->notifications;
     return view('pages.notifications', compact('notifications'));
 })->name('notifications.index');
 
@@ -186,7 +186,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Only Super Admin and Project Manager can create new projects
         Route::get('/admin/projects/create', 'create')->name('projects.create')->middleware('role:Super Admin|Project Manager');
-        Route::post('/projects', 'store')->name('projects.store')->middleware('role:Super Admin|Project Manager');
+        Route::post('/projects', 'store')->name('projects.store')->middleware('role:Super Admin|Project Manager|Client');
 
         // Use custom middleware to check project owner or Super Admin
         Route::get('/projects/{project}/edit', 'edit')->name('projects.edit')->middleware(ProjectOwnerOrSuperAdmin::class);
@@ -225,6 +225,14 @@ Route::prefix('admin/human-resources')->name('admin.')->controller(HumanResource
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::put('/admin/tasks/update/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::get('/admin/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+
+// Route to take the ticket
+Route::post('/admin/tickets/{id}/take', [TicketsController::class, 'takeTicket'])->name('admin.tickets.take');
+// Route to send the ticket back
+Route::post('/admin/tickets/{id}/send-back', [TicketsController::class, 'sendBack'])->name('admin.tickets.sendBack');
+
+// Project Request for the client dashboard
+Route::post('/admin/projects/request', [ProjectController::class, 'storeRequest'])->name('admin.projects.storeRequest');
 
 
 // Project Manager Dashboard Route
