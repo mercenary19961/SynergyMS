@@ -26,20 +26,35 @@ class PresentEmployees extends Component
     {
         $this->presentEmployees = Attendance::whereNotNull('clock_in')
             ->whereNull('clock_out')
-            ->with(['employee.user', 'employee.department', 'employee.projects'])
+            ->with([
+                'employee.user',
+                'employee.department',
+                'employee.projects' => function ($query) {
+                    // Add any conditions here if necessary, 
+                    // but this is mainly to ensure only related projects are being fetched
+                    $query->distinct();
+                }
+            ])
             ->latest()
             ->get();
     }
+    
 
     public function showEmployeeDetails($employeeId)
     {
+        // Find the selected employee from the present employees collection
         $this->selectedEmployee = $this->presentEmployees->firstWhere('employee.id', $employeeId);
-        
-        if ($this->selectedEmployee && !$this->selectedEmployee->employee->relationLoaded('projects')) {
-            $this->selectedEmployee->employee->load('projects');
+    
+        if ($this->selectedEmployee) {
+            // Fetch the tasks associated with this employee
+            $tasks = $this->selectedEmployee->employee->tasks()->get();
+    
+            // Set the 'tasks' relation explicitly to ensure it contains the correct data
+            $this->selectedEmployee->employee->setRelation('tasks', $tasks);
         }
+    
     }
-
+     
     public function closeEmployeeDetails()
     {
         $this->selectedEmployee = null;

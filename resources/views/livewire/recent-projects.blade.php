@@ -6,7 +6,7 @@
         @foreach ($recentProjects as $project)
             <li class="mb-4">
                 <!-- Project Item -->
-                <a href="{{ route('admin.projects.show', $project->id) }}" class="flex flex-col w-full text-left focus:outline-none hover:bg-gray-100 p-2 rounded transition">
+                <a href="{{ route('admin.projects.show', $project->id) }}" class="flex flex-col w-full text-left focus:outline-none transition-transform transform hover:scale-105 p-2 rounded transition">
                     <!-- Project Name -->
                     <div class="flex-grow">
                         <span class="truncate block font-semibold text-gray-600" title="{{ $project->name }}">

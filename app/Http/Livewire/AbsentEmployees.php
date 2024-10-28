@@ -41,7 +41,16 @@ class AbsentEmployees extends Component
     {
         // Get the specific absent employee details
         $this->selectedAbsentEmployee = $this->absentEmployees->firstWhere('employee.id', $employeeId);
+    
+        if ($this->selectedAbsentEmployee) {
+            // Fetch the tasks associated with this employee
+            $tasks = $this->selectedAbsentEmployee->employee->tasks()->get();
+    
+            // Set the 'tasks' relation explicitly
+            $this->selectedAbsentEmployee->employee->setRelation('tasks', $tasks);
+        }
     }
+    
 
     public function closeAbsentEmployeeDetails()
     {

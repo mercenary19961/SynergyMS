@@ -6,7 +6,7 @@
         @foreach ($recentEmployees as $employee)
             <li class="mb-4">
                 <!-- Employee Item -->
-                <a href="{{ route('admin.employees.show', $employee->id) }}" class="flex items-center justify-between space-x-4 w-full text-left focus:outline-none hover:bg-gray-100 p-2 rounded transition">
+                <a href="{{ route('admin.employees.show', $employee->id) }}" class="flex items-center justify-between space-x-4 w-full text-left focus:outline-none transition-transform transform hover:scale-105 p-2 rounded transition">
                     <!-- Employee Image -->
                     <img src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('default-avatar.png') }}" 
                          alt="{{ $employee->user->name }}" 

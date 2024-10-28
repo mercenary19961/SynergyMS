@@ -6,7 +6,7 @@
         @foreach ($recentClients as $client)
             <li class="mb-4">
                 <!-- Client Item -->
-                <a href="{{ route('admin.clients.show', $client->id) }}" class="flex items-center justify-between space-x-4 w-full text-left focus:outline-none hover:bg-gray-100 rounded transition p-2">
+                <a href="{{ route('admin.clients.show', $client->id) }}" class="flex items-center justify-between space-x-4 w-full text-left focus:outline-none transition-transform transform hover:scale-105 rounded transition p-2">
                     <!-- Client Image -->
                     <img src="{{ $client->user->image ? asset('storage/' . $client->user->image) : asset('default-avatar.png') }}" 
                          alt="{{ $client->user->name }}" 

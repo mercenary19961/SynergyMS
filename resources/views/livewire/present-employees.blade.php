@@ -7,7 +7,7 @@
         @foreach ($presentEmployees as $attendance)
             <!-- Trigger for Modal -->
             <li class="mb-4 ">
-                <button wire:click="showEmployeeDetails({{ $attendance->employee->id }})" class="w-full hover:bg-gray-100 text-left focus:outline-none p-3" title="{{ $attendance->employee->user->name }}">
+                <button wire:click="showEmployeeDetails({{ $attendance->employee->id }})" class="w-full transition-transform transform hover:scale-105 text-left focus:outline-none p-3" title="{{ $attendance->employee->user->name }}">
                     <div class="flex items-center justify-between space-x-4">
                         <!-- Employee Image -->
                         <img src="{{ $attendance->employee->user->image ? asset('storage/' . $attendance->employee->user->image) : asset('default-avatar.png') }}" 
@@ -40,8 +40,8 @@
 
     <!-- Modal -->
     @if($selectedEmployee)
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center" wire:ignore.self>
-        <div class="bg-white rounded-lg w-1/3 p-6">
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50" wire:ignore.self>
+        <div class="bg-white rounded-lg w-2/5 p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold">{{ $selectedEmployee->employee->user->name }}</h3>
                 <button wire:click="closeEmployeeDetails" class="text-gray-500 hover:text-gray-700">
@@ -49,7 +49,7 @@
                 </button>
             </div>
             
-            <!-- Department, Position, and Projects -->
+            <!-- Department, Position, and Tasks -->
             <div class="text-sm">
                 <div class="mb-2">
                     <strong>Department:</strong> {{ $selectedEmployee->employee->department->name ?? 'N/A' }}
@@ -58,15 +58,20 @@
                     <strong>Position:</strong> {{ $selectedEmployee->employee->position->name ?? 'N/A' }}
                 </div>
 
-                <!-- Projects List -->
+                <!-- Tasks List -->
                 <div>
-                    <strong>Projects:</strong>
-                    <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1">
-                        @if ($selectedEmployee && $selectedEmployee->employee->projects->isNotEmpty())
-                            @foreach ($selectedEmployee->employee->projects as $project)
-                                <div class="bg-gray-100 p-2 rounded text-xs truncate" title="{{ $project->name }}">
-                                    {{ Str::limit($project->name, 20) }}
-                                </div>
+                    <strong>Tasks:</strong>
+                    <div class="mt-2 space-y-1">
+                        @if ($selectedEmployee && $selectedEmployee->employee->tasks->isNotEmpty())
+                            @foreach ($selectedEmployee->employee->tasks as $task)
+                                <a href="{{ route('admin.projects.show', $task->project->id) }}" class="flex justify-between items-center bg-gray-100 p-2 rounded text-xs transition-transform transform hover:scale-105" title="View Project">
+                                    <span class="truncate">
+                                        {{ Str::limit($task->name, 20) }} - {{ $task->status }}
+                                    </span>
+                                    <span class="text-gray-600 text-right text-xs">
+                                        Project: {{ $task->project->name ?? 'No Project' }}
+                                    </span>
+                                </a>
                             @endforeach
                         @else
                             <div class="text-xs text-gray-500">N/A</div>
@@ -79,6 +84,7 @@
                     View Employee
                 </a>
             </div>
+
         </div>
     </div>
     @endif
