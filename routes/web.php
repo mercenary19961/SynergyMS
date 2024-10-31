@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\HumanResourcesController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\ProjectManager\ProjectManagerDashboardController;
 use App\Http\Controllers\Client\ClientDashboardController;
+use App\Http\Controllers\HR\HRDashboardController;
 
 use App\Http\Middleware\RegisterAccess;
 use App\Http\Middleware\CheckRecruitmentManager;
@@ -56,10 +57,10 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Registration Routes
-// Route::middleware([RegisterAccess::class])->group(function () {
-    Route::get('/register', [RegisterController::class, 'create'])->name('register.user.create'); 
+Route::middleware(['auth', 'role:HR|Super Admin'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('register.user.create');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.user.store');
-// });
+});
 
 // Notifications Routes
 Route::get('/notifications', function () {
@@ -68,14 +69,12 @@ Route::get('/notifications', function () {
     return view('pages.notifications', compact('notifications'));
 })->name('notifications.index');
 
-// Route to mark notification as read
 Route::patch('/notifications/{id}/read', function ($id) {
     $user = Auth::user();
-    // Find the notification by ID
     $notification = $user->notifications()->find($id);
 
     if ($notification) {
-        $notification->markAsRead(); // Mark notification as read
+        $notification->markAsRead();
     }
 
     return redirect()->route('notifications.index');
@@ -159,9 +158,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/tickets', 'index')->name('tickets.index')->middleware('role:Super Admin|HR|Project Manager|Client');
         Route::get('/tickets/{ticket}', 'show')->name('tickets.show')->middleware('role:Super Admin|HR|Project Manager|Client');
         Route::get('/admin/tickets/create', 'create')->name('tickets.create')->middleware('role:Super Admin|Project Manager');
-        Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager');
+        Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager|Client|HR|employee');
         
-        // Apply the custom middleware to check if the user has access to edit, update, or delete tickets
+        // custom middleware to check if the user has access to edit, update, or delete tickets
         Route::get('/tickets/{ticket}/edit', 'edit')->name('tickets.edit')->middleware(checkTicketAccess::class);
         Route::put('/tickets/{ticket}', 'update')->name('tickets.update')->middleware(checkTicketAccess::class);
         Route::delete('/tickets/{ticket}', 'destroy')->name('tickets.destroy')->middleware(checkTicketAccess::class);
@@ -188,7 +187,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/admin/projects/create', 'create')->name('projects.create')->middleware('role:Super Admin|Project Manager');
         Route::post('/projects', 'store')->name('projects.store')->middleware('role:Super Admin|Project Manager|Client');
 
-        // Use custom middleware to check project owner or Super Admin
+        // custom middleware to check project owner or Super Admin
         Route::get('/projects/{project}/edit', 'edit')->name('projects.edit')->middleware(ProjectOwnerOrSuperAdmin::class);
         Route::put('/projects/{project}', 'update')->name('projects.update')->middleware(ProjectOwnerOrSuperAdmin::class);
         Route::delete('/projects/{project}', 'destroy')->name('projects.destroy')->middleware(ProjectOwnerOrSuperAdmin::class);
@@ -213,7 +212,7 @@ Route::prefix('admin/human-resources')->name('admin.')->controller(HumanResource
     Route::get('/', 'index')->name('human-resources.index')->middleware('role:Super Admin|HR|Project Manager|Client');
     Route::get('/{id}', 'show')->name('human-resources.show')->middleware('role:Super Admin|HR|Project Manager|Client');
 
-    // Apply custom middleware for creating, editing, updating, and deleting
+    // custom middleware for creating, editing, updating, and deleting
     Route::get('/admin/human-resources/create', 'create')->name('human-resources.create')->middleware(CheckRecruitmentManager::class);
     Route::post('/', 'store')->name('human-resources.store')->middleware(CheckRecruitmentManager::class);
     Route::get('/{id}/edit', 'edit')->name('human-resources.edit')->middleware(CheckRecruitmentManager::class);
@@ -225,6 +224,9 @@ Route::prefix('admin/human-resources')->name('admin.')->controller(HumanResource
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::put('/admin/tasks/update/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::get('/admin/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+Route::delete('/admin/tasks/delete/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+
+
 
 // Route to take the ticket
 Route::post('/admin/tickets/{id}/take', [TicketsController::class, 'takeTicket'])->name('admin.tickets.take');
@@ -248,9 +250,9 @@ Route::middleware(['auth', 'role:Employee|Super Admin'])->prefix('employee')->na
 });
 
 // HR Dashboard Route
-// Route::middleware(['auth', 'role:HR|Super Admin'])->prefix('hr')->name('hr.')->group(function () {
-//     Route::get('/dashboard', [HRDashboardController::class, 'index'])->name('dashboard');
-// });
+Route::middleware(['auth', 'role:HR|Super Admin'])->prefix('hr')->name('hr.')->group(function () {
+    Route::get('/dashboard', [HRDashboardController::class, 'index'])->name('dashboard');
+});
 
 // Client Dashboard Route
 Route::middleware(['auth', 'role:Client|Super Admin'])->prefix('client')->name('client.')->group(function () {

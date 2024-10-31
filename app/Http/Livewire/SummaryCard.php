@@ -7,6 +7,8 @@ use App\Models\EmployeeDetail;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Ticket;
+use App\Models\Attendance;
+use App\Models\ProjectManager;
 use Illuminate\Support\Facades\Log;
 
 
@@ -17,7 +19,7 @@ class SummaryCard extends Component
     public $route;
     public $countType;
     public $count;
-    public $pollingInterval = 10000; // 5 seconds
+    public $pollingInterval = 5000;
 
     public function mount($title, $icon, $route, $countType)
     {
@@ -42,11 +44,19 @@ class SummaryCard extends Component
             case 'clients':
                 $count = Client::count();
                 break;
+            case 'project_managers':
+                $count = ProjectManager::count();
+                break;
             case 'projects':
                 $count = Project::count();
                 break;
             case 'tickets':
                 $count = Ticket::count();
+                break;
+            case 'today_clockins':
+                $count = Attendance::whereDate('attendance_date', now()->toDateString())
+                                    ->whereNotNull('clock_in')
+                                    ->count();
                 break;
             default:
                 $count = 0;

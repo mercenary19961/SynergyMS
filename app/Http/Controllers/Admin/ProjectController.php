@@ -184,6 +184,17 @@ class ProjectController extends Controller
 
         return redirect()->back()->with('success', 'Project request submitted successfully.');
     }
-    
+
+    // Delete a task associated with the project
+    public function deleteTask($projectId, $taskId)
+    {
+        $project = Project::findOrFail($projectId);
+        $task = $project->tasks()->findOrFail($taskId);
+
+        $task->delete();
+
+        return redirect()->route('admin.projects.show', $projectId)
+                        ->with('success', 'Task deleted successfully');
+    }
 
 }

@@ -267,8 +267,14 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="text-center sm:text-left">
-                    <h3 class="text-lg font-medium text-gray-900" id="modal-title">Edit Task</h3>
-                    <form :action="'{{ url('/admin/tasks/update') }}/' + selectedTaskId" method="POST" class="mt-4">
+                    <div class="flex justify-between">
+                        <h3 class="text-lg font-medium text-gray-900" id="modal-title">Edit Task</h3>
+                        <!-- Delete Button with SweetAlert -->
+                        <button type="button" onclick="confirmDelete()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Delete</button>
+                    </div>
+
+                    <!-- Update Form -->
+                    <form :action="'{{ url('/admin/tasks/update') }}/' + selectedTaskId" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -308,11 +314,17 @@
                             </select>
                         </div>
 
-                        <!-- Submit and Cancel Buttons -->
+                        <!-- Cancel and Save Buttons -->
                         <div class="flex justify-end mt-4">
                             <button type="button" @click="closeEditTaskModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Cancel</button>
                             <button type="submit" class="ml-2 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">Save Changes</button>
                         </div>
+                    </form>
+
+                    <!-- Form for Deleting Task -->
+                    <form id="deleteTaskForm" :action="'{{ url('/admin/tasks/delete') }}/' + selectedTaskId" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
                     </form>
                 </div>
             </div>
@@ -368,6 +380,25 @@
             }
         }));
     });
+</script>
+
+<!-- SweetAlert Script -->
+<script>
+    function confirmDelete() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete the Task!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('deleteTaskForm').submit();
+            }
+        })
+    }
 </script>
 
 

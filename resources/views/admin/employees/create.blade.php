@@ -3,7 +3,7 @@
 @section('content')
 <div class="flex h-screen">
     <div class="flex-1 p-6 bg-gray-100 overflow-auto">
-        <x-title-with-back title="Add New Employee" route="admin.employees.index" />
+        <x-title-with-back title="Add New Employee" />
 
         @include('components.form.errors')
 

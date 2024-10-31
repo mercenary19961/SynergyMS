@@ -31,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('priority-dropdown', \App\Http\Livewire\PriorityDropdown::class);
         Livewire::component('notifications', \App\Http\Livewire\Notifications::class);
         Livewire::component('popup-message', \App\Http\Livewire\PopupMessage::class);
+        Livewire::component('registration-form', \App\Http\Livewire\Register\RegistrationForm::class);
+        Livewire::component('register.client-component', \App\Http\Livewire\Register\ClientComponent::class);
     }
 }

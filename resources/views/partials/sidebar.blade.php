@@ -25,12 +25,7 @@
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.dashboard') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.dashboard') }}' 
             }">
-            <i class="fa-solid fa-gauge fa-lg"
-                :class="{
-                    'text-white': !open && '{{ request()->routeIs('admin.dashboard') }}',
-                    'text-orange-500': open && '{{ request()->routeIs('admin.dashboard') }}',
-                    'text-gray-300': !'{{ request()->routeIs('admin.dashboard') }}'
-                }">
+            <i class="fa-solid fa-gauge fa-lg">
             </i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Admin Dashboard</span>
         </a>
@@ -44,7 +39,7 @@
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('employee.dashboard') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('employee.dashboard') }}'
             }">
-            <i class="fa-solid fa-users fa-md"></i>
+            <i class="fa-solid fa-users fa-md "></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Employee Dashboard</span>
         </a>
         @endrole
@@ -72,6 +67,19 @@
             }">
             <i class="fa-solid fa-user-tie fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Client Dashboard</span>
+        </a>
+        @endrole
+
+        <!-- HR Dashboard -->
+        @role('HR')
+        <a href="{{ route('hr.dashboard') }}" 
+            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('hr.dashboard') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('hr.dashboard') }}'
+            }">
+            <i class="fa-solid fa-user-tie fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">HR Dashboard</span>
         </a>
         @endrole
 

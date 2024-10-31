@@ -24,7 +24,10 @@
                 @endif
 
                 <!-- Send Back Button (Visible only to the current Employee assigned to the ticket) -->
-                @if((auth()->user()->hasRole('Employee') || auth()->user()->hasRole('Super Admin') || (auth()->user()->hasRole('Project Manager') && auth()->user()->employeeDetail->department_id === $ticket->department_id)) && $ticket->status === 'Open')
+                @if((auth()->user()->hasRole('Super Admin') 
+                || (auth()->user()->hasRole('Employee') && auth()->user()->id === $ticket->user_id) 
+                || (auth()->user()->hasRole('Project Manager') && auth()->user()->employeeDetail->department_id === $ticket->department_id && $ticket->user_id !== null)) 
+                && $ticket->status === 'Open')
                     <form action="{{ route('admin.tickets.sendBack', $ticket->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition flex items-center">

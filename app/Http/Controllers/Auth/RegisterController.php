@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\ProjectManager;
 use App\Models\HumanResources;
+use App\Models\Department;
+use App\Models\Position;
 use App\Models\Client;
 use App\Models\EmployeeDetail;
 use Illuminate\Http\Request;
@@ -15,7 +17,9 @@ class RegisterController extends Controller
 {
     public function create()
     {
-        return view('auth.register');
+        $departments = Department::all();
+        $positions = Position::all();
+        return view('auth.register', compact('departments', 'positions'));
     }
 
     public function store(Request $request)

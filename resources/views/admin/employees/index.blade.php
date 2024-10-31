@@ -137,7 +137,7 @@
                                 <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                     <i class="fas fa-eye mr-2 fa-md"></i> View
                                 </a>
-                                @role('Admin|Super Admin|HR')
+                                @role('Super Admin|HR')
                                 <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                     <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                 </a>
@@ -239,7 +239,7 @@
                                             <a href="{{ route('admin.employees.show', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white flex items-center">
                                                 <i class="fas fa-eye mr-2 fa-md"></i> View
                                             </a>
-                                            @role('Admin|Super Admin|HR')
+                                            @role('Super Admin|HR')
                                             <a href="{{ route('admin.employees.edit', $employee->id) }}" class="px-4 py-2 text-xs text-gray-700 hover:bg-orange-500 hover:text-white flex items-center">
                                                 <i class="fas fa-pen mr-2 fa-md"></i> Edit
                                             </a>

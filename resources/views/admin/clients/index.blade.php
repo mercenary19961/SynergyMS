@@ -9,7 +9,7 @@
             <h1 class="text-2xl font-semibold flex items-center">
                 <i class="fas fa-users mr-2 text-gray-600"></i> Clients
             </h1>
-            @role('Admin|Super Admin|HR')
+            @role('Super Admin|HR')
             <a href="{{ route('admin.clients.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                 <i class="fas fa-plus mr-2"></i> Add New Client
             </a>
@@ -81,7 +81,7 @@
                                     <a href="{{ route('admin.clients.show', $client->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
-                                    @role('Admin|Super Admin|HR')
+                                    @role('Super Admin|HR')
                                     <a href="{{ route('admin.clients.edit', $client->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
                                         <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                     </a>

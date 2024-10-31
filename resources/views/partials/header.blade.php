@@ -16,7 +16,7 @@
         ['name' => 'Project Manager Dashboard', 'route' => route('project-manager.dashboard')],
         ['name' => 'Employee Dashboard', 'route' => route('employee.dashboard')],
         ['name' => 'Client Dashboard', 'route' => route('client.dashboard')],
-        // ['name' => 'HR Dashboard', 'route' => route('hr.dashboard')],
+        ['name' => 'HR Dashboard', 'route' => route('hr.dashboard')],
         ['name' => 'Login', 'route' => route('login')],
         ['name' => 'Profile', 'route' => route('profile')],
         ['name' => 'Contact', 'route' => route('contact')],

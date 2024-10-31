@@ -51,12 +51,18 @@
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="mt-6">
-            <a href="{{ route('admin.human-resources.edit', $hrEmployee->id) }}" class="btn bg-orange-500 text-white hover:bg-orange-600 py-2 px-4 rounded">
-                <i class="fas fa-edit mr-2"></i>Edit
-            </a>
-        </div>
+        @if(
+            auth()->user()->hasRole('Super Admin') || 
+            (auth()->user()->hasRole('HR') && auth()->user()->humanResource && auth()->user()->humanResource->position_id === 35)
+        )
+            <!-- Action Buttons -->
+            <div class="mt-6">
+                <a href="{{ route('admin.human-resources.edit', $hrEmployee->id) }}" class="btn bg-orange-500 text-white hover:bg-orange-600 py-2 px-4 rounded">
+                    <i class="fas fa-edit mr-2"></i>Edit
+                </a>
+            </div>
+        @endif
+        
     </div>
 </div>
 @endsection

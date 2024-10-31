@@ -10,11 +10,12 @@
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-building mr-2 text-gray-600"></i> Departments
             </h1>
-            @role('Admin|Super Admin|HR')
+            @if (auth()->user()->humanResource && auth()->user()->humanResource->position_id === 35
+                || auth()->user()->hasrole('Super Admin'))
             <a href="{{ route('admin.departments.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
                 <i class="fas fa-plus-circle mr-2"></i> Add New Department
             </a>
-            @endrole
+            @endif
         </div>
 
         <!-- Search Form -->
@@ -162,7 +163,8 @@
                                 <a href="{{ route('admin.departments.show', $department->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                 </a>
-                                @role('Admin|Super Admin|HR')
+                                @if (auth()->user()->humanResource && auth()->user()->humanResource->position_id === 35
+                                    || auth()->user()->hasrole('Super Admin'))
                                 <a href="{{ route('admin.departments.edit', $department->id) }}" class="transform hover:text-orange-500 hover:scale-110">
                                     <i class="fas fa-pen fa-md text-orange-500 hover:text-yellow-500"></i>
                                 </a>
@@ -171,7 +173,7 @@
                                     @method('DELETE')
                                     <x-delete-button formId="delete-form-{{ $department->id }}" />
                                 </form>
-                                @endrole
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -69,7 +69,7 @@
                     </div>
                     
                     <!-- Original Add Ticket Button -->
-                    @role('Admin|Super Admin|HR')
+                    @role('Super Admin')
                     <a href="{{ route('admin.tickets.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
                         <i class="fas fa-plus mr-2"></i> Create New Ticket
                     </a>
@@ -269,20 +269,20 @@
                                         $isProjectManagerOfDepartment = $ticket->department 
                                             && $ticket->department->project_manager 
                                             && $ticket->department->project_manager->user_id === auth()->user()->id;
-                                        $isSuperAdminOrHR = auth()->user()->hasRole('Super Admin|HR');
+                                        $isSuperAdmin = auth()->user()->hasRole('Super Admin');
                                     @endphp
                                     
-                                    @if($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer)
+                                    @if($isSuperAdmin || $isProjectManagerOfDepartment || $isTicketIssuer)
                                         <!-- Only show edit and delete buttons for issuers if they are the ones who created the ticket -->
                                         @if($ticket->status !== 'Confirmed')
                                             <!-- Show the edit button only if the logged-in user is the ticket issuer or has higher access -->
-                                            @if($isTicketIssuer || $isSuperAdminOrHR || $isProjectManagerOfDepartment)
+                                            @if($isTicketIssuer || $isSuperAdmin || $isProjectManagerOfDepartment)
                                                 <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
                                                     <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                                 </a>
                                             @endif
                                             <!-- Allow deletion only for users with Super Admin or Project Manager roles -->
-                                            @if($isSuperAdminOrHR || $isProjectManagerOfDepartment || $isTicketIssuer)
+                                            @if($isSuperAdmin || $isProjectManagerOfDepartment || $isTicketIssuer)
                                                 <form id="delete-form-{{ $ticket->id }}" action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="inline delete-form">
                                                     @csrf
                                                     @method('DELETE')
@@ -295,8 +295,6 @@
                                             <i class="fas fa-trash fa-md text-gray-500"></i>
                                         @endif
                                     @endif
-                                
-                                
                                 </div>
                             </td>
                         </tr>

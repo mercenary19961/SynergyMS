@@ -159,7 +159,7 @@
                                 <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="transform hover:text-blue-500 hover:scale-110">
                                     <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
                                 </a>
-                                @role('Admin|Super Admin|HR')
+                                @role('Super Admin|HR')
                                 <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
                                     <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
                                 </a>
