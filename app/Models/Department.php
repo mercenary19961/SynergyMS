@@ -43,4 +43,9 @@ class Department extends Model
     {
         return $this->hasMany(Ticket::class, 'department_id');
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

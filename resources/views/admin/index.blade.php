@@ -52,10 +52,7 @@
 
         <!-- Present and Absent Employees -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <!-- Present Employees Card -->
             <livewire:present-employees />
-
-            <!-- Absent Employees Card -->
             <livewire:absent-employees />
         </div>
     </div>

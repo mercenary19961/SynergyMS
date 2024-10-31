@@ -33,5 +33,7 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('popup-message', \App\Http\Livewire\PopupMessage::class);
         Livewire::component('registration-form', \App\Http\Livewire\Register\RegistrationForm::class);
         Livewire::component('register.client-component', \App\Http\Livewire\Register\ClientComponent::class);
+        Livewire::component(('calendar'), \App\Http\Livewire\Calendar::class);
+        Livewire::component(('events'), \App\Http\Livewire\Events::class);
     }
 }

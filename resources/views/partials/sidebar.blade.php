@@ -73,7 +73,7 @@
         <!-- HR Dashboard -->
         @role('HR')
         <a href="{{ route('hr.dashboard') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-2 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('hr.dashboard') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('hr.dashboard') }}'
@@ -84,9 +84,9 @@
         @endrole
 
         <!-- Manage Employees -->
-        @role('Super Admin|HR|Project Manager|Client')
+        @role('Super Admin|HR|Project Manager|Client|Employee')
         <a href="{{ route('admin.employees.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-1 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.employees.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.employees.index') }}'
@@ -97,9 +97,9 @@
         @endrole
 
         <!-- Manage Attendance -->
-        @role('Super Admin|HR|Project Manager')
+        @role('Super Admin|HR|Project Manager|Employee')
         <a href="{{ route('admin.attendance.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-2 p-2 ml-1 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.attendance.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.attendance.index') }}'
@@ -112,7 +112,7 @@
         <!-- Manage Project Managers -->
         @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.project-managers.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-2 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.project-managers.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.project-managers.index') }}'
@@ -125,7 +125,7 @@
         <!-- Manage Clients -->
         @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.clients.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-2 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.clients.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.clients.index') }}'
@@ -138,7 +138,7 @@
         <!-- Manage Departments -->
         @role('Super Admin|HR|Project Manager|Client')
         <a href="{{ route('admin.departments.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-3 p-2 ml-1 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.departments.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.departments.index') }}'
@@ -149,9 +149,9 @@
         @endrole
 
         <!-- Manage Tickets -->
-        @role('Super Admin|HR|Project Manager|Client')
+        @role('Super Admin|HR|Project Manager|Client|Employee')
         <a href="{{ route('admin.tickets.index') }}" 
-            class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            class="relative flex items-center space-x-3 p-2 ml-1 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.tickets.index') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('admin.tickets.index') }}'
@@ -162,7 +162,7 @@
         @endrole
 
         <!-- Manage Projects -->
-        @role('Super Admin|HR|Project Manager|Client')
+        @role('Super Admin|HR|Project Manager|Client|Employee')
         <a href="{{ route('admin.projects.index') }}" 
             class="relative flex items-center space-x-3 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
             :class="{
@@ -171,6 +171,19 @@
             }">
             <i class="fa-solid fa-folder fa-md"></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Projects</span>
+        </a>
+        @endrole
+
+        <!-- Manage Events -->
+        @role('Super Admin|HR|Project Manager|Employee')
+        <a href="{{ route('admin.events.index') }}" 
+            class="relative flex items-center space-x-4 p-2 text-gray-300 hover:bg-zinc-900 rounded-md transition-colors duration-200"
+            :class="{
+                'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('admin.events.index') }}',
+                'hover:bg-zinc-900': !'{{ request()->routeIs('admin.events.index') }}'
+            }">
+            <i class="fa-solid fa-calendar-days fa-md"></i>
+            <span x-show="open" class="text-sm font-medium hover:text-white">Events</span>
         </a>
         @endrole
 

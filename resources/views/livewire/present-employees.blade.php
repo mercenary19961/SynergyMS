@@ -1,6 +1,8 @@
 <div wire:poll.{{ $pollingInterval }}="refreshPresentEmployees" class="bg-white p-6 mb-5 rounded shadow flex flex-col h-full">
-    <i class="fas fa-user-check fa-2x text-orange-500 mb-2"></i>
-    <h2 class="text-xl font-semibold mb-4">Present Employees</h2>
+    <div class="flex flex-row justify-start">
+        <i class="fas fa-user-check fa-2x text-orange-500 mb-2"></i>
+        <h2 class="text-xl font-semibold mb-4 ml-4">Present Employees</h2>
+    </div>
     
     <!-- Scrollable list with fixed height and overflow-y -->
     <ul class="text-sm flex-grow overflow-y-auto" style="max-height: 300px;">

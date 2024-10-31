@@ -6,7 +6,7 @@
         <div x-data="{ showEmployeeModal: false, showTicketModal: false }">
             
             <!-- Dashboard Title with Buttons -->
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6 p-2 lg:p-6 space-y-4 md:space-y-0">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-1 p-2 lg:p-6 space-y-4 md:space-y-0">
                 <!-- Left Side: Welcome Message -->
                 <div>
                     <h1 class="text-2xl md:text-3xl font-semibold flex items-center text-gray-700">
@@ -32,7 +32,7 @@
             </div>
 
             <!-- Summary Cards (Employees, Tickets, Projects, Notifications) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-1 p-2 md:p-6">
                 <!-- Employees Card -->
                 <livewire:summary-card 
                     title="Total Employees" 
@@ -58,40 +58,36 @@
                 />
 
                 <!-- Today's Clock-ins Card -->
-                <livewire:summary-card 
-                    title="Today's Clock-ins" 
-                    icon="fas fa-clock" 
-                    route="{{  route('admin.attendance.index') }}" 
-                    countType="today_clockins" 
-                />
+                <livewire:events />
             </div>
 
-            <!-- Grid Layout for Detailed Sections -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-2 lg:p-6">
-                <!-- Employees Section -->
-                <div class="mb-4">
-                    <h2 class="text-xl font-semibold mb-4 text-orange-500 flex items-center">
-                        <i class="fas fa-users mr-2"></i> Employees Overview
-                    </h2>
-                    <livewire:recent-employees />
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 p-2 md:p-6">
+                <!-- Left Side: Recent Components with Carousel -->
+                <div x-data="{ currentTab: 0, intervalId: null }" x-init="intervalId = setInterval(() => { currentTab = (currentTab + 1) % 3 }, 10000)" class="">
+                    <template x-if="currentTab === 0">
+                        <livewire:recent-employees />
+                    </template>
+                    <template x-if="currentTab === 1">
+                        <livewire:recent-clients />
+                    </template>
+                    <template x-if="currentTab === 2">
+                        <livewire:recent-projects />
+                    </template>
+                    
+                    <!-- Pagination Dots -->
+                    <div class="flex justify-center space-x-2 mt-4">
+                        <button @click="currentTab = 0" :class="{'bg-orange-500': currentTab === 0, 'bg-gray-300': currentTab !== 0}" class="h-2 w-2 rounded-full"></button>
+                        <button @click="currentTab = 1" :class="{'bg-orange-500': currentTab === 1, 'bg-gray-300': currentTab !== 1}" class="h-2 w-2 rounded-full"></button>
+                        <button @click="currentTab = 2" :class="{'bg-orange-500': currentTab === 2, 'bg-gray-300': currentTab !== 2}" class="h-2 w-2 rounded-full"></button>
+                    </div>
                 </div>
-
-                <!-- Tickets Section -->
-                {{-- <div class="col-span-1 bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-orange-500 flex items-center">
-                        <i class="fas fa-ticket-alt mr-2"></i> Open Tickets
-                    </h2>
-                    <livewire:recent-tickets />
-                </div> --}}
-
-                <!-- Notifications Section -->
-                {{-- <div class="col-span-2 lg:col-span-1 bg-white shadow rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4 text-orange-500 flex items-center">
-                        <i class="fas fa-bell mr-2"></i> Notifications
-                    </h2>
-                    <livewire:recent-notifications />
-                </div> --}}
+            
+                <!-- Right Side: Calendar Component -->
+                <div>
+                    {{-- <livewire:calendar /> --}}
+                </div>
             </div>
+            
         </div>
     </div>
     <x-footer />

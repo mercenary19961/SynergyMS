@@ -1,7 +1,9 @@
 <div wire:poll.{{ $pollingInterval }}="refreshRecentClients" class="bg-white p-6 rounded shadow flex flex-col h-full">
-    <i class="fas fa-user-tie fa-2x text-orange-500 mb-2"></i>
-    <h2 class="text-xl font-semibold mb-4">Recent Clients</h2>
-    
+    <div class="flex flex-row justify-start">
+        <i class="fas fa-user-tie fa-2x text-orange-500 mb-2"></i>
+        <h2 class="text-xl font-semibold mb-4 ml-4">Recent Clients</h2>
+    </div>
+
     <ul class="text-sm flex-grow">
         @foreach ($recentClients as $client)
             <li class="mb-4">

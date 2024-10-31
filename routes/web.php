@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\ProjectManagerController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\EventsController;
 use App\Http\Controllers\Admin\HumanResourcesController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\ProjectManager\ProjectManagerDashboardController;
@@ -191,6 +192,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/projects/{project}/edit', 'edit')->name('projects.edit')->middleware(ProjectOwnerOrSuperAdmin::class);
         Route::put('/projects/{project}', 'update')->name('projects.update')->middleware(ProjectOwnerOrSuperAdmin::class);
         Route::delete('/projects/{project}', 'destroy')->name('projects.destroy')->middleware(ProjectOwnerOrSuperAdmin::class);
+    });
+
+    // Events Management Routes
+    Route::controller(EventsController::class)->group(function () {
+        Route::get('/events', 'index')->name('events.index')->middleware('role:Super Admin|HR|Project Manager|Employee');
+        Route::get('/events/{event}', 'show')->name('events.show')->middleware('role:Super Admin|HR|Project Manager|Employee');
+        Route::get('/admin/events/create', 'create')->name('events.create')->middleware('role:Super Admin|HR');
+        Route::post('/events', 'store')->name('events.store')->middleware('role:Super Admin|HR');
+        Route::get('/events/{event}/edit', 'edit')->name('events.edit')->middleware('role:Super Admin|HR');
+        Route::put('/events/{event}', 'update')->name('events.update')->middleware('role:Super Admin|HR');
+        Route::delete('/admin/events/{event}', 'destroy')->name('events.destroy')->middleware('role:Super Admin|HR');
     });
 
 });

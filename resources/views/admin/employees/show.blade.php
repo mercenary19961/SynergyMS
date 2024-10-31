@@ -17,16 +17,16 @@
 
             <div class="bg-white p-6 rounded-lg shadow-lg"> <!-- Right side (Information) -->
                 <h2 class="text-lg font-semibold">
-                    <i class="fas fa-user mr-2 text-gray-600"></i>{{ $employee->user->name }}
+                    <i class="fas fa-user mr-2 text-orange-600"></i>{{ $employee->user->name }}
                 </h2>
                 <p class="text-gray-700">
-                    <i class="fas fa-briefcase mr-2 text-gray-600"></i>{{ $employee->position->name }} - {{ $employee->department->name }}
+                    <i class="fas fa-briefcase mr-2 text-orange-600"></i>{{ $employee->position->name }} - {{ $employee->department->name }}
                 </p>
                 <p class="text-gray-600">
-                    <i class="fas fa-envelope mr-2 text-gray-600"></i>{{ $employee->user->email }}
+                    <i class="fas fa-envelope mr-2 text-orange-600"></i>{{ $employee->user->email }}
                 </p>
                 <p class="text-gray-600">
-                    <i class="fas fa-phone-alt mr-2 text-gray-600"></i>{{ $employee->phone }}
+                    <i class="fas fa-phone-alt mr-2 text-orange-600"></i>{{ $employee->phone }}
                 </p>
             </div>
         </div>
@@ -36,38 +36,38 @@
             <!-- Personal Info Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-info-circle mr-2 text-gray-600"></i>Personal Information
+                    <i class="fas fa-info-circle mr-2 text-orange-600"></i>Personal Information
                 </h2>
                 <p>
-                    <i class="fas fa-flag mr-2 text-gray-600"></i><strong>Nationality:</strong> {{ $employee->nationality }}
+                    <i class="fas fa-flag mr-2 text-orange-600"></i><strong>Nationality:</strong> {{ $employee->nationality }}
                 </p>
                 <p>
-                    <i class="fas fa-birthday-cake mr-2 text-gray-600"></i><strong>Age:</strong> {{ $employee->age }}
+                    <i class="fas fa-birthday-cake mr-2 text-orange-600"></i><strong>Age:</strong> {{ $employee->age }}
                 </p>
                 <p>
-                    <i class="fas fa-calendar-alt mr-2 text-gray-600"></i><strong>Date of Birth:</strong> {{ $employee->date_of_birth->format('d M Y') }}
+                    <i class="fas fa-calendar-alt mr-2 text-orange-600"></i><strong>Date of Birth:</strong> {{ $employee->date_of_birth->format('d M Y') }}
                 </p>
                 <p>
-                    <i class="fas fa-map-marker-alt mr-2 text-gray-600"></i><strong>Address:</strong> {{ $employee->address }}
+                    <i class="fas fa-map-marker-alt mr-2 text-orange-600"></i><strong>Address:</strong> {{ $employee->address }}
                 </p>
             </div>
 
             <!-- Employment Info Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-briefcase mr-2 text-gray-600"></i>Employment Information
+                    <i class="fas fa-briefcase mr-2 text-orange-600"></i>Employment Information
                 </h2>
                 <p>
-                    <i class="fas fa-user-tag mr-2 text-gray-600"></i><strong>Position:</strong> {{ $employee->position->name }}
+                    <i class="fas fa-user-tag mr-2 text-orange-600"></i><strong>Position:</strong> {{ $employee->position->name }}
                 </p>
                 <p>
-                    <i class="fas fa-building mr-2 text-gray-600"></i><strong>Department:</strong> {{ $employee->department->name }}
+                    <i class="fas fa-building mr-2 text-orange-600"></i><strong>Department:</strong> {{ $employee->department->name }}
                 </p>
                 <p>
-                    <i class="fas fa-dollar-sign mr-2 text-gray-600"></i><strong>Salary:</strong> ${{ number_format($employee->salary, 2) }}
+                    <i class="fas fa-dollar-sign mr-2 text-orange-600"></i><strong>Salary:</strong> ${{ number_format($employee->salary, 2) }}
                 </p>
                 <p>
-                    <i class="fas fa-calendar-check mr-2 text-gray-600"></i><strong>Date of Joining:</strong> {{ $employee->date_of_joining->format('d M Y') }}
+                    <i class="fas fa-calendar-check mr-2 text-orange-600"></i><strong>Date of Joining:</strong> {{ $employee->date_of_joining->format('d M Y') }}
                 </p>
             </div>
         </div>
@@ -77,11 +77,11 @@
             <!-- Attendance Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-calendar-check mr-2 text-gray-600"></i>Attendance Records
+                    <i class="fas fa-calendar-check mr-2 text-orange-600"></i>Attendance Records
                 </h2>
                 @if ($employee->attendances->isEmpty())
                     <p>
-                        <i class="fas fa-exclamation-circle mr-2 text-gray-600"></i>No attendance records available.
+                        <i class="fas fa-exclamation-circle mr-2 text-orange-600"></i>No attendance records available.
                     </p>
                 @else
                     <table class="min-w-full bg-white">
@@ -106,11 +106,11 @@
             <!-- Tickets Section -->
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-4">
-                    <i class="fas fa-ticket-alt mr-2 text-gray-600"></i>Assigned Tickets
+                    <i class="fas fa-ticket-alt mr-2 text-orange-600"></i>Assigned Tickets
                 </h2>
                 @if ($employee->tickets->isEmpty())
                     <p>
-                        <i class="fas fa-exclamation-circle mr-2 text-gray-600"></i>No tickets assigned.
+                        <i class="fas fa-exclamation-circle mr-2 text-orange-600"></i>No tickets assigned.
                     </p>
                 @else
                     <table class="min-w-full bg-white">
