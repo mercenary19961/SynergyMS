@@ -294,7 +294,11 @@
                             @endphp
                             <li class="p-3 border border-gray-200 rounded-md">
                                 <p class="text-xs font-semibold text-left text-gray-500">
-                                    Invoice #{{ $data['invoice_id'] }} - Amount: ${{ $data['amount'] }} - Status: {{ $data['status'] }}
+                                    @if(isset($data['invoice_id']))
+                                        Invoice #{{ $data['invoice_id'] }} - Amount: ${{ $data['amount'] ?? 'N/A' }} - Status: {{ $data['status'] ?? 'N/A' }}
+                                    @else
+                                        Notification: {{ $notification->type }}
+                                    @endif
                                 </p>
                                 <small class="block text-gray-500">{{ $notification->created_at->diffForHumans() }}</small>
                             </li>
@@ -302,6 +306,7 @@
                     </ul>
                 @endif
             </div>
+
         </div>
     </div>
     <x-footer />

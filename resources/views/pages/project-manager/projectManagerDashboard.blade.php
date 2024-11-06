@@ -75,20 +75,26 @@
                         <!-- Project Leader -->
                         <p class="font-semibold text-gray-600 mt-2">Project Leader:</p>
                         <div class="flex items-center mb-4">
-                            <img src="{{ asset('storage/' . $projectManager->user->image) }}" alt="Project Leader" class="w-8 h-8 rounded-full">
+                            <a href="{{ route('admin.project-managers.show', $projectManager->id) }}" class="hover:scale-110 transition-transform duration-200">
+                                <img src="{{ asset('storage/' . $projectManager->user->image) }}" alt="Project Leader" class="w-8 h-8 rounded-full">
+                            </a>
                         </div>
                 
                         <!-- Team Members -->
                         <p class="font-semibold text-gray-600">Team:</p>
                         <div class="flex items-center mb-4 -space-x-2">
                             @foreach($project->employees->filter(fn($employee) => $employee->department_id == $projectManager->department_id)->take(4) as $employee)
-                                <img src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" alt="{{ $employee->name }}" class="w-8 h-8 rounded-full border-2 border-white">
+                                <a href="{{ route('admin.employees.show', $employee->id) }}" class="hover:scale-110 transition-transform duration-200">
+                                    <img src="{{ $employee->user->image ? asset('storage/' . $employee->user->image) : asset('images/default_user_image.png') }}" 
+                                        alt="{{ $employee->name }}" 
+                                        class="w-8 h-8 rounded-full border-2 border-white">
+                                </a>
                             @endforeach
                             @php
                                 $departmentEmployeeCount = $project->employees->filter(fn($employee) => $employee->department_id == $projectManager->department_id)->count();
                             @endphp
                             @if($departmentEmployeeCount > 4)
-                                <span class="text-sm  ml-2 bg-orange-500 text-white rounded-full px-2">+{{ $departmentEmployeeCount - 4 }}</span>
+                                <span class="text-sm ml-2 bg-orange-500 text-white rounded-full px-2">+{{ $departmentEmployeeCount - 4 }}</span>
                             @endif
                         </div>
 
@@ -131,12 +137,13 @@
                 <!-- Show 'View All Employees' Button if there are more than 7 employees -->
                 @if($managedEmployees->count() > 7)
                     <div class="bg-white p-4 rounded-lg shadow transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex flex-col items-center justify-center">
-                        <a href="{{ route('admin.employees.index') }}" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition flex items-center">
+                        <a href="{{ route('admin.employees.index', ['project_manager' => $projectManager->id]) }}" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition flex items-center">
                             View All Employees
                             <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 @endif
+
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
         <div x-data="{ showEmployeeModal: false, showTicketModal: false }">
             
             <!-- Dashboard Title with Buttons -->
-            <div class="flex flex-col md:flex-row justify-between items-center mb-1 p-2 lg:p-6 space-y-4 md:space-y-0">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-1 p-2 lg:pt-6 lg:pr-6 lg:pl-6 lg:pb-1 space-y-4 md:space-y-0">
                 <!-- Left Side: Welcome Message -->
                 <div>
                     <h1 class="text-2xl md:text-3xl font-semibold flex items-center text-gray-700">
@@ -32,7 +32,7 @@
             </div>
 
             <!-- Summary Cards (Employees, Tickets, Projects, Notifications) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-1 p-2 md:p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-1 p-2 md:pt-2 md:pr-6 md:pb-2 md:pl-6">
                 <!-- Employees Card -->
                 <livewire:summary-card 
                     title="Total Employees" 
@@ -61,7 +61,7 @@
                 <livewire:events />
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 p-2 md:p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 p-2 md:pt-2 md:pr-6 md:pb-2 md:pl-6">
                 <!-- Left Side: Recent Components with Carousel -->
                 <div x-data="{ currentTab: 0, intervalId: null }" x-init="intervalId = setInterval(() => { currentTab = (currentTab + 1) % 3 }, 10000)" class="">
                     <template x-if="currentTab === 0">
@@ -84,10 +84,9 @@
             
                 <!-- Right Side: Calendar Component -->
                 <div>
-                    {{-- <livewire:calendar /> --}}
+                    <livewire:calendar />
                 </div>
             </div>
-            
         </div>
     </div>
     <x-footer />

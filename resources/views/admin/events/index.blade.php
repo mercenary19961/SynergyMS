@@ -9,6 +9,7 @@
             <h1 class="text-2xl font-semibold">
                 <i class="fas fa-calendar-alt mr-2 text-gray-600"></i> Events
             </h1>
+            
             @if(auth()->user()->hasRole('Super Admin|HR'))
             <a href="{{ route('admin.events.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
                 <i class="fas fa-plus-circle mr-2"></i> Add New Event

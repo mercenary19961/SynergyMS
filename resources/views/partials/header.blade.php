@@ -12,6 +12,7 @@
         ['name' => 'Project Managers', 'route' => route('admin.project-managers.index')],
         ['name' => 'Clients', 'route' => route('admin.clients.index')],
         ['name' => 'Projects', 'route' => route('admin.projects.index')],
+        ['name' => 'Events', 'route' => route('admin.events.index')],
         ['name' => 'Human Resources', 'route' => route('admin.human-resources.index')],
         ['name' => 'Project Manager Dashboard', 'route' => route('project-manager.dashboard')],
         ['name' => 'Employee Dashboard', 'route' => route('employee.dashboard')],
@@ -27,24 +28,24 @@
     if ($user->hasRole('Employee')) {
         // Filter for Employee
         $searchPages = array_values(array_filter($searchPages, function ($page) {
-            return in_array($page['name'], ['Employee Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+            return in_array($page['name'], ['Employee Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Events', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
         }));
     } elseif ($user->hasRole('Super Admin')) {
         $searchPages = array_values($searchPages);
     } elseif ($user->hasRole('Project Manager')) {
         // Filter for Project Manager
         $searchPages = array_values(array_filter($searchPages, function ($page) {
-            return in_array($page['name'], ['Project Manager Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+            return in_array($page['name'], ['Project Manager Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Events', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
         }));
     } elseif ($user->hasRole('Client')) {
         // Filter for Client
         $searchPages = array_values(array_filter($searchPages, function ($page) {
-            return in_array($page['name'], ['Client Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+            return in_array($page['name'], ['Client Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Events', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
         }));
     } elseif ($user->hasRole('HR')) {
         // Filter for HR
         $searchPages = array_values(array_filter($searchPages, function ($page) {
-            return in_array($page['name'], ['HR Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
+            return in_array($page['name'], ['HR Dashboard', 'Employees', 'Attendance', 'Departments', 'Tickets', 'Project Managers', 'Clients', 'Projects', 'Events', 'Human Resources', 'Login', 'Profile', 'Contact', 'Support']);
         }));
     }
 @endphp

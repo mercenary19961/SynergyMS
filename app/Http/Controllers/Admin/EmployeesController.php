@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeDetail;
 use App\Models\User;
+use App\Models\ProjectManager;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -18,6 +19,7 @@ class EmployeesController extends Controller
             'employee_id' => 'nullable|integer',
             'employee_name' => 'nullable|string|max:255',
             'department' => 'nullable|string|max:255',
+            'project_manager' => 'nullable|integer',
         ]);
     
         // Query employees with user, department, and position relationships
@@ -42,16 +44,28 @@ class EmployeesController extends Controller
             });
         }
     
+        // Filter by project manager if provided
+        if ($request->filled('project_manager')) {
+            // Fetch the department associated with the given project manager
+            $projectManager = ProjectManager::find($request->project_manager);
+            if ($projectManager && $projectManager->department) {
+                $query->where('department_id', $projectManager->department->id);
+            }
+        }
+    
         // Get the list of departments under the 'Projects' sector for the dropdown
         $departments = Department::where('sector', 'Projects')->get(['name']);
+    
+        // Get the list of project managers
+        $projectManagers = ProjectManager::with('user')->get();
     
         // Paginate the results and pass along query params to persist the search
         $employees = $query->paginate(8)->appends($request->except('page'));
     
         // Return the view with the filtered employee list and departments for the search form
-        return view('admin.employees.index', compact('employees', 'departments'));
+        return view('admin.employees.index', compact('employees', 'departments', 'projectManagers'));
     }
-
+    
     public function show(EmployeeDetail $employee)
     {
         $employee->load('user', 'department', 'attendances', 'tickets');

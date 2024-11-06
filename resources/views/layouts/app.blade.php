@@ -18,6 +18,17 @@
     
     <!-- Livewire Styles -->
     @livewireStyles
+    <!-- Full Calendar -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar')
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        })
+        calendar.render()
+      })
+    </script>
 </head>
 <body class="font-montserrat antialiased bg-gray-100 font-normal"
       x-data="{ isLoading: true }"
@@ -100,8 +111,9 @@
         @endif
 
     </div>
-
+    <!-- Sweatalert JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- alpineJS JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @livewireScripts
 </body>

@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Event;
 use App\Models\Department;
 use Carbon\Carbon;
 
 class EventsController extends Controller
 {
-    /**
-     * Display a listing of the events.
-     */
+
     public function index(Request $request)
     {
         $events = Event::query();
@@ -40,10 +42,62 @@ class EventsController extends Controller
         return view('admin.events.index', compact('events', 'roles'));
     }
     
-
-    /**
-     * Show the form for creating a new event.
-     */
+    public function show(Event $event)
+    {
+        $user = Auth::user();
+        $attendance = $user->events()->where('event_id', $event->id)->first();
+    
+        $isAttending = $attendance ? $attendance->pivot->is_attending : null;
+        $toggleCount = $attendance->pivot->toggle_count;
+    
+        $event->start_date = $event->start_date ? Carbon::parse($event->start_date)->format('F d, Y H:i') : null;
+        $event->end_date = $event->end_date ? Carbon::parse($event->end_date)->format('F d, Y H:i') : 'No End Date';
+    
+        return view('admin.events.show', compact('event', 'isAttending', 'toggleCount'));
+    }
+    
+    public function attend(Event $event)
+    {
+        $user = Auth::user();
+        $attendance = $user->events()->where('event_id', $event->id)->first();
+    
+        if ($attendance) {
+            $currentStatus = $attendance->pivot->is_attending;
+            $toggleCount = $attendance->pivot->toggle_count ?? 0;
+            $newStatus = !$currentStatus;
+    
+            if (!$newStatus && $toggleCount < 2) {
+                $toggleCount += 1;
+                $user->events()->updateExistingPivot($event->id, [
+                    'is_attending' => $newStatus,
+                    'toggle_count' => $toggleCount,
+                ]);
+    
+                // Send cancellation notification
+                $user->notify(new EventNotification($event, 'user_canceled'));
+            } elseif ($newStatus) {
+                $user->events()->updateExistingPivot($event->id, [
+                    'is_attending' => $newStatus,
+                ]);
+    
+                // Send attendance confirmation notification
+                $user->notify(new EventNotification($event, 'user_attending'));
+            } else {
+                return redirect()->back()->with('error', 'You have reached the maximum number of cancellations.');
+            }
+        } else {
+            $user->events()->attach($event->id, [
+                'is_attending' => true,
+                'toggle_count' => 0,
+            ]);
+    
+            // Send attendance confirmation notification
+            $user->notify(new EventNotification($event, 'user_attending'));
+        }
+    
+        return redirect()->back()->with('success', 'Your attendance status has been updated.');
+    }
+    
     public function create()
     {
         $roles = ['Super Admin', 'HR', 'Project Manager', 'Employee'];
@@ -52,10 +106,6 @@ class EventsController extends Controller
         return view('admin.events.create', compact('roles', 'departments'));
     }
     
-
-    /**
-     * Store a newly created event in the database.
-     */
     public function store(Request $request)
     {
         // Validate the input
@@ -89,29 +139,11 @@ class EventsController extends Controller
         return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
     }
     
-
-    /**
-     * Display the specified event.
-     */
-    public function show(Event $event)
-    {
-        // Format start and end dates if necessary
-        $event->start_date = $event->start_date ? Carbon::parse($event->start_date)->format('F d, Y H:i') : null;
-        $event->end_date = $event->end_date ? Carbon::parse($event->end_date)->format('F d, Y H:i') : 'No End Date';
-    
-        return view('admin.events.show', compact('event'));
-    }
-    
-
-    /**
-     * Show the form for editing the specified event.
-     */
     public function edit(Event $event)
     {
-        $departments = Department::all(); // Load departments for targeting by department
-        $roles = ['Super Admin', 'HR', 'Project Manager', 'Employee']; // Define roles as in the create method
+        $departments = Department::all(); 
+        $roles = ['Super Admin', 'HR', 'Project Manager', 'Employee'];
     
-        // Ensure dates are Carbon instances
         $event->start_date = Carbon::parse($event->start_date);
         $event->end_date = $event->end_date ? Carbon::parse($event->end_date) : null;
     

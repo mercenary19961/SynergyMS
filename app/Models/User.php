@@ -68,4 +68,9 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class);
     }
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class)->withPivot('is_attending')->withTimestamps();
+    }
+
 }

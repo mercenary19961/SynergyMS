@@ -18,6 +18,17 @@
     margin: 0 auto;
 }
 
+/* FullCalendar Event Title Styles */
+.fc .fc-event-title {
+    font-size: 14px; /* Adjust the font size as needed */
+    font-weight: 600; /* Make the font weight bold or semi-bold */
+    color: #333; /* Set the color for better visibility */
+}
+
+.fc .fc-event {
+    padding: 2px 4px; /* Adjust the padding for a cleaner look */
+}
+
 @keyframes spin {
     to { transform: rotate(360deg); }
 }

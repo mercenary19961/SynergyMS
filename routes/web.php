@@ -7,6 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -64,22 +65,8 @@ Route::middleware(['auth', 'role:HR|Super Admin'])->group(function () {
 });
 
 // Notifications Routes
-Route::get('/notifications', function () {
-    $user = Auth::user();
-    $notifications = $user->notifications;
-    return view('pages.notifications', compact('notifications'));
-})->name('notifications.index');
-
-Route::patch('/notifications/{id}/read', function ($id) {
-    $user = Auth::user();
-    $notification = $user->notifications()->find($id);
-
-    if ($notification) {
-        $notification->markAsRead();
-    }
-
-    return redirect()->route('notifications.index');
-})->name('notifications.read');
+Route::get('/notifications', [NotificationsController::class, 'index'])->name('notifications.index');
+Route::patch('/notifications/{id}/read', [NotificationsController::class, 'markAsRead'])->name('notifications.read');
 
 
 
@@ -203,6 +190,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/events/{event}/edit', 'edit')->name('events.edit')->middleware('role:Super Admin|HR');
         Route::put('/events/{event}', 'update')->name('events.update')->middleware('role:Super Admin|HR');
         Route::delete('/admin/events/{event}', 'destroy')->name('events.destroy')->middleware('role:Super Admin|HR');
+        Route::post('/events/{event}/attend', 'attend')->name('events.attend');
     });
 
 });

@@ -50,74 +50,88 @@
             <!-- Flex behavior changes based on screen width -->
             <div class="flex flex-col lg:flex-row lg:items-end lg:space-x-4 space-y-4 lg:space-y-0">
                 <div class="w-full sm:w-full lg:flex-1">
-                    <label for="employee_id" class="block text-sm font-medium text-gray-700"> <i class="fas fa-id-badge"></i> Employee ID</label>
+                    <label for="employee_id" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-id-badge"></i> Employee ID
+                    </label>
                     <input type="number" name="employee_id" id="employee_id" value="{{ request('employee_id') }}" placeholder="Employee ID" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
-                
+        
                 <div class="w-full sm:w-full lg:flex-1">
-                    <label for="employee_name" class="block text-sm font-medium text-gray-700"> <i class="fas fa-user"></i> Employee Name</label>
+                    <label for="employee_name" class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-user"></i> Employee Name
+                    </label>
                     <input type="text" name="employee_name" id="employee_name" value="{{ request('employee_name') }}" placeholder="Employee Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
                 </div>
         
                 <div class="w-full sm:w-full lg:flex-1">
                     <div x-data="{ departmentOpen: false, selected: '{{ request('department') ?? 'Select Department' }}' }" class="relative">
-                        <label for="department" class="block text-sm font-medium text-gray-700"> <i class="fas fa-building"></i> Department</label>
-                        
-                        <button 
-                            @click="departmentOpen = !departmentOpen" 
-                            type="button" 
-                            aria-haspopup="listbox" 
-                            :aria-expanded="departmentOpen" 
-                            class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-                        >
+                        <label for="department" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-building"></i> Department
+                        </label>
+                        <button @click="departmentOpen = !departmentOpen" type="button" aria-haspopup="listbox" :aria-expanded="departmentOpen" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
                             <span class="block truncate" x-text="selected"></span>
                             <span class="flex items-center">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </span>
                         </button>
-        
                         <!-- Dropdown Menu -->
-                        <ul 
-                            x-show="departmentOpen" 
-                            @click.away="departmentOpen = false" 
-                            class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" 
-                            role="listbox"
-                        >
-                            <li 
-                                @click="selected = 'Select Department'; departmentOpen = false" 
-                                class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
-                            >
+                        <ul x-show="departmentOpen" @click.away="departmentOpen = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox">
+                            <li @click="selected = 'Select Department'; departmentOpen = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
                                 <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i> Select Department
                             </li>
                             @foreach($departments as $department)
-                                <li 
-                                    @click="selected = '{{ $department->name }}'; departmentOpen = false" 
-                                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group"
-                                >
+                                <li @click="selected = '{{ $department->name }}'; departmentOpen = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
                                     <i class="fas fa-building mr-2 text-orange-500 group-hover:text-white"></i>
                                     {{ $department->name }}
                                 </li>
                             @endforeach
                         </ul>
-        
                         <input type="hidden" name="department" :value="selected === 'Select Department' ? '' : selected">
                     </div>
                 </div>
-                
+        
+                <!-- Project Manager Dropdown with Alpine.js -->
+                <div class="w-full sm:w-full lg:flex-1">
+                    <div x-data="{ projectManagerOpen: false, selectedName: '{{ request('project_manager') ? $projectManagers->firstWhere('id', request('project_manager'))->user->name : 'Select Project Manager' }}', selectedId: '{{ request('project_manager') ?? '' }}' }" class="relative">
+                        <label for="project_manager" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user-tie"></i> Project Manager
+                        </label>
+                        <button @click="projectManagerOpen = !projectManagerOpen" type="button" aria-haspopup="listbox" :aria-expanded="projectManagerOpen" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between cursor-default focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
+                            <span class="block truncate" x-text="selectedName === '' ? 'Select Project Manager' : selectedName"></span>
+                            <span class="flex items-center">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <ul x-show="projectManagerOpen" @click.away="projectManagerOpen = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox">
+                            <li @click="selectedName = 'Select Project Manager'; selectedId = ''; projectManagerOpen = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
+                                <i class="fas fa-user-tie mr-2 text-orange-500 group-hover:text-white"></i> Select Project Manager
+                            </li>
+                            @foreach($projectManagers as $manager)
+                                <li @click="selectedName = '{{ $manager->user->name }}'; selectedId = '{{ $manager->id }}'; projectManagerOpen = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white flex items-center group">
+                                    <i class="fas fa-user-tie mr-2 text-orange-500 group-hover:text-white"></i>
+                                    {{ $manager->user->name }}
+                                </li>
+                            @endforeach
+                        </ul>
+                        <input type="hidden" name="project_manager" :value="selectedId">
+                    </div>
+                </div>
+
                 <div class="flex-shrink-0 flex space-x-2">
                     <button type="submit" class="w-full lg:w-auto bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
                         <i class="fas fa-search mr-2"></i> Search
                     </button>
-                    
                     <a href="{{ route('admin.employees.index') }}" class="w-full lg:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition flex items-center justify-center">
                         <i class="fas fa-times mr-2"></i> Clear
                     </a>
                 </div>
             </div>
         </form>
-        
 
         <div class="p-1">
             <!-- Grid View -->
