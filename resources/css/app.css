@@ -138,3 +138,22 @@ ul::-webkit-scrollbar-thumb {
 ul::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
+
+.notifications-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.notifications-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+    background-color: #f97316;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1; 
+}
+
+.notifications-list::-webkit-scrollbar-thumb:hover {
+    background-color: #e65b00;
+}
+

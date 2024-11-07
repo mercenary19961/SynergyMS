@@ -34,26 +34,36 @@
         <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Assigned Projects Card -->
-            <div class="bg-white p-4 rounded shadow">
-                <div class="flex items-center">
-                    <i class="fas fa-briefcase text-orange-500 text-2xl mr-4"></i>
-                    <div>
-                        <p class="text-gray-600">Assigned Projects</p>
-                        <h3 class="text-xl font-bold">{{ $assignedProjects->count() }}</h3>
-                    </div>
-                </div>
-            </div>
+            <livewire:employee-summary-card 
+                title="Assigned Projects" 
+                icon="fas fa-briefcase" 
+                route="{{ route('admin.projects.index') }}" 
+                countType="assignedProjects" 
+            />
 
-            <!-- Attendance Card -->
-            <div class="bg-white p-4 rounded shadow">
-                <div class="flex items-center">
-                    <i class="fas fa-calendar-check text-orange-500 text-2xl mr-4"></i>
-                    <div>
-                        <p class="text-gray-600">Attendance Records</p>
-                        <h3 class="text-xl font-bold">{{ $attendanceRecords->count() }}</h3>
-                    </div>
-                </div>
-            </div>
+            <!-- Tasks Card -->
+            <livewire:employee-summary-card 
+                title="Assigned Tasks" 
+                icon="fas fa-tasks" 
+                route="{{ route('admin.projects.index') }}" 
+                countType="tasks" 
+            />
+        
+            <!-- Tickets Card -->
+            <livewire:employee-summary-card 
+                title="Assigned Tickets" 
+                icon="fas fa-ticket-alt" 
+                route="{{ route('admin.tickets.index') }}" 
+                countType="assignedTickets" 
+            />
+        
+            <!-- Attending Events Card -->
+            <livewire:employee-summary-card 
+                title="Attending Events" 
+                icon="fas fa-calendar-check" 
+                route="{{ route('admin.events.index') }}" 
+                countType="attendingEvents" 
+            />
         </div>
 
         <!-- Employee's Assigned Projects -->

@@ -22,6 +22,10 @@ export default {
       animation: {
         'spin-slow': 'spin 5s linear infinite',
       },
+      maxHeight: {
+        '128': '32rem',
+        '144': '36rem',
+      },
     },
   },
   plugins: [],

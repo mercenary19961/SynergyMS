@@ -46,14 +46,25 @@ class EventNotification extends Notification
             'target_department_id' => $this->event->target_department_id,
         ];
 
-        // Customize message based on notification type
+        // Customize message based on notification type and recipient
         if ($this->type === 'user_attending') {
-            $data['message'] = 'You have successfully confirmed your attendance for the event.';
+            if ($notifiable->id === $this->user->id) {
+                // Message for the attending user
+                $data['message'] = 'You have successfully confirmed your attendance for the event.';
+            } else {
+                // Message for HR
+                $data['message'] = "User {$this->user->name} has confirmed their attendance for the event.";
+                $data['user_id'] = $this->user->id;
+            }
         } elseif ($this->type === 'user_canceled') {
-            $data['message'] = "You have canceled your attendance for the event.";
-        } elseif ($this->type === 'hr_notification') {
-            $data['message'] = "User {$this->user->name} has changed their attendance status for the event.";
-            $data['user_id'] = $this->user->id;
+            if ($notifiable->id === $this->user->id) {
+                // Message for the canceling user
+                $data['message'] = "You have canceled your attendance for the event.";
+            } else {
+                // Message for HR
+                $data['message'] = "User {$this->user->name} has canceled their attendance for the event.";
+                $data['user_id'] = $this->user->id;
+            }
         }
 
         return $data;

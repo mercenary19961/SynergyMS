@@ -3,15 +3,9 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\EmployeeDetail;
-use App\Models\Client;
-use App\Models\Project;
-use App\Models\Ticket;
-use App\Models\Attendance;
-use App\Models\ProjectManager;
+use Illuminate\Support\Facades\Auth;
 
-
-class SummaryCard extends Component
+class EmployeeSummaryCard extends Component
 {
     public $title;
     public $icon;
@@ -31,36 +25,35 @@ class SummaryCard extends Component
 
     public function render()
     {
-        return view('livewire.summary-card');
+        return view('livewire.employee-summary-card');
     }
 
     public function getCount()
     {
+        $user = Auth::user();
+        $employeeDetail = $user->employeeDetail;
+
+        if (!$employeeDetail) {
+            return 0;
+        }
+
         switch ($this->countType) {
-            case 'employees':
-                $count = EmployeeDetail::count();
+            case 'assignedProjects':
+                $count = $employeeDetail->projects()->count();
                 break;
-            case 'clients':
-                $count = Client::count();
+            case 'tasks':
+                $count = $employeeDetail->tasks()->count();
                 break;
-            case 'project_managers':
-                $count = ProjectManager::count();
+            case 'assignedTickets':
+                $count = $employeeDetail->tickets()->count();
                 break;
-            case 'projects':
-                $count = Project::count();
-                break;
-            case 'tickets':
-                $count = Ticket::count();
-                break;
-            case 'today_clockins':
-                $count = Attendance::whereDate('attendance_date', now()->toDateString())
-                                    ->whereNotNull('clock_in')
-                                    ->count();
+            case 'attendingEvents':
+                $count = $user->attendingEvents()->count();
                 break;
             default:
                 $count = 0;
         }
-    
+
         return $count;
     }
 

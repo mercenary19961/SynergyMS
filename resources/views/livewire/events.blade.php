@@ -1,6 +1,17 @@
 <div class="bg-white rounded-lg shadow-lg p-4">
-    <h2 class="text-xl font-semibold text-orange-500 mb-4 flex items-center">
-        <i class="fas fa-calendar-alt mr-2"></i> Nearest Event    </h2>
+    <div class="flex items-center justify-between mb-4">
+        <!-- Left Side: Title and Icon -->
+        <h2 class="text-xl font-semibold text-orange-500 flex items-center">
+            <i class="fas fa-calendar-alt mr-2"></i> Nearest Event
+        </h2>
+        
+        <!-- Right Side: Events Button -->
+        <a href="{{ route('admin.events.index') }}" class="bg-orange-500 text-white text-sm px-2 py-2 rounded hover:bg-orange-600 transition inline-flex items-center">
+             Events
+        </a>
+    </div>
+
+    <!-- Event List -->
     <ul class="space-y-2">
         @if(!empty($events))
             @foreach($events as $event)

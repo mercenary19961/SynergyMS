@@ -12,6 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method \Illuminate\Notifications\DatabaseNotificationCollection notifications()
  * @method bool hasRole(string|array|\Spatie\Permission\Models\Role $roles, string|null $guard = null)
  */
+/**
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany attendingEvents()
+ */
 
 class User extends Authenticatable
 {
@@ -73,4 +76,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class)->withPivot('is_attending')->withTimestamps();
     }
 
+    public function attendingEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_user', 'user_id', 'event_id')
+                    ->wherePivot('is_attending', 1)
+                    ->withTimestamps();
+    }
 }

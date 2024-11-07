@@ -39,7 +39,7 @@
                 'bg-gradient-to-r from-zinc-800 to-zinc-900': open && '{{ request()->routeIs('employee.dashboard') }}',
                 'hover:bg-zinc-900': !'{{ request()->routeIs('employee.dashboard') }}'
             }">
-            <i class="fa-solid fa-users fa-md "></i>
+            <i class="fa-solid fa-user fa-md "></i>
             <span x-show="open" class="text-sm font-medium hover:text-white">Employee Dashboard</span>
         </a>
         @endrole

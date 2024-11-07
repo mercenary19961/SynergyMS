@@ -9,8 +9,12 @@ use App\Models\User;
 use App\Notifications\EventNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Event;
+use App\Models\Position;
+use App\Models\HumanResources;
 use App\Models\Department;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
 
 class EventsController extends Controller
 {
@@ -48,12 +52,16 @@ class EventsController extends Controller
         $attendance = $user->events()->where('event_id', $event->id)->first();
     
         $isAttending = $attendance ? $attendance->pivot->is_attending : null;
-        $toggleCount = $attendance->pivot->toggle_count;
+        $toggleCount = $attendance->pivot->toggle_count ?? 0;
     
+        // Format the start and end dates
         $event->start_date = $event->start_date ? Carbon::parse($event->start_date)->format('F d, Y H:i') : null;
         $event->end_date = $event->end_date ? Carbon::parse($event->end_date)->format('F d, Y H:i') : 'No End Date';
     
-        return view('admin.events.show', compact('event', 'isAttending', 'toggleCount'));
+        // Get the count of confirmed attendees
+        $confirmedAttendeesCount = $event->attendees()->wherePivot('is_attending', true)->count();
+    
+        return view('admin.events.show', compact('event', 'isAttending', 'toggleCount', 'confirmedAttendeesCount'));
     }
     
     public function attend(Event $event)
@@ -61,43 +69,78 @@ class EventsController extends Controller
         $user = Auth::user();
         $attendance = $user->events()->where('event_id', $event->id)->first();
     
+        // Define the new status and toggle count logic
         if ($attendance) {
             $currentStatus = $attendance->pivot->is_attending;
             $toggleCount = $attendance->pivot->toggle_count ?? 0;
             $newStatus = !$currentStatus;
     
             if (!$newStatus && $toggleCount < 2) {
+                // Increment toggle count for cancellation and update attendance status
                 $toggleCount += 1;
                 $user->events()->updateExistingPivot($event->id, [
                     'is_attending' => $newStatus,
                     'toggle_count' => $toggleCount,
                 ]);
     
-                // Send cancellation notification
-                $user->notify(new EventNotification($event, 'user_canceled'));
+                // Send cancellation notification to the user
+                $user->notify(new EventNotification($event, 'user_canceled', $user));
+    
+                // Notify only "Employee Relations Specialist"
+                $this->notifyEmployeeRelationsSpecialist($event, 'user_canceled', $user);
+    
             } elseif ($newStatus) {
+                // Update attendance status to attending
                 $user->events()->updateExistingPivot($event->id, [
                     'is_attending' => $newStatus,
                 ]);
     
-                // Send attendance confirmation notification
-                $user->notify(new EventNotification($event, 'user_attending'));
+                // Send attendance confirmation notification to the user
+                $user->notify(new EventNotification($event, 'user_attending', $user));
+    
+                // Notify only "Employee Relations Specialist"
+                $this->notifyEmployeeRelationsSpecialist($event, 'user_attending', $user);
+    
             } else {
                 return redirect()->back()->with('error', 'You have reached the maximum number of cancellations.');
             }
         } else {
+            // First-time attendance confirmation, set is_attending to true and initialize toggle_count to 0
             $user->events()->attach($event->id, [
                 'is_attending' => true,
                 'toggle_count' => 0,
             ]);
     
-            // Send attendance confirmation notification
-            $user->notify(new EventNotification($event, 'user_attending'));
+            // Send attendance confirmation notification to the user
+            $user->notify(new EventNotification($event, 'user_attending', $user));
+    
+            // Notify only "Employee Relations Specialist"
+            $this->notifyEmployeeRelationsSpecialist($event, 'user_attending', $user);
         }
     
         return redirect()->back()->with('success', 'Your attendance status has been updated.');
     }
     
+    
+    
+    /**
+     * Notify only the "Employee Relations Specialist" about attendance changes.
+    */
+    protected function notifyEmployeeRelationsSpecialist($event, $notificationType, $user)
+    {
+        // Find the "Employee Relations Specialist" in the HR department
+        $specialist = User::whereHas('roles', function ($query) {
+            $query->where('name', 'HR');
+        })->whereHas('humanResource', function ($query) {
+            $query->where('position_id', 41); // Assuming 41 is the ID for 'Employee Relations Specialist'
+        })->first();
+    
+        // If the specialist exists, send them a notification about the user's attendance status change
+        if ($specialist) {
+            $specialist->notify(new EventNotification($event, $notificationType, $user));
+        }
+    }
+
     public function create()
     {
         $roles = ['Super Admin', 'HR', 'Project Manager', 'Employee'];

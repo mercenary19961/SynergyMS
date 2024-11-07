@@ -40,13 +40,17 @@
             <!-- Event Name -->
             <div class="flex flex-col md:flex-row md:space-x-4">
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">Event Name</label>
-                    <p class="mt-1 text-lg font-semibold text-gray-900">{{ $event->name }}</p>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-champagne-glasses mr-1 text-gray-600"></i> Event Name
+                    </label>
+                    <p class="mt-1 text-lg font-semibold text-orange-500">{{ $event->name }}</p>
                 </div>
 
                 <!-- Event Description -->
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">Description</label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-align-left mr-1 text-gray-600"></i> Description
+                    </label>
                     <p class="mt-1 text-gray-700">{{ $event->description ?? 'No description provided' }}</p>
                 </div>
             </div>
@@ -54,13 +58,17 @@
             <div class="flex flex-col md:flex-row md:space-x-4">
                 <!-- Start Date -->
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-calendar-check mr-1 text-gray-600"></i> Start Date
+                    </label>
                     <p class="mt-1 text-gray-700">{{ $event->start_date ?? 'N/A' }}</p>
                 </div>
 
                 <!-- End Date -->
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">End Date</label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-calendar-times mr-1 text-gray-600"></i> End Date
+                    </label>
                     <p class="mt-1 text-gray-700">{{ $event->end_date ?? 'N/A' }}</p>
                 </div>
             </div>
@@ -68,7 +76,9 @@
             <div class="flex flex-col md:flex-row md:space-x-4">
                 <!-- Sector -->
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">Sector</label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-building mr-1 text-gray-600"></i> Sector
+                    </label>
                     <p class="mt-1 text-gray-700">
                         {{ $event->is_general ? 'General' : ($event->target_role ?? $event->target_department_id ? $event->target_role : 'N/A') }}
                     </p>
@@ -76,10 +86,41 @@
 
                 <!-- General Event Indicator -->
                 <div class="md:w-1/2">
-                    <label class="block text-sm font-medium text-gray-700">General Event</label>
+                    <label class="block text-sm font-medium text-gray-700">
+                        <i class="fas fa-globe mr-1 text-gray-600"></i> General Event
+                    </label>
                     <p class="mt-1 text-gray-700">{{ $event->is_general ? 'Yes' : 'No' }}</p>
                 </div>
             </div>
+
+            @php
+                // Check if the user has a Human Resources record and is an Employee Relations Specialist
+                $isEmployeeRelationsSpecialist = auth()->user()->humanResource && auth()->user()->humanResource->position_id === 41;
+            @endphp
+            
+            @role('Super Admin')
+                <!-- Show for Super Admin -->
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <div class="md:w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user-check mr-1 text-gray-600"></i> Confirmed Attendees
+                        </label>
+                        <p class="mt-1 text-gray-700">{{ $confirmedAttendeesCount }}</p>
+                    </div>
+                </div>
+            @endrole
+            
+            @if($isEmployeeRelationsSpecialist)
+                <!-- Show for Employee Relations Specialist -->
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <div class="md:w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user-check mr-1 text-gray-600"></i> Confirmed Attendees
+                        </label>
+                        <p class="mt-1 text-gray-700">{{ $confirmedAttendeesCount }}</p>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
@@ -90,8 +131,8 @@
         const lastClickedTime = localStorage.getItem('attendanceButtonCooldown');
         if (lastClickedTime) {
             const timeElapsed = (Date.now() - parseInt(lastClickedTime, 10)) / 1000;
-            if (timeElapsed < 60) {
-                startCooldown(60 - timeElapsed);
+            if (timeElapsed < 5) {
+                startCooldown(5 - timeElapsed);
             }
         }
     });
@@ -114,7 +155,7 @@
                 document.getElementById('toggle-attendance-form').submit();
                 
                 // Start cooldown immediately
-                startCooldown(60);
+                startCooldown(5);
             }
         })
     }

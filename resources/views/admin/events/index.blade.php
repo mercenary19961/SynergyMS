@@ -118,21 +118,34 @@
                             <td class="py-3 px-4 hidden lg:table-cell">
                                 {{ $event->end_date ? \Carbon\Carbon::parse($event->end_date)->format('M d, H:i') : '-' }}
                             </td>
+                            @php
+                                $user = auth()->user();
+                                $isSuperAdminOrHR = $user->hasRole(['Super Admin', 'HR']);
+                                $isSameDepartment = $event->target_department_id && $event->target_department_id === $user->department_id;
+                                $isSameRole = $event->target_role && $user->hasRole($event->target_role);
+                                $isGeneralEvent = $event->is_general;
+                            @endphp
                             <td class="py-3 px-4 flex space-x-4">
-                                <a href="{{ route('admin.events.show', $event->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                    <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
-                                </a>
-                                @if(auth()->user()->hasRole('Super Admin|HR'))
-                                <a href="{{ route('admin.events.edit', $event->id) }}" class="transform hover:text-orange-500 hover:scale-110">
-                                    <i class="fas fa-pen fa-md text-orange-500 hover:text-yellow-500"></i>
-                                </a>
-                                <form id="delete-form-{{ $event->id }}" action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="inline delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-delete-button formId="delete-form-{{ $event->id }}" />
-                                </form>
+                                <!-- Show Button -->
+                                @if($isSuperAdminOrHR || $isGeneralEvent || $isSameDepartment || $isSameRole)
+                                    <a href="{{ route('admin.events.show', $event->id) }}" class="transform hover:text-blue-500 hover:scale-110">
+                                        <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
+                                    </a>
+                                @endif
+
+                                <!-- Edit and Delete Buttons for Super Admin and HR only -->
+                                @if($isSuperAdminOrHR)
+                                    <a href="{{ route('admin.events.edit', $event->id) }}" class="transform hover:text-orange-500 hover:scale-110">
+                                        <i class="fas fa-pen fa-md text-orange-500 hover:text-yellow-500"></i>
+                                    </a>
+                                    <form id="delete-form-{{ $event->id }}" action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="inline delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-delete-button formId="delete-form-{{ $event->id }}" />
+                                    </form>
                                 @endif
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
