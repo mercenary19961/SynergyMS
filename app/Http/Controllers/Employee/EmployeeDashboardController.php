@@ -14,43 +14,48 @@ class EmployeeDashboardController extends Controller
     public function index()
     {
         $employee = Auth::user();
-
+    
         // Check if the user is a Super Admin
         if ($employee->hasRole('Super Admin')) {
             $assignedProjects = collect();
+            $assignedTasks = collect();
             $attendanceRecords = collect();
             $todayAttendance = null;
-
+    
             return view('pages.employee.employeeDashboard', [
                 'employee' => $employee,
                 'assignedProjects' => $assignedProjects,
+                'assignedTasks' => $assignedTasks,
                 'attendanceRecords' => $attendanceRecords,
                 'todayAttendance' => $todayAttendance,
             ]);
         }
-
+    
         // Check if the user has the 'Employee' role
         if (!$employee->hasRole('Employee')) {
             return redirect()->route('login')->with('error', 'Access denied. Only employees can access the dashboard.');
         }
-
+    
         // Fetch the EmployeeDetail model
         $employeeDetail = EmployeeDetail::where('user_id', $employee->id)->first();
         if (!$employeeDetail) {
             return redirect()->route('login')->with('error', 'Employee details not found.');
         }
-
-        $assignedProjects = $employeeDetail->projects()->get();
+    
+        $assignedProjects = $employeeDetail->projects()->with('department')->get();
+        $assignedTasks = $employeeDetail->tasks()->get();
         $attendanceRecords = $employeeDetail->attendances()->get();
         $todayAttendance = $attendanceRecords->where('attendance_date', Carbon::today())->first();
-
+    
         return view('pages.employee.employeeDashboard', [
             'employee' => $employee,
             'assignedProjects' => $assignedProjects,
+            'assignedTasks' => $assignedTasks,
             'attendanceRecords' => $attendanceRecords,
             'todayAttendance' => $todayAttendance,
         ]);
     }
+    
 
     public function clockIn()
     {

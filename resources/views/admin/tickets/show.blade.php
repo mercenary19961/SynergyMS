@@ -23,11 +23,41 @@
                     </form>
                 @endif
 
-                <!-- Send Back Button (Visible only to the current Employee assigned to the ticket) -->
-                @if((auth()->user()->hasRole('Super Admin') 
-                || (auth()->user()->hasRole('Employee') && auth()->user()->id === $ticket->user_id) 
-                || (auth()->user()->hasRole('Project Manager') && auth()->user()->employeeDetail->department_id === $ticket->department_id && $ticket->user_id !== null)) 
-                && $ticket->status === 'Open')
+                <!-- Confirm Review Button (Visible only to the Super Admin or the assigned project manager) -->
+                @if(
+                    auth()->user()->hasRole('Super Admin') 
+                    || (auth()->user()->projectManager && $ticket->project_manager_id === auth()->user()->projectManager->id)
+                    && $ticket->status === 'Closed'
+                )
+                    <form action="{{ route('admin.tickets.confirmReview', $ticket->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition flex items-center">
+                            <i class="fas fa-check mr-2 text-sm"></i> Confirm Review
+                        </button>
+                    </form>
+                @endif
+                
+                <!-- Request Review Button (Visible only to the assigned employee and if ticket is "In Progress") -->
+                @if(auth()->user()->employeeDetail && $ticket->employee_id === auth()->user()->employeeDetail->id && $ticket->status === 'In Progress')
+                    <form action="{{ route('admin.tickets.requestReview', $ticket->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition flex items-center">
+                            <i class="fas fa-eye mr-2 text-sm"></i> Request Review
+                        </button>
+                    </form>
+                @endif
+
+                <!-- Send Back Button (Visible only to the current Employee assigned to the ticket or Project Manager of the same department) -->
+                @if(
+                    auth()->user()->hasRole('Super Admin') 
+                    || (auth()->user()->hasRole('Employee') && auth()->user()->id === $ticket->user_id)
+                    || (
+                        auth()->user()->hasRole('Project Manager') 
+                        && optional(auth()->user()->employeeDetail)->department_id === $ticket->department_id 
+                        && $ticket->project_manager_id === auth()->user()->id
+                    )
+                    && $ticket->status === 'Open'
+                )
                     <form action="{{ route('admin.tickets.sendBack', $ticket->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition flex items-center">

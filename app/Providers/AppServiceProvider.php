@@ -38,5 +38,8 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component(('calendar'), \App\Http\Livewire\Calendar::class);
         Livewire::component(('events'), \App\Http\Livewire\Events::class);
         Livewire::component(('employee-summary-card'), \App\Http\Livewire\EmployeeSummaryCard::class);
+        Livewire::component(('assigned-tasks'), \App\Http\Livewire\AssignedTasks::class);
+        Livewire::component(('assigned-projects'), \App\Http\Livewire\AssignedProjects::class);
+        Livewire::component(('assigned-tickets'), \App\Http\Livewire\AssignedTickets::class);
     }
 }

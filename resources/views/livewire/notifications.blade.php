@@ -32,7 +32,7 @@
                                 <!-- Event Attendance Notification -->
                                 Event: <span class="text-orange-500">{{ $notification->data['name'] ?? 'N/A' }}</span>
                                 <span class="block text-xs font-normal text-gray-500">
-                                    <span class="text-green-500">Start</span>: {{ \Carbon\Carbon::parse($notification->data['start_date'])->format('M d, H:i') ?? 'N/A' }} -
+                                    <span class="text-green-500">Start</span>: {{ \Carbon\Carbon::parse($notification->data['start_date'])->format('M d, H:i') ?? 'N/A' }} - 
                                     <span class="text-red-500">End</span>: {{ $notification->data['end_date'] ? \Carbon\Carbon::parse($notification->data['end_date'])->format('M d, H:i') : 'N/A' }}
                                 </span>
                                 <span class="block text-xs text-gray-500">
@@ -42,6 +42,25 @@
                                     {{ isset($notification->data['message']) && str_contains($notification->data['message'], 'canceled') ? 'text-red-500' : 'text-green-500' }}">
                                     {{ $notification->data['message'] ?? 'No additional message' }}
                                 </span>
+                            @elseif(isset($notification->type) && $notification->type === 'App\Notifications\TicketReviewRequested')
+                                <!-- Ticket Review Notification -->
+                                Ticket Review Request: Ticket #{{ $notification->data['ticket_id'] ?? 'N/A' }}
+                                <span class="block text-xs font-normal text-gray-500">
+                                    {{ $notification->data['message'] ?? 'A review has been requested for this ticket.' }}
+                                </span>
+                                <span class="block text-xs font-normal text-orange-500">
+                                    By {{ $notification->data['requested_by'] ?? 'A review has been requested for this ticket.' }}
+                                </span>
+                                <a href="{{ $notification->data['link'] ?? '#' }}" class="text-blue-500 hover:underline text-xs">
+                                    View Ticket
+                                </a>
+                            @elseif(isset($notification->type) && $notification->type === 'App\Notifications\TicketReviewConfirmed')
+                                <!-- Ticket Confirmation Notification -->
+                                <p>Ticket #{{ $notification->data['ticket_id'] ?? 'N/A' }} has been successfully completed by {{ $notification->data['confirmed_by'] ?? 'the project manager' }}.</p>
+                                <p class="text-sm text-gray-500">{{ $notification->data['message'] ?? 'The ticket has been marked as done. Thank you for your patience.' }}</p>
+                                <a href="{{ route('admin.tickets.show', $notification->data['ticket_id']) }}" class="text-blue-500 hover:underline text-xs">
+                                    View Ticket
+                                </a>
                             @else
                                 <!-- General Notification -->
                                 Notification

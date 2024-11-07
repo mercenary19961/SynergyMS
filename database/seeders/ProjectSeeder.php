@@ -141,69 +141,13 @@ class ProjectSeeder extends Seeder
             ],
         ];
 
-        // Step 1: Create all projects and store them
-        $createdProjects = [];
         foreach ($projects as $projectData) {
-            // Fetch the project manager's department
             $projectManager = ProjectManager::find($projectData['project_manager_id']);
             $departmentId = $projectManager->department_id;
 
-            // Add the department_id to the project data
             $projectData['department_id'] = $departmentId;
 
-            // Create the project
-            $project = Project::create($projectData);
-
-            // Store the project for later use
-            $createdProjects[] = $project;
-        }
-
-        // Step 2: Assign employee ID 1 to at least 3 projects
-
-        // Fetch employee ID 1's details
-        $employee1 = EmployeeDetail::find(1);
-
-        if ($employee1) {
-            $employee1DepartmentId = $employee1->department_id;
-
-            // Filter projects in employee 1's department
-            $projectsInEmployee1Department = array_filter($createdProjects, function ($project) use ($employee1DepartmentId) {
-                return $project->department_id == $employee1DepartmentId;
-            });
-
-            // Convert to a collection for easier handling
-            $projectsInEmployee1Department = collect($projectsInEmployee1Department);
-
-            // Select up to 3 projects to assign to employee ID 1
-            $projectsToAssignToEmployee1 = $projectsInEmployee1Department->random(min(3, $projectsInEmployee1Department->count()));
-
-            foreach ($projectsToAssignToEmployee1 as $project) {
-                $project->employees()->attach($employee1->id);
-            }
-        }
-
-        // Step 3: Randomly assign other employees to projects
-        foreach ($createdProjects as $project) {
-            // Fetch the project manager's department (already set in the project)
-            $departmentId = $project->department_id;
-
-            // Fetch employee_ids from EmployeeDetail in the same department, excluding employee ID 1
-            $employeeIds = EmployeeDetail::where('department_id', $departmentId)
-                ->whereHas('user.roles', function ($query) {
-                    $query->where('name', 'Employee');
-                })
-                ->where('id', '!=', 1) // Exclude employee ID 1
-                ->pluck('id');
-
-            if ($employeeIds->isEmpty()) {
-                continue; // Skip if no other employees in the department
-            }
-
-            // Randomly select a subset of employees to assign to the project
-            $assignedEmployeeIds = $employeeIds->random(min(3, $employeeIds->count()));
-
-            // Attach selected employees to the project
-            $project->employees()->attach($assignedEmployeeIds);
+            Project::create($projectData);
         }
     }
 }

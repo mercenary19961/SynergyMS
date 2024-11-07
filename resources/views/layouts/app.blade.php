@@ -15,9 +15,10 @@
     
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <!-- Livewire Styles -->
     @livewireStyles
+
     <!-- Full Calendar -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <script>

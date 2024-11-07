@@ -9,6 +9,9 @@ use App\Models\Ticket;
 use App\Models\EmployeeDetail;
 use App\Models\ProjectManager;
 use Illuminate\Http\Request;
+use App\Notifications\TicketReviewRequested;
+use App\Notifications\TicketReviewConfirmed;
+use Illuminate\Support\Facades\Notification;
 
 class TicketsController extends Controller
 {
@@ -112,29 +115,90 @@ class TicketsController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
         $employee = Auth::user()->employeeDetail;
-
+        if (!$employee) {
+            return redirect()->back()->with('error', 'Employee details not found.');
+        }
+    
+        $department = $employee->department;
+        $projectManager = $department->project_manager;
+        if (!$department) {
+            return redirect()->back()->with('error', 'Employee department not found.');
+        }
+        
+        if (!$projectManager) {
+            return redirect()->back()->with('error', 'Project manager not found for this department.');
+        }
         // Update the ticket details
         $ticket->status = 'In Progress';
         $ticket->employee_id = $employee->id;
-        $ticket->department_id = $employee->department_id;
-        $ticket->project_manager_id = $employee->department->projectManager->id;
+        $ticket->department_id = $department->id;
+        $ticket->project_manager_id = $projectManager->id;
         $ticket->save();
-
+    
         return redirect()->back()->with('success', 'Ticket taken successfully.');
     }
-
+    
     public function sendBack($id)
     {
         $ticket = Ticket::findOrFail($id);
-
+    
         // Reset the ticket details
         $ticket->status = 'Open';
         $ticket->employee_id = null;
         $ticket->department_id = null;
         $ticket->project_manager_id = null;
         $ticket->save();
-
+    
         return redirect()->back()->with('success', 'Ticket sent back successfully.');
     }
+    
+    public function requestReview($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $employee = Auth::user()->employeeDetail;
+
+        // Ensure the employee requesting review is the one assigned to the ticket
+        if (!$employee || $ticket->employee_id !== $employee->id) {
+            return redirect()->back()->with('error', 'You are not authorized to request a review for this ticket.');
+        }
+
+        // Retrieve the project manager for the department
+        $projectManager = $ticket->department ? $ticket->department->project_manager : null;
+
+        if ($projectManager && $projectManager->user) {
+            // Send notification to the project manager
+            $projectManager->user->notify(new TicketReviewRequested($ticket));
+        }
+
+        // Change the ticket status to "Closed"
+        $ticket->status = 'Closed';
+        $ticket->save();
+
+        return redirect()->back()->with('success', 'Review request sent to the Project Manager, and ticket status set to Closed.');
+    }
+
+    public function confirmReview($id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $projectManager = Auth::user()->projectManager;
+    
+        // Ensure only the project manager assigned to the ticket's department can confirm
+        if (!$projectManager || $ticket->project_manager_id !== $projectManager->id) {
+            return redirect()->back()->with('error', 'You are not authorized to confirm this review.');
+        }
+    
+        // Confirm the review by setting the ticket status to "Confirmed"
+        $ticket->status = 'Confirmed';
+        $ticket->save();
+    
+        // Notify the ticket issuer that the review has been confirmed
+        $issuer = $ticket->user;
+        if ($issuer) {
+            $issuer->notify(new TicketReviewConfirmed($ticket));
+        }
+    
+        return redirect()->back()->with('success', 'Ticket review has been confirmed, and the ticket issuer has been notified.');
+    }
+    
 
 }

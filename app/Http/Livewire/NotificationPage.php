@@ -3,16 +3,14 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationPage extends Component
 {
-    public $notifications;
+    use WithPagination;
 
-    public function mount()
-    {
-        $this->notifications = Auth::user()->notifications;
-    }
+    protected $paginationTheme = 'tailwind';
 
     public function markAsRead($id)
     {
@@ -22,13 +20,21 @@ class NotificationPage extends Component
         if ($notification) {
             $notification->markAsRead();
         }
+    }
 
-        // Refresh the notifications list
-        $this->notifications = Auth::user()->notifications;
+    public function deleteNotification($id)
+    {
+        $user = Auth::user();
+        $notification = $user->notifications()->find($id);
+
+        if ($notification) {
+            $notification->delete();
+        }
     }
 
     public function render()
     {
-        return view('livewire.notification-page');
+        $notifications = Auth::user()->notifications()->paginate(6);
+        return view('livewire.notification-page', ['notifications' => $notifications]);
     }
 }

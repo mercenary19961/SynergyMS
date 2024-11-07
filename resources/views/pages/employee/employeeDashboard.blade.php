@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100">
+<div class="flex flex-col h-screen">
+    <div class="flex-1 p-2 lg:p-6 bg-gray-100">
         <!-- Employee Name Header with Clock In/Out Button -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-semibold">
@@ -66,45 +66,49 @@
             />
         </div>
 
-        <!-- Employee's Assigned Projects -->
-        <div class="mb-6">
-            <h2 class="text-xl font-semibold mb-4">Your Projects</h2>
-            <div class="grid grid-cols-1 gap-4">
-                @foreach($assignedProjects as $project)
-                    <div class="bg-white p-4 rounded shadow">
-                        <h3 class="font-semibold">{{ $project->name }}</h3>
-                        <p class="text-gray-500 text-sm">{{ $project->description }}</p>
-                    </div>
-                @endforeach
+        <!-- Employee's Assigned Projects and Tasks in one row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Left Side: Carousel of Assigned Components -->
+            <div x-data="{ currentTab: 0, intervalId: null }" x-init="intervalId = setInterval(() => { currentTab = (currentTab + 1) % 3 }, 12000)">
+                <template x-if="currentTab === 0">
+                    <livewire:assigned-tasks />
+                </template>
+                <template x-if="currentTab === 1">
+                    <livewire:assigned-projects />
+                </template>
+                <template x-if="currentTab === 2">
+                    <livewire:assigned-tickets />
+                </template>
+        
+                <!-- Pagination Dots -->
+                <div class="flex justify-center space-x-2 mt-4">
+                    <button @click="currentTab = 0" :class="{ 'bg-orange-500': currentTab === 0, 'bg-gray-300': currentTab !== 0 }" class="h-2 w-2 rounded-full"></button>
+                    <button @click="currentTab = 1" :class="{ 'bg-orange-500': currentTab === 1, 'bg-gray-300': currentTab !== 1 }" class="h-2 w-2 rounded-full"></button>
+                    <button @click="currentTab = 2" :class="{ 'bg-orange-500': currentTab === 2, 'bg-gray-300': currentTab !== 2 }" class="h-2 w-2 rounded-full"></button>
+                </div>
+            </div>
+        
+            <!-- Right Side: Calendar Component -->
+            <div>
+                <livewire:calendar />
             </div>
         </div>
-
-        <!-- Employee's Attendance Records -->
-        <div>
-            <h2 class="text-xl font-semibold mb-4">Your Attendance Records</h2>
-            <div class="bg-white p-4 rounded shadow">
-                <table class="min-w-full bg-white rounded-lg shadow">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="py-2 px-4 text-left">Date</th>
-                            <th class="py-2 px-4 text-left">Clock In</th>
-                            <th class="py-2 px-4 text-left">Clock Out</th>
-                            <th class="py-2 px-4 text-left">Hours Worked</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($attendanceRecords as $attendance)
-                            <tr class="border-t">
-                                <td class="py-2 px-4">{{ $attendance->attendance_date->format('D, M j, Y') }}</td>
-                                <td class="py-2 px-4">{{ $attendance->clock_in }}</td>
-                                <td class="py-2 px-4">{{ $attendance->clock_out ?? 'N/A' }}</td>
-                                <td class="py-2 px-4">{{ $attendance->hours_worked ?? 'N/A' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
     </div>
+    <x-footer />
 </div>
+<script>
+    // Function to scroll left
+    function scrollLeft(containerId) {
+        const container = document.getElementById(containerId);
+        container.scrollBy({ left: -200, behavior: 'smooth' });
+    }
+
+    // Function to scroll right
+    function scrollRight(containerId) {
+        const container = document.getElementById(containerId);
+        container.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+</script>
+
 @endsection

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen">
-    <div class="flex-1 p-6 bg-gray-100">
+<div class="flex flex-col h-screen">
+    <div class="flex-1 p-2 lg:p-6 bg-gray-100">
         <!-- Back button and title -->
         <x-title-with-back title="Attendance Details" route="admin.attendance.index" />
 

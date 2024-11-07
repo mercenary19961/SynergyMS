@@ -143,8 +143,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Tickets Management Routes
     Route::controller(TicketsController::class)->group(function () {
-        Route::get('/tickets', 'index')->name('tickets.index')->middleware('role:Super Admin|HR|Project Manager|Client');
-        Route::get('/tickets/{ticket}', 'show')->name('tickets.show')->middleware('role:Super Admin|HR|Project Manager|Client');
+        Route::get('/tickets', 'index')->name('tickets.index');
+        Route::get('/tickets/{ticket}', 'show')->name('tickets.show');
         Route::get('/admin/tickets/create', 'create')->name('tickets.create')->middleware('role:Super Admin|Project Manager');
         Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager|Client|HR|employee');
         
@@ -152,6 +152,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/tickets/{ticket}/edit', 'edit')->name('tickets.edit')->middleware(checkTicketAccess::class);
         Route::put('/tickets/{ticket}', 'update')->name('tickets.update')->middleware(checkTicketAccess::class);
         Route::delete('/tickets/{ticket}', 'destroy')->name('tickets.destroy')->middleware(checkTicketAccess::class);
+        Route::post('/tickets/{ticket}/request-review', [TicketsController::class, 'requestReview'])->name('tickets.requestReview');
+        Route::post('/tickets/{ticket}/confirm-review', [TicketsController::class, 'confirmReview'])->name('tickets.confirmReview');
     });
 
 
@@ -168,8 +170,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Projects Management Routes
     Route::controller(ProjectController::class)->group(function () {
-        Route::get('/projects', 'index')->name('projects.index')->middleware('role:Super Admin|HR|Project Manager|Client');
-        Route::get('/projects/{project}', 'show')->name('projects.show')->middleware('role:Super Admin|HR|Project Manager|Client');
+        Route::get('/projects', 'index')->name('projects.index');
+        Route::get('/projects/{project}', 'show')->name('projects.show');
         
         // Only Super Admin and Project Manager can create new projects
         Route::get('/admin/projects/create', 'create')->name('projects.create')->middleware('role:Super Admin|Project Manager');

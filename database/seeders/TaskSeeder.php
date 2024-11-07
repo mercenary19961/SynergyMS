@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Task;
+use App\Models\EmployeeDetail;
 use App\Models\Project;
 
 class TaskSeeder extends Seeder
@@ -144,7 +145,17 @@ class TaskSeeder extends Seeder
         ];
 
         foreach ($tasks as $taskData) {
-            Task::create($taskData);
+            $task = Task::create($taskData);
+
+            $employeeId = $task->employee_id;
+            $projectId = $task->project_id;
+
+            $employee = EmployeeDetail::find($employeeId);
+
+            if ($employee) {
+                // Attach the employee to the project via the pivot table
+                $employee->projects()->syncWithoutDetaching($projectId);
+            }
         }
     }
 }
