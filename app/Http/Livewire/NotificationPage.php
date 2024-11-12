@@ -12,6 +12,8 @@ class NotificationPage extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    protected $listeners = ['notificationDeleted' => '$refresh'];
+
     public function markAsRead($id)
     {
         $user = Auth::user();
@@ -29,6 +31,7 @@ class NotificationPage extends Component
 
         if ($notification) {
             $notification->delete();
+            $this->dispatch('notificationDeleted');
         }
     }
 

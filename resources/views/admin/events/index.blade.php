@@ -120,8 +120,9 @@
                             </td>
                             @php
                                 $user = auth()->user();
+                                $userDepartmentId = $user->employeeDetail ? $user->employeeDetail->department_id : ($user->humanResource ? $user->humanResource->department_id : null);
                                 $isSuperAdminOrHR = $user->hasRole(['Super Admin', 'HR']);
-                                $isSameDepartment = $event->target_department_id && $event->target_department_id === $user->department_id;
+                                $isSameDepartment = $event->target_department_id && $event->target_department_id === $userDepartmentId;
                                 $isSameRole = $event->target_role && $user->hasRole($event->target_role);
                                 $isGeneralEvent = $event->is_general;
                             @endphp
@@ -132,7 +133,7 @@
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
                                 @endif
-
+                            </td>
                                 <!-- Edit and Delete Buttons for Super Admin and HR only -->
                                 @if($isSuperAdminOrHR)
                                     <a href="{{ route('admin.events.edit', $event->id) }}" class="transform hover:text-orange-500 hover:scale-110">

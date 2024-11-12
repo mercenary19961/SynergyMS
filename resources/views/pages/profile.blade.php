@@ -3,7 +3,7 @@
 @section('content')
 <div class="flex h-screen">
     <div class="flex-1 p-6 bg-gray-100">
-        <x-title-with-back title="Profile" />
+        <x-title-with-back title="Profile" icon="fas fa-user fa-lg text-orange-500" :route="'dashboard.redirect'" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Left Column: User Information -->

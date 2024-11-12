@@ -1,4 +1,4 @@
-<div class="flex flex-col min-h-screen container mx-auto p-6">
+<div class="flex flex-col min-h-screen container mx-auto p-6" >
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-3xl font-semibold text-gray-600 flex items-center">
             <i class="fas fa-bell mr-2 text-orange-500"></i> Notifications
@@ -51,6 +51,10 @@
                             <a href="{{ route('admin.tickets.show', $notification->data['ticket_id']) }}" class="text-blue-500 hover:underline text-xs">
                                 View Ticket
                             </a>
+                        @elseif(isset($notification->type) && $notification->type === 'App\Notifications\ClockOutNotification')
+                            <!-- New Clock Out Notification Content -->
+                            <p class="text-gray-700">Clock-Out Summary</p>
+                            <p class="text-sm text-gray-500">{{ $notification->data['summary'] ?? 'No summary available' }}</p>
                         @else
                             <p>Notification</p>
                         @endif

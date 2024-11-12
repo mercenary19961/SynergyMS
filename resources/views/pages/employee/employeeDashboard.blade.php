@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="flex flex-col h-screen">
+    
     <div class="flex-1 p-2 lg:p-6 bg-gray-100">
         <!-- Employee Name Header with Clock In/Out Button -->
         <div class="flex justify-between items-center mb-6">
@@ -10,25 +11,8 @@
             </h1>
 
             <!-- Clock In/Out Button -->
-            @if (!$todayAttendance)
-                <form action="{{ route('employee.clockin') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                        Clock In
-                    </button>
-                </form>
-            @elseif (!$todayAttendance->clock_out && Carbon\Carbon::now()->diffInHours($todayAttendance->clock_in) >= 6)
-                <form action="{{ route('employee.clockout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                        Clock Out
-                    </button>
-                </form>
-            @else
-                <button class="bg-gray-500 text-white px-4 py-2 rounded" disabled>
-                    {{ $todayAttendance->clock_out ? 'Clocked Out' : 'Clock Out (Cannot click yet!)' }}
-                </button>
-            @endif
+            <livewire:clock-out-button />
+
         </div>
 
         <!-- Summary Cards -->

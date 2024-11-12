@@ -41,5 +41,6 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component(('assigned-tasks'), \App\Http\Livewire\AssignedTasks::class);
         Livewire::component(('assigned-projects'), \App\Http\Livewire\AssignedProjects::class);
         Livewire::component(('assigned-tickets'), \App\Http\Livewire\AssignedTickets::class);
+        Livewire::component(('clock-out-button'), \App\Http\Livewire\ClockOutButton::class);
     }
 }

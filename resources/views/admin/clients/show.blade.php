@@ -30,10 +30,12 @@
                             <h2 class="text-xl font-semibold text-orange-600">
                                 <i class="fas fa-info-circle mr-2"></i>General Information
                             </h2>
-                            <a href="{{ route('admin.clients.edit', $client->id) }}" 
-                               class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-                                <i class="fas fa-edit mr-1"></i> Edit
-                            </a>
+                            @role('Super Admin|HR')
+                                <a href="{{ route('admin.clients.edit', $client->id) }}" 
+                                class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </a>
+                            @endrole
                         </div>
                         <div class="grid grid-cols-1 gap-2 text-gray-600">
                             <div>

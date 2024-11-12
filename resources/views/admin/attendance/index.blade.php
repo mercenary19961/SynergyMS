@@ -110,7 +110,7 @@
                             <i class="fas fa-user mr-1"></i> Employee Name
                         </th>
                         <th class="hidden md:table-cell py-3 sm:py-4 px-2 sm:px-4 text-left">
-                            <i class="fas fa-briefcase mr-1"></i> Project Manager
+                            <i class="fas fa-building mr-1"></i> Department
                         </th>
                         <th class="py-3 sm:py-4 px-2 sm:px-4 text-left">
                             <i class="fas fa-calendar-alt mr-1"></i> Attendance Date
@@ -136,42 +136,42 @@
                 
                 <tbody class="text-black text-xs sm:text-xs font-normal">
                     @foreach($attendances as $attendance)
-                        <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
-                            <td class="py-2 sm:py-3 px-4 sm:px-6">
-                                {{ $attendance->employee ? $attendance->employee->id : 'N/A' }} <!-- Employee ID -->
-                            </td>
-                            <td class="py-2 sm:py-3 px-4 sm:px-6">
-                                {{ $attendance->employee && $attendance->employee->user ? $attendance->employee->user->name : 'N/A' }}
-                            </td>
-                            <td class="hidden md:table-cell py-2 sm:py-3 px-4 sm:px-6">
-                                {{ $attendance->employee && $attendance->employee->projectManager && $attendance->employee->projectManager->user ? $attendance->employee->projectManager->user->name : 'N/A' }}
-                            </td>
-                            <td class="py-2 sm:py-3 px-4 sm:px-6">{{ \Carbon\Carbon::parse($attendance->attendance_date)->format('Y-m-d') }}</td>
-                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
-                                {{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : 'N/A' }}
-                            </td>
-                            <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
-                                {{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : 'N/A' }}
-                            </td>
-                            <td class="hidden xl:table-cell py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->total_hours ?? 'N/A' }}</td>
-                            <td class="py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->status }}</td>
-                            <td class="py-2 sm:py-3 px-4 sm:px-6 flex space-x-4">
-                                <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                    <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
-                                </a>
-                                @role('Super Admin|HR')
-                                <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
-                                    <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
-                                </a>
-                                <form id="delete-form-{{ $attendance->id }}" action="{{ route('admin.attendance.destroy', $attendance->id) }}" method="POST" class="inline delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-delete-button formId="delete-form-{{ $attendance->id }}" />
-                                </form>
-                                @endrole
-                            </td>
-                        </tr>
-                    @endforeach
+                    <tr class="border-b border-gray-200 hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-200' : '' }}">
+                        <td class="py-2 sm:py-3 px-4 sm:px-6">
+                            {{ $attendance->employeeDetail ? $attendance->employeeDetail->user_id : 'N/A' }}
+                        </td>
+                        <td class="py-2 sm:py-3 px-4 sm:px-6">
+                            {{ $attendance->employeeDetail && $attendance->employeeDetail->user ? $attendance->employeeDetail->user->name : 'N/A' }}
+                        </td>
+                        <td class="hidden md:table-cell py-2 sm:py-3 px-4 sm:px-6">
+                            {{ $attendance->employeeDetail && $attendance->employeeDetail->department ? $attendance->employeeDetail->department->name : 'N/A' }}
+                        </td>
+                        <td class="py-2 sm:py-3 px-4 sm:px-6">{{ \Carbon\Carbon::parse($attendance->attendance_date)->format('Y-m-d') }}</td>
+                        <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
+                            {{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : 'N/A' }}
+                        </td>
+                        <td class="hidden lg:table-cell py-2 sm:py-3 px-4 sm:px-6">
+                            {{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : 'N/A' }}
+                        </td>
+                        <td class="hidden xl:table-cell py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->total_hours ?? 'N/A' }}</td>
+                        <td class="py-2 sm:py-3 px-4 sm:px-6">{{ $attendance->status }}</td>
+                        <td class="py-2 sm:py-3 px-4 sm:px-6 flex space-x-4">
+                            <a href="{{ route('admin.attendance.show', $attendance->id) }}" class="transform hover:text-blue-500 hover:scale-110">
+                                <i class="fas fa-eye text-orange-500 hover:text-blue-500"></i>
+                            </a>
+                            @role('Super Admin|HR')
+                            <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="transform hover:text-yellow-500 hover:scale-110">
+                                <i class="fas fa-pen text-orange-500 hover:text-yellow-500"></i>
+                            </a>
+                            <form id="delete-form-{{ $attendance->id }}" action="{{ route('admin.attendance.destroy', $attendance->id) }}" method="POST" class="inline delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <x-delete-button formId="delete-form-{{ $attendance->id }}" />
+                            </form>
+                            @endrole
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
                 
             </table>

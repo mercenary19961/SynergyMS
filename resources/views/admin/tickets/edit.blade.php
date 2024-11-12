@@ -12,37 +12,44 @@
             @method('PUT')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @php
+                    $isSuperAdminOrProjectManager = auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Project Manager');
+                @endphp
 
                 <!-- Ticket Issuer (User) Name and ID -->
                 <div class="mb-4">
                     <label for="user_name" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-user mr-1"></i> Ticket Issuer
                     </label>
-                    <!-- Display the name in a read-only field -->
-                    <input type="text" id="user_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none bg-gray-100" value="{{ $ticket->user->name }}" readonly>
-
-                    <!-- Hidden input to hold the user ID -->
+                    <input type="text" id="user_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none bg-gray-100" 
+                           value="{{ $ticket->user->name }}" readonly>
                     <input type="hidden" name="user_id" value="{{ $ticket->user_id }}">
                     @error('user_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
+                <!-- Title -->
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-file-alt mr-1"></i> Title
                     </label>
-                    <input type="text" name="title" id="title" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none" value="{{ old('title', $ticket->title) }}" placeholder="Enter Ticket Title">
+                    <input type="text" name="title" id="title" 
+                           class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none {{ !$isSuperAdminOrProjectManager ? 'bg-gray-100' : '' }}" 
+                           value="{{ old('title', $ticket->title) }}" placeholder="Enter Ticket Title"
+                           {{ !$isSuperAdminOrProjectManager ? 'readonly' : '' }}>
                     @error('title')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
+                <!-- Description (Always Editable) -->
                 <div class="mb-4">
                     <label for="description" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-align-left mr-1"></i> Description
                     </label>
-                    <textarea name="description" id="description" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none">{{ old('description', $ticket->description) }}"></textarea>
+                    <textarea name="description" id="description" 
+                              class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:border-orange-500 focus:outline-none">{{ old('description', $ticket->description) }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -53,7 +60,9 @@
                     <label for="priority" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-exclamation-triangle mr-1"></i> Priority
                     </label>
-                    <button type="button" @click="openPriority = !openPriority" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
+                    <button type="button" @click="openPriority = !openPriority" 
+                            class="mt-1 w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 {{ !$isSuperAdminOrProjectManager ? 'bg-gray-100' : 'bg-white' }}" 
+                            {{ !$isSuperAdminOrProjectManager ? 'disabled' : '' }}>
                         <span class="block truncate" x-text="selectedPriority || 'Select Priority'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -83,7 +92,9 @@
                     <label for="employee_id" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-user mr-1"></i> Assigned Employee
                     </label>
-                    <button type="button" @click="openEmployee = !openEmployee" class="mt-1 w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
+                    <button type="button" @click="openEmployee = !openEmployee" 
+                            class="mt-1 w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-3 py-2 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 {{ !$isSuperAdminOrProjectManager ? 'bg-gray-100' : 'bg-white' }}" 
+                            {{ !$isSuperAdminOrProjectManager ? 'disabled' : '' }}>
                         <span class="block truncate" x-text="selectedEmployee || 'Select Employee'"></span>
                         <span class="flex items-center">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -91,13 +102,6 @@
                             </svg>
                         </span>
                     </button>
-                    <ul x-show="openEmployee" @click.away="openEmployee = false" class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto">
-                        @foreach($employees as $employee)
-                            <li @click="selectedEmployee = '{{ $employee->user->name }}'; $refs.employee_id.value = '{{ $employee->id }}'; updateProjectManager('{{ $employee->projectManager->user->name }}', '{{ $employee->projectManager->id }}'); openEmployee = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-orange-500 hover:text-white group flex items-center">
-                                <i class="fas fa-user mr-2 text-orange-500 group-hover:text-white"></i> {{ $employee->user->name }}
-                            </li>
-                        @endforeach
-                    </ul>
                     <input type="hidden" name="employee_id" x-ref="employee_id" value="{{ old('employee_id', $ticket->employee_id) }}">
                     @error('employee_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -109,7 +113,7 @@
                     <label for="project_manager_id" class="block text-sm font-bold text-gray-700">
                         <i class="fas fa-user-tie mr-1"></i> Project Manager
                     </label>
-                    <div class="border p-3 bg-white rounded-lg shadow-md flex items-center">
+                    <div class="border p-3 bg-white rounded-lg shadow-md flex items-center {{ !$isSuperAdminOrProjectManager ? 'bg-gray-100' : '' }}">
                         <i class="fas fa-user-circle mr-2 text-gray-400"></i>
                         <input type="text" disabled x-bind:value="selectedProjectManager" class="flex-grow border-none bg-transparent text-gray-600" placeholder="Project Manager will be updated based on Employee">
                     </div>
@@ -141,7 +145,6 @@ function ticketForm() {
         }
     }
 }
-
 </script>
 
 @endsection

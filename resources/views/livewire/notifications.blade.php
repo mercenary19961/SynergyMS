@@ -61,6 +61,12 @@
                                 <a href="{{ route('admin.tickets.show', $notification->data['ticket_id']) }}" class="text-blue-500 hover:underline text-xs">
                                     View Ticket
                                 </a>
+                            @elseif(isset($notification->type) && $notification->type === 'App\Notifications\ClockOutNotification')
+                                <!-- Clock Out Notification -->
+                                <p>Clock-Out Summary</p>
+                                <span class="block text-xs font-normal text-gray-500">
+                                    You have clocked out successfully with a total of <span class="text-orange-500 font-semibold"> {{ $notification->data['hours_worked'] ?? 'N/A' }} </span> hours worked today.
+                                </span>
                             @else
                                 <!-- General Notification -->
                                 Notification

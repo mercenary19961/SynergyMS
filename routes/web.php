@@ -34,6 +34,8 @@ use App\Http\Middleware\RegisterAccess;
 use App\Http\Middleware\CheckRecruitmentManager;
 use App\Http\Middleware\ProjectOwnerOrSuperAdmin;
 use App\Http\Middleware\CheckTicketAccess;
+use App\Http\Middleware\EventAccessControl;
+
 
 
 // Redirect to Login
@@ -121,7 +123,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Attendance Management Routes
     Route::controller(AttendanceController::class)->group(function () {
-        Route::get('/attendance', 'index')->name('attendance.index')->middleware('role:Super Admin|HR|Project Manager');
+        Route::get('/attendance', 'index')->name('attendance.index');
         Route::get('/attendance/{attendance}', 'show')->name('attendance.show')->middleware('role:Super Admin|HR|Project Manager');
         Route::get('/admin/attendance/create', 'create')->name('attendance.create')->middleware('role:Super Admin|HR');
         Route::post('/attendance', 'store')->name('attendance.store')->middleware('role:Super Admin|HR');
@@ -186,7 +188,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Events Management Routes
     Route::controller(EventsController::class)->group(function () {
         Route::get('/events', 'index')->name('events.index')->middleware('role:Super Admin|HR|Project Manager|Employee');
-        Route::get('/events/{event}', 'show')->name('events.show')->middleware('role:Super Admin|HR|Project Manager|Employee');
+        Route::get('/events/{event}', 'show')->name('events.show')->middleware(['role:Super Admin|HR|Project Manager|Employee', EventAccessControl::class]);
         Route::get('/admin/events/create', 'create')->name('events.create')->middleware('role:Super Admin|HR');
         Route::post('/events', 'store')->name('events.store')->middleware('role:Super Admin|HR');
         Route::get('/events/{event}/edit', 'edit')->name('events.edit')->middleware('role:Super Admin|HR');

@@ -17,7 +17,7 @@
                 <!-- Button Logic in Blade Template -->
                 @if($toggleCount < 2)
                     <button id="attendanceButton" onclick="confirmToggle()" 
-                            class="flex items-center {{ $isAttending ? 'bg-blue-500' : 'bg-green-500' }} text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                            class="flex items-center {{ $isAttending ? 'bg-blue-500 hover:bg-red-500' : 'bg-green-500 hover:bg-green-600' }} text-white px-4 py-2 rounded transition">
                         <i class="fas fa-check mr-2"></i> 
                         <span id="attendanceButtonText">{{ $isAttending ? 'Attending' : 'Confirm Attendance' }}</span>
                     </button>
@@ -140,12 +140,12 @@
     function confirmToggle() {
         Swal.fire({
             title: 'Are you sure?',
-            text: "Do you want to change your attendance status?",
+            text: "Do you want to cancel your attendance for the event?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, change it!'
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#475569',
+            confirmButtonText: 'Yes, cancel it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 // Save the current time in localStorage to track cooldown

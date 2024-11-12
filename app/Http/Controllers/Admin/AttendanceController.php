@@ -8,6 +8,7 @@ use App\Models\EmployeeDetail;
 use App\Models\ProjectManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -15,38 +16,42 @@ class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Attendance::with(['employee.user', 'employee.projectManager.user']);
-        
-        // Search by employee ID
+        $query = Attendance::with([
+            'employeeDetail.user', 
+            'employeeDetail.department', 
+            'employeeDetail.projectManager.user'
+        ]);
+    
+        if (Auth::user()->hasRole('Employee')) {
+            $query->whereHas('employeeDetail', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
+    
         if ($request->has('employee_id') && $request->employee_id != '') {
-            $query->whereHas('employee', function ($q) use ($request) {
+            $query->whereHas('employeeDetail.user', function ($q) use ($request) {
                 $q->where('id', $request->employee_id);
             });
         }
     
-        // Search by employee name
         if ($request->has('employee_name') && $request->employee_name != '') {
-            $query->whereHas('employee.user', function ($q) use ($request) {
+            $query->whereHas('employeeDetail.user', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->employee_name . '%');
             });
         }
     
-        // Filter by attendance date
         if ($request->has('attendance_date') && $request->attendance_date != '') {
             $query->whereDate('attendance_date', $request->attendance_date);
         }
     
-        // Filter by status
         if ($request->has('status') && $request->status != '') {
             $query->where('status', $request->status);
         }
     
-        // Apply sorting by attendance_date (default: descending order)
-        $query->orderBy('attendance_date', 'desc'); // Adjust 'asc' or 'desc' as needed
-    
-        // Paginate results
+        $query->orderBy('attendance_date', 'desc');
+        
         $attendances = $query->paginate(8);
-    
+        
         return view('admin.attendance.index', compact('attendances'));
     }
     
@@ -122,7 +127,6 @@ class AttendanceController extends Controller
         $employees = EmployeeDetail::with('user')->get(); // Fetch employees with their user data
         return view('admin.attendance.edit', compact('attendance', 'employees'));
     }
-    
 
     public function update(Request $request, $id)
     {

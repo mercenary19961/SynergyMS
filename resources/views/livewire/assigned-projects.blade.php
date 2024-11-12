@@ -5,28 +5,28 @@
     </div>
     
     <div class="overflow-x-auto">
-        <ul class="flex space-x-4"> 
-            @foreach($projects as $project)
-                <li class="bg-gray-50 p-4 rounded shadow flex flex-col justify-between min-w-[300px] mb-4">
+        <ul class="flex space-x-4">
+            @forelse($projects as $project)
+                <li class="bg-gray-50 p-4 rounded shadow flex flex-col justify-between min-w-[300px] h-[24rem]">
                     <!-- Project Title and Description -->
-                    <div>
+                    <div class="flex flex-col flex-grow">
                         <p class="font-semibold text-lg text-orange-600">{{ $project->name }}</p>
-                        <p class="text-sm text-gray-500">{{ $project->description }}</p>
+                        <p class="text-sm text-gray-500 flex-grow">{{ $project->description }}</p>
                         
                         <!-- Project Information: Client, Deadline, Project Leader -->
                         <div class="mt-4">
-                            <p class="text-gray-700"><strong>Client:</strong> {{ $project->client->user->name }}</p>
-                            <p class="text-gray-700"><strong>Deadline:</strong> {{ $project->end_date->format('d M Y') }}</p>
-                            <p class="text-gray-700"><strong>Project Leader:</strong></p>
+                            <p class="text-gray-700 text-sm"><strong>Client:</strong> <span class="text-gray-500">{{ $project->client->user->name }}</span></p>
+                            <p class="text-gray-700 text-sm"><strong>Deadline:</strong> <span class="text-gray-500">{{ $project->end_date->format('d M Y') }}</span></p>
+                            <p class="text-gray-700 text-sm"><strong>Project Leader:</strong></p>
                             <div class="flex items-center mt-1">
                                 <img src="{{ asset('storage/' . $project->projectManager->user->image) }}" alt="Leader Image" class="w-8 h-8 rounded-full border-2 border-gray-300">
-                                <span class="ml-2 text-sm">{{ $project->projectManager->user->name }}</span>
+                                <span class="ml-2 text-gray-500 text-sm">{{ $project->projectManager->user->name }}</span>
                             </div>
                         </div>
                         
                         <!-- Team Members Section -->
                         <div class="mt-4">
-                            <p class="text-gray-700"><strong>Team:</strong></p>
+                            <p class="text-gray-700 text-sm"><strong>Team:</strong></p>
                             <div class="flex -space-x-2 mt-1">
                                 @foreach($project->tasks->unique('employee.id') as $task)
                                     <img src="{{ asset('storage/' . $task->employee->user->image) }}" alt="{{ $task->employee->name }}" title="{{ $task->employee->name }}" class="w-8 h-8 rounded-full border-2 border-gray-300">
@@ -36,14 +36,19 @@
                                 @endif
                             </div>
                         </div>
-                        
-                        <!-- View Project Button -->
-                        <div class="flex justify-center mt-4">
-                            <a href="{{ route('admin.projects.show', $project->id) }}" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-full text-center">View Project</a>
-                        </div>
+                    </div>
+                    
+                    <!-- View Project Button -->
+                    <div class="flex justify-center mt-auto pt-4">
+                        <a href="{{ route('admin.projects.show', $project->id) }}" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-full text-center">View Project</a>
                     </div>
                 </li>
-            @endforeach
+            @empty
+                <!-- Message when no projects are assigned -->
+                <div class="flex flex-col items-center justify-center w-full h-[24rem] text-center bg-gray-50 rounded p-6">
+                    <p class="text-gray-500 mb-4">You are not assigned to any projects currently. Please wait for a project manager to assign a project.</p>
+                </div>
+            @endforelse
         </ul>
     </div>
 </div>

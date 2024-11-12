@@ -21,12 +21,12 @@
                 <!-- Right Side: New Project and New Ticket Buttons -->
                 <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                     <!-- New Project Button -->
-                    <button @click="showProjectModal = true" class="bg-blue-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-blue-600 transition inline-flex items-center justify-center w-full md:w-auto">
+                    <button @click="showProjectModal = true" class="bg-green-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-blue-600 transition inline-flex items-center justify-center w-full md:w-auto">
                         <i class="fas fa-plus mr-2"></i> New Project?
                     </button>
 
                     <!-- New Ticket Button -->
-                    <button @click="showTicketModal = true" class="bg-green-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center justify-center w-full md:w-auto">
+                    <button @click="showTicketModal = true" class="bg-orange-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center justify-center w-full md:w-auto">
                         <i class="fas fa-ticket-alt mr-2"></i> New Ticket?
                     </button>
                 </div>
@@ -211,7 +211,7 @@
                                     Status: 
                                     <span class="font-medium 
                                         @if($project->status == 'Pending') text-orange-500 
-                                        @elseif($project->status == 'In Progress') text-yellow-500 
+                                        @elseif($project->status == 'In Progress') text-pink-600 
                                         @elseif($project->status == 'Completed') text-green-500 
                                         @else text-gray-500 @endif">
                                         {{ $project->status }}
@@ -267,7 +267,7 @@
                                     Status: 
                                     <span class="font-medium 
                                         @if($ticket->status == 'Open') text-orange-500 
-                                        @elseif($ticket->status == 'In Progress') text-yellow-500 
+                                        @elseif($ticket->status == 'In Progress') text-pink-600 
                                         @elseif($ticket->status == 'Confirmed') text-green-500 
                                         @else text-gray-500 @endif">
                                         {{ $ticket->status }}
@@ -287,23 +287,27 @@
                 @if($clientNotifications->isEmpty())
                     <p class="text-xs font-semibold text-left text-gray-500">No notifications available.</p>
                 @else
-                    <ul class="space-y-3">
-                        @foreach($clientNotifications as $notification)
-                            @php
-                                $data = $notification->data;
-                            @endphp
-                            <li class="p-3 border border-gray-200 rounded-md">
-                                <p class="text-xs font-semibold text-left text-gray-500">
-                                    @if(isset($data['invoice_id']))
-                                        Invoice #{{ $data['invoice_id'] }} - Amount: ${{ $data['amount'] ?? 'N/A' }} - Status: {{ $data['status'] ?? 'N/A' }}
-                                    @else
-                                        Notification: {{ $notification->type }}
-                                    @endif
-                                </p>
-                                <small class="block text-gray-500">{{ $notification->created_at->diffForHumans() }}</small>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <div class="max-h-[14rem] overflow-y-auto">
+                        <ul class="space-y-3">
+                            @foreach($clientNotifications as $notification)
+                                @php
+                                    $data = $notification->data;
+                                @endphp
+                                <li class="p-3 border border-gray-200 rounded-md hover:bg-gray-100">
+                                    <a href="{{ route('notifications.index', $notification->id) }}" class="block">
+                                        <p class="text-xs font-semibold text-left text-gray-500">
+                                            @if(isset($data['invoice_id']))
+                                                Invoice #{{ $data['invoice_id'] }} - Amount: ${{ $data['amount'] ?? 'N/A' }} - Status: {{ $data['status'] ?? 'N/A' }}
+                                            @else
+                                                Notification: {{ $notification->type }}
+                                            @endif
+                                        </p>
+                                        <small class="block text-gray-500">{{ $notification->created_at->diffForHumans() }}</small>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
             </div>
 

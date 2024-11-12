@@ -22,7 +22,7 @@ class CheckTicketAccess
 
         $user = Auth::user();
 
-        $isTicketIssuer = $user->id === $ticket->created_by;
+        $isTicketIssuer = $user->id === $ticket->user_id;
         $isProjectManagerOfDepartment = $ticket->department 
             && $ticket->department->project_manager 
             && $ticket->department->project_manager->user_id === $user->id;
