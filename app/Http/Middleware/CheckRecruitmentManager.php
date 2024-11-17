@@ -18,9 +18,9 @@ class CheckRecruitmentManager
 
         if ($user->hasRole('HR')) {
             // Check if the user's department is "Recruitment" and if their position is "Recruitment Manager"
-            if ($user->employeeDetail && 
-                $user->employeeDetail->department->name === 'Recruitment' &&
-                $user->employeeDetail->position === 'Recruitment Manager') {
+            if ($user->humanResource && 
+                $user->humanResource->department->name === 'Recruitment' &&
+                $user->humanResource->position->name === 'Recruitment Manager') {
                 
                 // Allow access if all conditions are met
                 return $next($request);

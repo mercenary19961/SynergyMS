@@ -197,7 +197,7 @@
             <!-- Project Overview Section -->
             <div class="col-span-2 bg-white shadow rounded-lg p-6">
                 <h2 class="text-xl font-semibold mb-4 text-orange-500 flex items-center">
-                    <i class="fas fa-project-diagram mr-2"></i> Project Overview
+                    <i class="fas fa-project-diagram mr-2"></i> Projects Overview
                 </h2>
                 @if($clientProjects->isEmpty())
                     <p class="text-xs font-semibold text-left text-gray-500">No projects available.</p>
@@ -282,7 +282,7 @@
             <!-- Notifications Section -->
             <div class="col-span-2 lg:col-span-1 bg-white shadow rounded-lg p-6">
                 <h2 class="text-xl font-semibold mb-4 text-orange-500 flex items-center">
-                    <i class="fas fa-bell mr-2"></i> Messages / Notifications
+                    <i class="fas fa-bell mr-2"></i>Recent Notifications
                 </h2>
                 @if($clientNotifications->isEmpty())
                     <p class="text-xs font-semibold text-left text-gray-500">No notifications available.</p>
@@ -302,7 +302,7 @@
                                                 Notification: {{ $notification->type }}
                                             @endif
                                         </p>
-                                        <small class="block text-gray-500">{{ $notification->created_at->diffForHumans() }}</small>
+                                        <small class="block text-gray-400 text-xxs">{{ $notification->created_at->diffForHumans() }}</small>
                                     </a>
                                 </li>
                             @endforeach

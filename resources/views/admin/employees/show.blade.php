@@ -31,6 +31,7 @@
             </div>
         </div>
 
+        @role('Super Admin|HR')
         <!-- Personal Info & Employment Info (Responsive Grid) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <!-- Personal Info Section -->
@@ -134,6 +135,7 @@
                 @endif
             </div>
         </div>
+        @endrole
     </div>
 </div>
 @endsection

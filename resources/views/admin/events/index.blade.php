@@ -129,12 +129,14 @@
                             <td class="py-3 px-4 flex space-x-4">
                                 <!-- Show Button -->
                                 @if($isSuperAdminOrHR || $isGeneralEvent || $isSameDepartment || $isSameRole)
-                                    <a href="{{ route('admin.events.show', $event->id) }}" class="transform hover:text-blue-500 hover:scale-110">
-                                        <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
+                                    <a href="{{ route('admin.events.show', $event->id) }}" class="transform hover:text-orange-600 hover:scale-110">
+                                        <i class="fas fa-eye fa-md text-orange-500 hover:text-orange-600"></i>
                                     </a>
+                                @else
+                                    <span class="transform text-gray-400">
+                                        <i class="fas fa-eye fa-md "></i>
+                                    </span>
                                 @endif
-                            </td>
-                                <!-- Edit and Delete Buttons for Super Admin and HR only -->
                                 @if($isSuperAdminOrHR)
                                     <a href="{{ route('admin.events.edit', $event->id) }}" class="transform hover:text-orange-500 hover:scale-110">
                                         <i class="fas fa-pen fa-md text-orange-500 hover:text-yellow-500"></i>
@@ -146,7 +148,6 @@
                                     </form>
                                 @endif
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

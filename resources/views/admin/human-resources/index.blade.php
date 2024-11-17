@@ -35,11 +35,20 @@
                     <i class="fas fa-list"></i>
                 </button>
 
-                @role('Admin|Super Admin|HR')
-                <a href="{{ route('admin.human-resources.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
-                    <i class="fas fa-plus-circle mr-2"></i> Add HR Employee
-                </a>
-                @endrole
+                @php
+                    $user = Auth::user();
+                    $canAddHrEmployee = $user->hasRole('Super Admin') || 
+                        ($user->hasRole('HR') && 
+                        $user->humanResource && 
+                        $user->humanResource->department->name === 'Recruitment' && 
+                        $user->humanResource->position->name === 'Recruitment Manager');
+                @endphp
+
+                @if($canAddHrEmployee)
+                    <a href="{{ route('admin.human-resources.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition flex items-center">
+                        <i class="fas fa-plus-circle mr-2"></i> Add HR Employee
+                    </a>
+                @endif
             </div>
         </div>
 

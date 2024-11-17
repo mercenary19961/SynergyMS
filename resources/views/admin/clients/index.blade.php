@@ -78,10 +78,10 @@
                             <td class="py-3 px-6 hidden lg:table-cell">{{ $client->contact_number }}</td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center space-x-4">
+                                    @role('Super Admin|HR')
                                     <a href="{{ route('admin.clients.show', $client->id) }}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                         <i class="fas fa-eye fa-md text-orange-500 hover:text-blue-500"></i>
                                     </a>
-                                    @role('Super Admin|HR')
                                     <a href="{{ route('admin.clients.edit', $client->id) }}" class="w-4 transform hover:text-orange-500 hover:scale-110">
                                         <i class="fas fa-edit fa-md text-orange-500 hover:text-yellow-500"></i>
                                     </a>
@@ -90,6 +90,8 @@
                                         @method('DELETE')
                                         <x-delete-button formId="delete-form-{{ $client->id }}" />
                                     </form>
+                                    @else
+                                        <i class="fas fa-eye fa-md text-gray-500 hover:text-gray-600"></i>
                                     @endrole
                                 </div>
                             </td>

@@ -86,11 +86,13 @@
             </div>
 
             <!-- Action Button -->
+            @role('Super Admin|HR')
             <div class="flex justify-end">
                 <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition">
                     <i class="fas fa-edit mr-2"></i> Edit Attendance
                 </a>
             </div>
+            @endrole
         </div>
     </div>
 </div>

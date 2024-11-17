@@ -1,4 +1,4 @@
-<div wire:poll.{{ $pollingInterval }}="refreshAbsentEmployees" class="bg-white p-6 mb-5 rounded shadow flex flex-col h-full">
+<div wire:poll.{{ $pollingInterval }}="refreshAbsentEmployees" class="bg-white p-6 mb-5 mt-2 rounded shadow flex flex-col h-full">
     <div class="flex flex-row justify-start">
         <i class="fas fa-user-times fa-2x text-orange-500 mb-2"></i>
         <h2 class="text-xl font-semibold mb-4 ml-4">Absent Employees</h2>

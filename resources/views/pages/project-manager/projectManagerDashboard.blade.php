@@ -18,7 +18,7 @@
                 </div>
 
                 <!-- New Ticket Button -->
-                <button @click="showTicketModal = true" class="bg-orange-500 text-white px-4 py-2 rounded mt-4 hover:bg-orange-600 transition">
+                <button @click="showTicketModal = true" class="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600 transition">
                     <i class="fas fa-ticket-alt mr-2"></i> New Ticket
                 </button>
             </div>
@@ -90,7 +90,7 @@
                             </div>
                     
                             <!-- Team Members -->
-                            <p class="font-semibold text-gray-600">Team:</p>
+                            <p class="font-semibold text-gray-600">Project Team:</p>
                             <div class="flex items-center mb-4 -space-x-2">
                                 @foreach($project->employees->filter(fn($employee) => $employee->department_id == $projectManager->department_id)->take(4) as $employee)
                                     <a href="{{ route('admin.employees.show', $employee->id) }}" class="hover:scale-110 transition-transform duration-200">

@@ -20,20 +20,20 @@
                 <!-- Right Side: New Employee and New Ticket Buttons -->
                 <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                     <!-- New Employee Button -->
-                    <a href="{{ route('admin.employees.create') }}" class="bg-blue-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-blue-600 transition inline-flex items-center justify-center w-full md:w-auto">
-                        <i class="fas fa-user-plus mr-2"></i> New Employee?
+                    <a href="{{ route('admin.employees.index') }}" class="bg-pink-600 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-pink-700 transition inline-flex items-center justify-center w-full md:w-auto">
+                        <i class="fas fa-user mr-2"></i> Check Employees
                     </a>
 
                     <!-- New Ticket Button -->
                     <a href="{{ route('admin.tickets.index') }}" class="bg-green-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center justify-center w-full md:w-auto">
-                        <i class="fas fa-ticket-alt mr-2"></i> New Ticket?
+                        <i class="fas fa-ticket-alt mr-2"></i> New Ticket
                     </a>
 
                 </div>
             </div>
 
             <!-- Summary Cards (Employees, Tickets, Projects, Notifications) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-1 p-2 md:pt-2 md:pr-6 md:pb-2 md:pl-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-1 p-2 md:pt-2 md:pr-6 md:pb-2 md:pl-6 ">
                 <!-- Employees Card -->
                 <livewire:summary-card 
                     title="Total Employees" 
@@ -87,6 +87,12 @@
                 <div>
                     <livewire:calendar />
                 </div>
+            </div>
+
+            <!-- Present and Absent Employees -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 p-2 md:pt-2 md:pr-6 md:pb-2 md:pl-6">
+                <livewire:present-employees />
+                <livewire:absent-employees />
             </div>
         </div>
     </div>
