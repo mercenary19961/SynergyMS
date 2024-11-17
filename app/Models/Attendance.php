@@ -66,6 +66,11 @@ class Attendance extends Model
         return $this->belongsTo(EmployeeDetail::class, 'employee_id', 'user_id');
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(EmployeeDetail::class, 'employee_id', 'user_id');
+    }
+
     public function projectManager()
     {
         return $this->hasOneThrough(ProjectManager::class, EmployeeDetail::class, 'id', 'employee_id', 'employee_id', 'id');
