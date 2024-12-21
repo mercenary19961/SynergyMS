@@ -1,6 +1,6 @@
 # SynergyMS
 
-![SynergyMS Logo](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/logo%20sms.png)
+![SynergyMS Logo](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/logo-sms.png)
 
 **SynergyMS** is a robust Comprehensive Enterprise Management System built with Laravel. It integrates HR, project management, payroll, and ticketing into a unified platform. With role-based access, SynergyMS adapts to various departments' needs, enhancing efficiency and communication across medium to large organizations.
 
@@ -86,8 +86,8 @@ The Client dashboard ensures efficient communication and transparency in project
 ### 7. Employee Page
 - View detailed employee profiles, including roles, attendance records, and performance metrics.
 
-**This is the employees section image:**
-![Employee Page](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/employee%20page.png)
+**This is the employee's section image:**
+![Employee Page](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/employees%20sector.png)
 
 ---
 
