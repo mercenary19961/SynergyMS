@@ -103,3 +103,91 @@ The Client dashboard ensures efficient communication and transparency in project
 
 ---
 
+## Installation
+
+### Prerequisites
+- PHP 8.2+
+- Laravel 11
+- Composer
+- MySQL
+- Node.js
+
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/synergyms.git
+   cd synergyms
+   ```
+
+2. Install dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. Set up the environment file:
+    - Copy .env.example to .env:
+        ```bash
+        cp .env.example .env
+        ```
+
+4. Run migrations and seeders:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+5. Build frontend assets:
+   ```bash
+   npm run dev
+   ```
+
+6. Start the development server:
+   ```bash
+   php artisan serve
+   ```
+
+---
+
+## Usage
+Accessing the System
+- Open http://localhost:8000 in your browser.
+- Default credentials:
+    - Admin: admin@example.com / password
+    - Employee: employee@example.com / password
+
+---
+
+## Contributing
+Contributions are welcome! To contribute:
+
+1- Fork the repository.
+2- Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3- Commit your changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4- Push to the branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5- Open a Pull Request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+
+
+
+
+
+
+
+
+
+
