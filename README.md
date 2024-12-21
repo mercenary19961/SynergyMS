@@ -34,49 +34,72 @@ SynergyMS promotes organization-wide efficiency, enabling teams to collaborate a
 ### 1. Role-Based Dashboards
 Each user role has a tailored dashboard, ensuring the right tools and information are accessible.
 
+**Here is the login page image:**
 ![Login Page](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/login%20page.png)
 
 ---
 
-### 2. HR Management
+### 2. Admin Dashboard
+The Admin dashboard provides a comprehensive overview, allowing system-wide control and monitoring.
+
+**Here is the Super Admin dashboard image:**
+![Admin Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/admin%20dashboard.png)
+
+---
+
+### 3. Employee Dashboard
+The Employee dashboard is designed to streamline daily tasks and provide quick access to relevant tools.
+
+**Here is the employee dashboard image:**
+![Employee Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/employee%20dashboard.png)
+
+---
+
+### 4. Client Dashboard
+The Client dashboard ensures efficient communication and transparency in project progress and ticket status.
+
+**Here is the client dashboard image:**
+![Client Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/client%20dashboard.png)
+
+---
+
+### 5. HR Management
 - Employee records management.
 - Attendance tracking.
 - Approval of leave requests and performance evaluations.
 
+**Here is the HR dashboard image:**
 ![HR Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/hr%20dashboard.png)
 
 ---
 
-### 3. Project Management
+### 6. Project Management
 - Task assignment and prioritization.
 - Monitoring progress and deadlines.
 - Cross-departmental collaboration for projects.
+
+**Here is the project manager dashboard image:**
 ![Project Manager Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/project%20manager%20dashboard.png)
+
 ---
 
-### 4. Payroll Integration
+### 7. Employee Page
+- View detailed employee profiles, including roles, attendance records, and performance metrics.
+
+**This is the employees section image:**
+![Employee Page](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/employee%20page.png)
+
+---
+
+### 8. Payroll Integration
 - Automated salary calculations.
 - Transparent and accessible payslip generation for employees.
 
 ---
 
-### 5. Ticketing System
+### 9. Ticketing System
 - Allows employees and clients to submit tickets.
 - Facilitates issue resolution by assigning tasks to responsible personnel.
 
 ---
 
-## Installation
-
-### Prerequisites
-- PHP 8.2+
-- Laravel 11
-- Composer
-- MySQL
-- Node.js
-
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/synergyms.git
-   cd synergyms
