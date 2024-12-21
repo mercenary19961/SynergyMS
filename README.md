@@ -1,6 +1,6 @@
 # SynergyMS
 
-![SynergyMS Logo](images/logo-placeholder.png)
+![SynergyMS Logo](images/logo sms.png)
 
 **SynergyMS** is a robust Comprehensive Enterprise Management System built with Laravel. It integrates HR, project management, payroll, and ticketing into a unified platform. With role-based access, SynergyMS adapts to various departments' needs, enhancing efficiency and communication across medium to large organizations.
 
@@ -34,7 +34,7 @@ SynergyMS promotes organization-wide efficiency, enabling teams to collaborate a
 ### 1. Role-Based Dashboards
 Each user role has a tailored dashboard, ensuring that the right tools and information are accessible.
 
-![Login Page](images/login-page-placeholder.png)
+![Login Page](images/login page.png)
 
 ---
 
