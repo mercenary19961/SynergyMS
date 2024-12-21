@@ -54,7 +54,7 @@ class EmployeesController extends Controller
         }
     
         // Get the list of departments under the 'Projects' sector for the dropdown
-        $departments = Department::where('sector', 'Projects')->get(['name']);
+        $departments = Department::where('sector', 'Projects')->orderBy('id', 'desc')->get(['id', 'name']);
     
         // Get the list of project managers
         $projectManagers = ProjectManager::with('user')->get();
