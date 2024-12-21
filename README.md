@@ -32,9 +32,9 @@ SynergyMS promotes organization-wide efficiency, enabling teams to collaborate a
 ## Features
 
 ### 1. Role-Based Dashboards
-Each user role has a tailored dashboard, ensuring that the right tools and information are accessible.
+Each user role has a tailored dashboard, ensuring the right tools and information are accessible.
 
-![Login Page](images/login page.png)
+![Login Page](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/login%20page.png)
 
 ---
 
@@ -43,7 +43,7 @@ Each user role has a tailored dashboard, ensuring that the right tools and infor
 - Attendance tracking.
 - Approval of leave requests and performance evaluations.
 
-![HR Dashboard](images/hr-dashboard-placeholder.png)
+![HR Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/hr%20dashboard.png)
 
 ---
 
@@ -51,7 +51,7 @@ Each user role has a tailored dashboard, ensuring that the right tools and infor
 - Task assignment and prioritization.
 - Monitoring progress and deadlines.
 - Cross-departmental collaboration for projects.
-
+![Project Manager Dashboard](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/project%20manager%20dashboard.png)
 ---
 
 ### 4. Payroll Integration
