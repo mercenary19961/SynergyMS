@@ -21,7 +21,7 @@
             <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
                 <!-- Client Name Field -->
                 <div class="flex-1">
-                    <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                    <label for="name" class="text-sm font-medium text-gray-700 flex items-center">
                         <i class="fas fa-user mr-2 text-gray-700"></i> Client Name
                     </label>
                     <input type="text" name="name" id="name" value="{{ request('name') }}" placeholder="Client Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
@@ -29,7 +29,7 @@
 
                 <!-- Company Name Field -->
                 <div class="flex-1">
-                    <label for="company_name" class="block text-sm font-medium text-gray-700 flex items-center">
+                    <label for="company_name" class="text-sm font-medium text-gray-700 flex items-center">
                         <i class="fas fa-building mr-2 text-gray-700"></i> Company Name
                     </label>
                     <input type="text" name="company_name" id="company_name" value="{{ request('company_name') }}" placeholder="Company Name" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">
@@ -37,7 +37,7 @@
 
                 <!-- Industry Field -->
                 <div class="flex-1">
-                    <label for="industry" class="block text-sm font-medium text-gray-700 flex items-center">
+                    <label for="industry" class="text-sm font-medium text-gray-700 flex items-center">
                         <i class="fas fa-industry mr-2 text-gray-700"></i> Industry
                     </label>
                     <input type="text" name="industry" id="industry" value="{{ request('industry') }}" placeholder="Industry" class="mt-1 block w-full border border-gray-300 focus:border-orange-500 focus:outline-none rounded-md p-2">

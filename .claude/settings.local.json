@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan migrate:status:*)",
+      "Bash(php artisan config:clear:*)",
+      "Bash(dir:*)",
+      "Bash(nul)",
+      "Bash(php artisan:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

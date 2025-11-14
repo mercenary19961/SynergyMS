@@ -148,7 +148,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/tickets', 'index')->name('tickets.index');
         Route::get('/tickets/{ticket}', 'show')->name('tickets.show');
         Route::get('/admin/tickets/create', 'create')->name('tickets.create')->middleware('role:Super Admin|Project Manager');
-        Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager|Client|HR|employee');
+        Route::post('/tickets', 'store')->name('tickets.store')->middleware('role:Super Admin|Project Manager|Client|HR|Employee');
         
         // custom middleware to check if the user has access to edit, update, or delete tickets
         Route::get('/tickets/{ticket}/edit', 'edit')->name('tickets.edit')->middleware(checkTicketAccess::class);
@@ -163,11 +163,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(ClientsController::class)->group(function () {
         Route::get('/clients', 'index')->name('clients.index')->middleware('role:Super Admin|HR|Project Manager|Client');
         Route::get('/clients/{client}', 'show')->name('clients.show')->middleware('role:Super Admin|HR|Project Manager|Client');
-        Route::get('/admin/clients/create', 'create')->name('clients.create')->middleware('role:Super Admin|Project Manager');
-        Route::post('/clients', 'store')->name('clients.store')->middleware('role:Super Admin|Project Manager');
-        Route::get('/clients/{client}/edit', 'edit')->name('clients.edit')->middleware('role:Super Admin|Project Manager');
-        Route::put('/clients/{client}', 'update')->name('clients.update')->middleware('role:Super Admin|Project Manager');
-        Route::delete('/clients/{client}', 'destroy')->name('clients.destroy')->middleware('role:Super Admin|Project Manager');
+        Route::get('/admin/clients/create', 'create')->name('clients.create')->middleware('role:Super Admin|HR');
+        Route::post('/clients', 'store')->name('clients.store')->middleware('role:Super Admin|HR');
+        Route::get('/clients/{client}/edit', 'edit')->name('clients.edit')->middleware('role:Super Admin|HR');
+        Route::put('/clients/{client}', 'update')->name('clients.update')->middleware('role:Super Admin|HR');
+        Route::delete('/clients/{client}', 'destroy')->name('clients.destroy')->middleware('role:Super Admin|HR');
     });
 
     // Projects Management Routes

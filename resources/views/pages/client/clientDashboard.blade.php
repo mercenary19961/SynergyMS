@@ -21,12 +21,12 @@
                 <!-- Right Side: New Project and New Ticket Buttons -->
                 <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                     <!-- New Project Button -->
-                    <button @click="showProjectModal = true" class="bg-green-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-blue-600 transition inline-flex items-center justify-center w-full md:w-auto">
+                    <button @click="showProjectModal = true" class="bg-green-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center justify-center w-full md:w-auto">
                         <i class="fas fa-plus mr-2"></i> New Project?
                     </button>
 
                     <!-- New Ticket Button -->
-                    <button @click="showTicketModal = true" class="bg-orange-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-green-600 transition inline-flex items-center justify-center w-full md:w-auto">
+                    <button @click="showTicketModal = true" class="bg-orange-500 text-white text-sm md:text-base px-4 py-2 rounded hover:bg-orange-600 transition inline-flex items-center justify-center w-full md:w-auto">
                         <i class="fas fa-ticket-alt mr-2"></i> New Ticket?
                     </button>
                 </div>
