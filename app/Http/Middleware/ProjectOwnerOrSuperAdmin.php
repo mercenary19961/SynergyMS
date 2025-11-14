@@ -24,7 +24,8 @@ class ProjectOwnerOrSuperAdmin
         $project = $request->route('project');
 
         // Allow if the user is a Super Admin or the project manager of the project
-        if ($user->hasRole('Super Admin') || $user->id === $project->projectManager->user_id) {
+        if ($user->hasRole('Super Admin') ||
+            ($project->projectManager && $user->id === $project->projectManager->user_id)) {
             return $next($request);
         }
 

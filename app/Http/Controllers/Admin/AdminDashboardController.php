@@ -20,10 +20,10 @@ class AdminDashboardController extends Controller
         $totalProjects = Project::count();
         $totalTickets = Ticket::count();
         
-        $recentEmployees = EmployeeDetail::latest()->limit(3)->get();
-        $recentClients = Client::latest()->limit(3)->get();
-        $recentProjects = Project::latest()->limit(3)->get(); 
-        $recentTickets = Ticket::latest()->limit(5)->get(); 
+        $recentEmployees = EmployeeDetail::with(['user', 'department', 'position'])->latest()->limit(3)->get();
+        $recentClients = Client::with('user')->latest()->limit(3)->get();
+        $recentProjects = Project::with(['department', 'projectManager.user'])->latest()->limit(3)->get();
+        $recentTickets = Ticket::with(['createdBy', 'department'])->latest()->limit(5)->get(); 
 
         // Use the Attendance model to get present and absent employees
         $presentEmployees = Attendance::where('status', 'Present')

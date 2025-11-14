@@ -9,6 +9,8 @@ use App\Models\ProjectManager;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EmployeesController extends Controller
 {
@@ -104,35 +106,48 @@ class EmployeesController extends Controller
             'phone' => 'required|string|regex:/^\+[0-9]+$/',
         ]);
     
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('employee_images', 'public');
+        try {
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('employee_images', 'public');
+            }
+
+            DB::transaction(function () use ($request, $imagePath) {
+                $user = User::create([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => bcrypt('defaultpassword'),
+                    'gender' => $request->input('gender'),
+                    'image' => $imagePath,
+                ]);
+
+                $user->assignRole('Employee');
+
+                EmployeeDetail::create([
+                    'user_id' => $user->id,
+                    'position_id' => $request->input('position_id'),
+                    'salary' => $request->input('salary'),
+                    'date_of_joining' => $request->input('date_of_joining'),
+                    'address' => $request->input('address'),
+                    'nationality' => $request->input('nationality'),
+                    'age' => $request->input('age'),
+                    'date_of_birth' => $request->input('date_of_birth'),
+                    'department_id' => $request->input('department_id'),
+                    'phone' => $request->input('phone'),
+                ]);
+            });
+
+            Log::info('Employee created successfully', ['email' => $request->input('email')]);
+
+            return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
+        } catch (\Exception $e) {
+            Log::error('Failed to create employee', [
+                'email' => $request->input('email'),
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()->withInput()->with('error', 'Failed to create employee. Please try again.');
         }
-    
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt('defaultpassword'),
-            'gender' => $request->input('gender'),
-            'image' => $imagePath,
-        ]);
-    
-        $user->assignRole('Employee');
-    
-        EmployeeDetail::create([
-            'user_id' => $user->id,
-            'position_id' => $request->input('position_id'),
-            'salary' => $request->input('salary'),
-            'date_of_joining' => $request->input('date_of_joining'),
-            'address' => $request->input('address'),
-            'nationality' => $request->input('nationality'),
-            'age' => $request->input('age'),
-            'date_of_birth' => $request->input('date_of_birth'),
-            'department_id' => $request->input('department_id'),
-            'phone' => $request->input('phone'),
-        ]);
-    
-        return redirect()->route('admin.employees.index')->with('success', 'Employee created successfully.');
     }
     
 

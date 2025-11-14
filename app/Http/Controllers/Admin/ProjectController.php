@@ -45,8 +45,8 @@ class ProjectController extends Controller
             $query->where('status', $request->status);
         }
     
-        // Get the filtered projects with pagination
-        $projects = $query->paginate(8);
+        // Get the filtered projects with pagination and eager loading
+        $projects = $query->with(['department', 'projectManager.user', 'tasks'])->paginate(8);
     
         // Retrieve project managers and departments for the dropdowns
         $projectManagers = ProjectManager::with('user')->get();

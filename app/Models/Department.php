@@ -11,7 +11,7 @@ class Department extends Model
 
     protected $table = 'departments';
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'sector'];
 
 
     public function project_manager()

@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ClientsController extends Controller
 {
@@ -65,31 +67,44 @@ class ClientsController extends Controller
             'website' => 'nullable|url|max:255',
         ]);
 
-        $image = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('clients', 'public');
+        try {
+            $image = null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image')->store('clients', 'public');
+            }
+
+            DB::transaction(function () use ($request, $image) {
+                $user = User::create([
+                    'name' => $request->input('user_name'),
+                    'email' => $request->input('user_email'),
+                    'password' => Hash::make($request->input('user_password')),
+                    'gender' => $request->input('gender'),
+                    'image' => $image,
+                ]);
+
+                $user->assignRole('Client');
+
+                Client::create([
+                    'user_id' => $user->id,
+                    'company_name' => $request->input('company_name'),
+                    'industry' => $request->input('industry'),
+                    'contact_number' => $request->input('contact_number'),
+                    'address' => $request->input('address'),
+                    'website' => $request->input('website'),
+                ]);
+            });
+
+            Log::info('Client created successfully', ['email' => $request->input('user_email')]);
+
+            return redirect()->route('admin.clients.index')->with('success', 'Client added successfully');
+        } catch (\Exception $e) {
+            Log::error('Failed to create client', [
+                'email' => $request->input('user_email'),
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()->withInput()->with('error', 'Failed to create client. Please try again.');
         }
-
-        $user = User::create([
-            'name' => $request->input('user_name'),
-            'email' => $request->input('user_email'),
-            'password' => Hash::make($request->input('user_password')),
-            'gender' => $request->input('gender'),
-            'image' => $image,
-        ]);
-
-        $user->assignRole('Client');
-
-        Client::create([
-            'user_id' => $user->id,
-            'company_name' => $request->input('company_name'),
-            'industry' => $request->input('industry'),
-            'contact_number' => $request->input('contact_number'),
-            'address' => $request->input('address'),
-            'website' => $request->input('website'),
-        ]);
-
-        return redirect()->route('admin.clients.index')->with('success', 'Client added successfully');
     }
 
     public function edit($id)
