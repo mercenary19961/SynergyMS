@@ -1,6 +1,6 @@
 # SynergyMS
 
-![SynergyMS Logo](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/logo-sms.png)
+![SynergyMS Logo](https://raw.githubusercontent.com/mercenary19961/SynergyMS/refs/heads/main/public/images/logo%20sms.png)
 
 **SynergyMS** is a robust Comprehensive Enterprise Management System built with Laravel. It integrates HR, project management, payroll, and ticketing into a unified platform. With role-based access, SynergyMS adapts to various departments' needs, enhancing efficiency and communication across medium to large organizations.
 
