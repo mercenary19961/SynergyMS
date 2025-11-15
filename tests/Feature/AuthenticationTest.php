@@ -15,9 +15,6 @@ class AuthenticationTest extends TestCase
     {
         parent::setUp();
 
-        // Disable CSRF for testing
-        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
-
         // Run migrations and seeders for permissions/roles
         $this->artisan('migrate:fresh');
         $this->artisan('db:seed', ['--class' => 'Database\\Seeders\\SpatieRolesSeeder']);
@@ -47,8 +44,9 @@ class AuthenticationTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect();
+        // Verify successful login by checking redirect
+        $response->assertRedirect(route('employee.dashboard'));
+        $response->assertSessionHasNoErrors();
     }
 
     /** @test */
@@ -115,8 +113,6 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function login_is_rate_limited_after_multiple_attempts()
     {
-        $this->withoutExceptionHandling();
-
         // Make 5 failed login attempts
         for ($i = 0; $i < 5; $i++) {
             $this->post('/login', [

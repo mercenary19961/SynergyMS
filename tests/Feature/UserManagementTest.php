@@ -61,17 +61,21 @@ class UserManagementTest extends TestCase
         $admin = User::factory()->create();
         $admin->assignRole('Super Admin');
 
-        $this->actingAs($admin)->post(route('admin.clients.store'), [
+        $response = $this->actingAs($admin)->post(route('admin.clients.store'), [
             'user_name' => 'Test Client',
             'user_email' => 'client@test.com',
             'user_password' => 'password123',
+            'gender' => 'Male',
             'company_name' => 'Test Company',
             'industry' => 'Technology',
             'contact_number' => '+1234567890',
             'address' => '123 Test St',
         ]);
 
+        $response->assertRedirect(route('admin.clients.index'));
+
         $user = User::where('email', 'client@test.com')->first();
+        $this->assertNotNull($user, 'User should be created');
         $this->assertTrue($user->hasRole('Client'));
     }
 

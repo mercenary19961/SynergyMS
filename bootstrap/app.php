@@ -16,6 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
+
+        // Replace default CSRF middleware with our custom one
+        $middleware->validateCsrfTokens(except: []);
+        $middleware->web(replace: [
+            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class => \App\Http\Middleware\VerifyCsrfToken::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

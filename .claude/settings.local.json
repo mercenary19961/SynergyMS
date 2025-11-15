@@ -6,7 +6,8 @@
       "Bash(dir:*)",
       "Bash(nul)",
       "Bash(php artisan:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(vendor/bin/pest:*)"
     ],
     "deny": [],
     "ask": []
